@@ -72,12 +72,12 @@ function Header() {
                     type="button"
                     id="inputGroupFileAddon04"
                   >
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
+                    <FontAwesomeIcon icon={faMagnifyingGlass} style={{color:'#8c594d' , fontSize:'15px'}}/>
                   </button>
                 </form>
               </li>
               <li className="nav-item ms-3">
-                <Link className="nav-link mx-lg-2 fs-4" to="/chat">
+                <Link className="nav-link mx-lg-2 fs-4" to="/profile">
                   <FontAwesomeIcon
                     icon={faComments}
                     style={{ color: "#8c594d" }}

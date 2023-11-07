@@ -7,6 +7,7 @@ import Signup from "../pages/signup-page/Signup";
 import PetInfo from "../pages/petinfo-page/PetInfo";
 import Profile from "../pages/profile-page/Profile";
 import PageNotFound from "../pages/notfound-page/PageNotFound";
+import Adopt from "../pages/Adopt-page/AdoptPage";
 
 const Router = () => {
     return ( 
@@ -18,6 +19,7 @@ const Router = () => {
             <Route path="/signup" element={<Signup />}/>
             <Route path="/petinfo" element={<PetInfo />}/>
             <Route path="/profile" element={<Profile />}/>
+            <Route path="/adopt" element={<Adopt />}/>
             <Route path="/*" element={<PageNotFound />}/>
 
         </Routes>

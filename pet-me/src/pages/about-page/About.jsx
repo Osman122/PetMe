@@ -1,7 +1,7 @@
 const About = () => {
     return ( 
-        <div>
-            <h1>About Page</h1>
+        <div style={{textAlign:"center" ,color:"#8c594d"}}>
+            <h1>Who We Are</h1>
         </div>
      );
 }

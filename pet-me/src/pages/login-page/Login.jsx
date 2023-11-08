@@ -60,7 +60,8 @@ const Login = () => {
                 <button style={{ width: "100%", backgroundColor: "#BF7245" }} type="button" className="btn mt-5 text-white">
                   Login
                 </button>
-                <p className="mt-4">Don't have an account? <a href="#" style={{ color: "#BF7245" }}>Signup</a></p>
+                <p className="mt-4">Don't have an account? <a href="#" style={{ color: "#BF7245", textDecoration: "none" }}>Signup</a></p>
+
               </div>
             </div>
           </div>

@@ -6,7 +6,7 @@ const Footer = () => {
         <footer class="footer">
   	 <div class="container">
   	 	<div class="row">
-  	 		<div class="footer-col">
+  	 		<div class="footer-col col-sm-6 col-md-3">
   	 			<h4>company</h4>
   	 			<ul>
   	 				<li><a href="#">about us</a></li>
@@ -15,7 +15,7 @@ const Footer = () => {
   	 				<li><a href="#">affiliate program</a></li>
   	 			</ul>
   	 		</div>
-  	 		<div class="footer-col">
+  	 		<div class="footer-col col-sm-6 col-md-3">
   	 			<h4>get help</h4>
   	 			<ul>
   	 				<li><a href="#">FAQ</a></li>
@@ -25,7 +25,7 @@ const Footer = () => {
   	 				<li><a href="#">payment options</a></li>
   	 			</ul>
   	 		</div>
-  	 		<div class="footer-col">
+  	 		<div class="footer-col col-sm-6 col-md-3">
   	 			<h4>online shop</h4>
   	 			<ul>
   	 				<li><a href="#">watch</a></li>
@@ -34,7 +34,7 @@ const Footer = () => {
   	 				<li><a href="#">dress</a></li>
   	 			</ul>
   	 		</div>
-  	 		<div class="footer-col">
+  	 		<div class="footer-col col-sm-6 col-md-3 ">
   	 			<h4>follow us</h4>
   	 			<div class="social-links">
   	 				<a href="#"><FontAwesomeIcon icon={faFacebook} /></a>

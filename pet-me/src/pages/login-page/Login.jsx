@@ -44,18 +44,19 @@ const Login = () => {
                     </div>
                     <div className="form-group">
                     <div className="input-group">
-                        <input
-                        type={showPassword ? "text" : "password"}
-                        className="form-control mt-4"
-                        id="password"
-                        style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}
-                        placeholder="Password"
-                        />
-                        <div className="input-group-append">
-                        <span className="input-group-text" onClick={togglePasswordVisibility}>
-                            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-                        </span>
-                        </div>
+                        
+                            <input
+                            type={showPassword ? "text" : "password"}
+                            className="form-control mt-4"
+                            id="password"
+                            style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}
+                            placeholder="Password"
+                            />
+                            <div className="input-group-append">
+                            <span className="input-group-text" onClick={togglePasswordVisibility} style={{ cursor: "pointer" }}>
+                                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                            </span>
+                            </div>
                     </div>
                     </div>
                     <button style={{ width: "100%", backgroundColor: "#BF7245" }} type="button" className="btn mt-5 text-white">

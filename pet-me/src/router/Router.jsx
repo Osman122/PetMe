@@ -23,10 +23,13 @@ const PetInfo =React.lazy(() => import('../pages/petinfo-page/PetInfo'));
 const Profile =React.lazy(() => import('../pages/profile-page/Profile'));
 const PageNotFound =React.lazy(() => import('../pages/notfound-page/PageNotFound'));
 const Adopt =React.lazy(() => import('../pages/Adopt-page/AdoptPage'));
+const AddOffer =React.lazy(() => import('../pages/addoffer-page/Addoffer'));
 
 const Router = () => {
     return ( 
+        
         <Suspense fallback={<Loader />}>
+            
         <Routes>
             <Route path="/" element={<Home />}/>
             <Route path="/login" element={<Login />}/>
@@ -36,10 +39,13 @@ const Router = () => {
             <Route path="/petinfo" element={<PetInfo />}/>
             <Route path="/profile" element={<Profile />}/>
             <Route path="/adopt" element={<Adopt />}/>
+            
             <Route path="/*" element={<PageNotFound />}/>
-
+            <Route path="/addoffer" element={<AddOffer />}/>
         </Routes>
+        
         </Suspense>
+        
     );
 }
 

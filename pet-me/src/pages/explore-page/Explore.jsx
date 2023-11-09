@@ -1,6 +1,7 @@
 import ExploreCard from "../../components/explore/ExploreCard";
 const Explore = () => {
     return ( 
+    <div className="container main">
         <div className="row">
             <ExploreCard/>
             <ExploreCard/>
@@ -10,6 +11,7 @@ const Explore = () => {
             <ExploreCard/>
             
         </div>
+    </div>
      );
 }
  

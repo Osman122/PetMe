@@ -87,7 +87,7 @@ const AddOffer = () => {
                     className="btn mt-3"
                     style={{
                         width: "fit-content",
-                        backgroundColor: "#BF7245",
+                        backgroundColor: "#8c594d",
                         color: "white",
                     }}
                     type="button"

@@ -25,6 +25,7 @@ const PageNotFound =React.lazy(() => import('../pages/notfound-page/PageNotFound
 const Adopt =React.lazy(() => import('../pages/Adopt-page/AdoptPage'));
 const AddOffer =React.lazy(() => import('../pages/addoffer-page/Addoffer'));
 const AddPet =React.lazy(() => import('../pages/addpet-page/Addpet'));
+const EditPet =React.lazy(() => import('../pages/editpet-page/Editpet'));
 
 const Router = () => {
     return ( 
@@ -44,6 +45,7 @@ const Router = () => {
             <Route path="/*" element={<PageNotFound />}/>
             <Route path="/addoffer" element={<AddOffer />}/>
             <Route path="/addpet" element={<AddPet />}/>
+            <Route path="/editpet" element={<EditPet />}/>
         </Routes>
         
         </Suspense>

@@ -1,9 +1,12 @@
+import Post from "../../components/home/Post";
+
 const Home = () => {
     return ( 
-        <div className="container main">
-            <div>
-                <h1>Home Page</h1>
-            </div>
+        <div className="main">
+            <Post/>
+            <Post/>
+            <Post/>
+            <Post/>
         </div>
      );
 }

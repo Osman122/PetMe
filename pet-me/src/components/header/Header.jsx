@@ -3,6 +3,7 @@ import {faMagnifyingGlass,faPaw} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./style.css";
 import { Link } from "react-router-dom";
+import IonIcon from "@reacticons/ionicons";
 
 function Header() {
   return (
@@ -78,10 +79,7 @@ function Header() {
               </li>
               <li className="nav-item ms-3">
                 <Link className="nav-link mx-lg-2 fs-4" to="/profile">
-                  <FontAwesomeIcon
-                    icon={faComments}
-                    style={{ color: "#8c594d" }}
-                  />
+                  <div className="chat-icon"><IonIcon name="chatbox-ellipses-outline"></IonIcon></div>
                 </Link>
               </li>
             </ul>

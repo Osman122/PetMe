@@ -36,7 +36,7 @@ function Profile() {
                   <Tab.Pane eventKey="#account-general">
                     <img
                       src="https://www.svgrepo.com/show/5125/avatar.svg"
-                      className="d-block ui-w-80 rounded-pill ms-5 mb-4"
+                      className="d-block avatar-icon"
                     />
                     <div className="media-body ml-4">
                       <label

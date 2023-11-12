@@ -5,7 +5,8 @@ const Footer = () => {
     return ( 
         <footer class="footer">
   	 <div class="container">
-  	 	<div class="row">
+		<p class="text-center m-0">Pet.me 2023 - All rights reserved. </p>
+  	 	{/* <div class="row">
   	 		<div class="footer-col col-sm-6 col-md-3">
   	 			<h4>company</h4>
   	 			<ul>
@@ -43,7 +44,7 @@ const Footer = () => {
   	 				<a href="#"><FontAwesomeIcon icon={faThreads} /></a>
   	 			</div>
   	 		</div>
-  	 	</div>
+  	 	</div> */}
   	 </div>
   </footer>
      );

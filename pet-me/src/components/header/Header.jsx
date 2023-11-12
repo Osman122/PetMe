@@ -1,9 +1,7 @@
-import { faComments } from "@fortawesome/free-regular-svg-icons";
-import {faMagnifyingGlass,faPaw} from "@fortawesome/free-solid-svg-icons";
+import {faMagnifyingGlass,faPaw, faComments} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./style.css";
 import { Link } from "react-router-dom";
-import IonIcon from "@reacticons/ionicons";
 
 function Header() {
   return (
@@ -77,10 +75,10 @@ function Header() {
                   </button>
                 </form>
               </li>
+              {/* Hide when user not logged in */}
               <li className="nav-item ms-3">
-                <Link className="nav-link mx-lg-2 fs-4" to="/profile">
-                  <div className="chat-icon"><IonIcon name="chatbox-ellipses-outline"></IonIcon></div>
-                </Link>
+                <Link className="nav-link mx-lg-2 fs-4 p-0 m-0" to="/chats">
+                  <FontAwesomeIcon icon={faComments} style={{color:'#8c594d'}}/></Link>
               </li>
             </ul>
           </div>
@@ -105,6 +103,8 @@ function Header() {
         </button>
       </div>
     </nav>
+
+
   );
 }
 

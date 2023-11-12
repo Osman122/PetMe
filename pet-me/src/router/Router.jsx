@@ -30,29 +30,26 @@ const EditPet =React.lazy(() => import('../pages/editpet-page/Editpet'));
 
 const Router = () => {
     return ( 
-        
         <Suspense fallback={<Loader />}>
-            
-        <Routes>
-            <Route path="/" element={<Home />}/>
-            <Route path="/login" element={<Login />}/>
-            <Route path="/about" element={<About />}/>
-            <Route path="/explore" element={<Explore />}/>
-            <Route path="/signup" element={<Signup />}/>
-            <Route path="/petinfo" element={<PetInfo />}/>
-            <Route path="/profile" element={<Profile />}/>
-            <Route path="/adopt" element={<Adopt />}/>
-            
-            <Route path="/*" element={<PageNotFound />}/>
-            <Route path="/addoffer" element={<AddOffer />}/>
-            <Route path="/addpet" element={<AddPet />}/>
-            <Route path="/editpet" element={<EditPet />}/>
-            <Route path="/forgotpass" element={<ForgotPasswordPage />}/>
+            <Routes>
+                <Route path="/" element={<Home />}/>
+                <Route path="/login" element={<Login />}/>
+                <Route path="/about" element={<About />}/>
+                <Route path="/explore" element={<Explore />}/>
+                <Route path="/signup" element={<Signup />}/>
+                <Route path="/petinfo" element={<PetInfo />}/>
+                <Route path="/profile" element={<Profile />}/>
+                <Route path="/adopt" element={<Adopt />}/>
+                {/* <Route path="/chats" element={<Adopt />}/> */}
+                
+                <Route path="/addoffer" element={<AddOffer />}/>
+                <Route path="/addpet" element={<AddPet />}/>
+                <Route path="/editpet" element={<EditPet />}/>
+                <Route path="/forgotpass" element={<ForgotPasswordPage />}/>
+                <Route path="/*" element={<PageNotFound />}/>
 
-        </Routes>
-        
+            </Routes>
         </Suspense>
-        
     );
 }
 

@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 export const axiosInstance = axios.create({
-    baseURL: 'our url '
+    baseURL: 'http://localhost:8000/'
 })
 
 axiosInstance.interceptors.request.use(function (config) {
@@ -19,7 +19,7 @@ axiosInstance.interceptors.request.use(function (config) {
 
 axiosInstance.interceptors.response.use(function (response) {
     console.log("RESPONSE", response)
-    // Do something with response data
+    // Check if the response is saying that the cookie expired, then send request to refresh token
     return response;
   }, function (error) {
     // Do something with response error

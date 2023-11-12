@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import React from 'react';
 import { Suspense } from "react";
 import Loader from "../components/Loader/Loader"
+import ForgotPasswordPage from "../pages/forget-passowrd-page/ForgetPass";
 
 // import Home from "../pages/home-page/Home";
 // import Login from "../pages/login-page/Login";
@@ -46,6 +47,8 @@ const Router = () => {
             <Route path="/addoffer" element={<AddOffer />}/>
             <Route path="/addpet" element={<AddPet />}/>
             <Route path="/editpet" element={<EditPet />}/>
+            <Route path="/forgotpass" element={<ForgotPasswordPage />}/>
+
         </Routes>
         
         </Suspense>

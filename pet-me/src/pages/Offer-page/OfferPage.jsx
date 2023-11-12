@@ -1,4 +1,4 @@
-const Adopt = () => {
+const Offer = () => {
     return ( 
         <div className="container main">
             <div className="container">
@@ -57,4 +57,4 @@ const Adopt = () => {
      );
 }
  
-export default Adopt;
+export default Offer;

@@ -4,16 +4,6 @@ import { Suspense } from "react";
 import Loader from "../components/Loader/Loader"
 import ForgotPasswordPage from "../pages/forget-passowrd-page/ForgetPass";
 
-// import Home from "../pages/home-page/Home";
-// import Login from "../pages/login-page/Login";
-// import About from "../pages/about-page/About";
-// import Explore from "../pages/explore-page/Explore";
-// import Signup from "../pages/signup-page/Signup";
-// import PetInfo from "../pages/petinfo-page/PetInfo";
-// import Profile from "../pages/profile-page/Profile";
-// import PageNotFound from "../pages/notfound-page/PageNotFound";
-// import Adopt from "../pages/Adopt-page/AdoptPage";
-
 // Code Splitting
 const Home =React.lazy(() => import('../pages/home-page/Home'));
 const Login =React.lazy(() => import('../pages/login-page/Login'));
@@ -23,23 +13,30 @@ const Signup =React.lazy(() => import('../pages/signup-page/Signup'));
 const PetInfo =React.lazy(() => import('../pages/petinfo-page/PetInfo'));
 const Profile =React.lazy(() => import('../pages/profile-page/Profile'));
 const PageNotFound =React.lazy(() => import('../pages/notfound-page/PageNotFound'));
-const Adopt =React.lazy(() => import('../pages/Adopt-page/AdoptPage'));
+const Offer =React.lazy(() => import('../pages/Offer-page/OfferPage'));
 const AddOffer =React.lazy(() => import('../pages/addoffer-page/Addoffer'));
 const AddPet =React.lazy(() => import('../pages/addpet-page/Addpet'));
 const EditPet =React.lazy(() => import('../pages/editpet-page/Editpet'));
+const SearchPage =React.lazy(() => import('../pages/search-page/Search.jsx'));
 
 const Router = () => {
     return ( 
         <Suspense fallback={<Loader />}>
             <Routes>
+                {/* These pages are completely functional with api integration */}
+                <Route path="/explore" element={<Explore />}/>
+
+
+                {/* These pages are not */}
+
                 <Route path="/" element={<Home />}/>
                 <Route path="/login" element={<Login />}/>
                 <Route path="/about" element={<About />}/>
-                <Route path="/explore" element={<Explore />}/>
                 <Route path="/signup" element={<Signup />}/>
                 <Route path="/petinfo" element={<PetInfo />}/>
                 <Route path="/profile" element={<Profile />}/>
-                <Route path="/adopt" element={<Adopt />}/>
+                <Route path="/offers/:id" element={<Offer />}/>
+                <Route path="/search" element={<SearchPage />}/>
                 {/* <Route path="/chats" element={<Adopt />}/> */}
                 
                 <Route path="/addoffer" element={<AddOffer />}/>

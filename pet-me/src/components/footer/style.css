@@ -28,6 +28,9 @@ ul {
 .footer {
 	background-color: #D9C9BA;
 	padding: 10px 0;
+	position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 /* .footer-col {

@@ -17,7 +17,7 @@ function Header() {
         </Link>
         <div
           className="offcanvas offcanvas-end"
-          tabindex="-1"
+          tabIndex="-1"
           id="offcanvasNavbar"
           aria-labelledby="offcanvasNavbarLabel"
         >
@@ -59,7 +59,7 @@ function Header() {
                 </Link>
               </li>
               <li className="nav-item">
-                <form class="input-group mx-lg-2">
+                <form className="input-group mx-lg-2">
                   <input
                     type="text"
                     placeholder="Search here ..."
@@ -67,7 +67,7 @@ function Header() {
                     id="inputGroupFile04"
                   />
                   <button
-                    class="btn bg-white "
+                    className="btn bg-white "
                     type="button"
                     id="inputGroupFileAddon04"
                   >

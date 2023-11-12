@@ -1,25 +1,61 @@
+import { useState, useEffect } from "react";
 import ExploreCard from "../../components/explore/ExploreCard";
 import Form from 'react-bootstrap/Form';
+import { axiosInstance } from '../../api/config';
 
 const Explore = () => {
+    const [ type , setType ] = useState('')
+    const [ page , setPage ] = useState(1)
+    const [ gender , setGender ] = useState('')
+
+    const [ offersList , setOffersList ] = useState([])
+
+    const getOffersList = () => {
+        axiosInstance.get(`/offers/?page=${page}${type === ''? '':'&pet_type='+ type}${gender === ''? '':'&gender='+ gender}`)
+        .then((res) => {
+            setOffersList(res.data.results)
+        })
+        .catch((err) => console.log(err));
+    }
+
+    const handleTypeChange = (e) => {
+        setType(e.target.value)
+    }
+
+    const handleGenderChange = (e) => {
+        setGender(e.target.value)
+    }
+
+    useEffect(()=>{
+        getOffersList()
+    },[type,gender,])
+
     return ( 
     <div className="container main mb-5">
         <h3 className="p-3"> Apply Filters</h3>
 
         <div className="filters d-flex justify-content-around">
-            <div key={`inline-radio`} className="mb-3">
-                <Form.Check inline checked label="All" name="group1" type="radio" id={`inline-radio-1`}/>
-                <Form.Check inline label="Cats" name="group1" type="radio" id={`inline-radio-2`}/>
-                <Form.Check inline label="Dogs" name="group1" type="radio" id={`inline-radio-3`}/>
+            <div className="mb-3">
+                <Form.Select aria-label="Default select example" style={{width:"100px"}} onChange={(e)=>handleTypeChange(e)}>
+                    <option value="">All</option>
+                    <option value="Cat">Cats</option>
+                    <option value="Dog">Dogs</option>
+                </Form.Select>
             </div>
-            <div key={`inline-checkbox`} className="mb-3">
-                <Form.Check inline label="Male" type="checkbox" id={`inline-checkbox-1`}/>
-                <Form.Check inline label="Female" type="checkbox" id={`inline-checkbox-2`}/>
+            <div className="mb-3">
+                <Form.Select aria-label="Default select example" style={{width:"100px"}} onChange={(e)=>handleGenderChange(e)}>
+                    <option value="">All</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </Form.Select>
             </div>
         </div>
         <hr />
 
         <div className="row gy-3">
+            {offersList.map((offer) => {
+                    return <ExploreCard offer={offer} />
+            })}
             <ExploreCard/>
             <ExploreCard/>
             <ExploreCard/>

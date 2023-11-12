@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 
 export const axiosInstance = axios.create({
@@ -8,9 +7,10 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(function (config) {
     // Do something before request is sent
     console.log("REQUEST CONFIG",config)
-    config.headers['Authorization'] = "TOEKEEEN SENT FROM INTERCEPTOR";
+    // config.headers['Authorization'] = "TOEKEEEN SENT FROM INTERCEPTOR";
     
     return config;
+
 }, function (error) {
     // Do something with request error
     return Promise.reject(error);

@@ -3,6 +3,7 @@ import React from 'react';
 import { Suspense } from "react";
 import Loader from "../components/Loader/Loader"
 import ForgotPasswordPage from "../pages/forget-passowrd-page/ForgetPass";
+import Chat from "../components/Chat/Chat.jsx";
 
 // Code Splitting
 const Home =React.lazy(() => import('../pages/home-page/Home'));
@@ -45,6 +46,7 @@ const Router = () => {
                 <Route path="/addpet" element={<AddPet />}/>
                 <Route path="/editpet" element={<EditPet />}/>
                 <Route path="/forgotpass" element={<ForgotPasswordPage />}/>
+                <Route path="/chats" element={<Chat />}/>
                 <Route path="/*" element={<PageNotFound />}/>
 
             </Routes>

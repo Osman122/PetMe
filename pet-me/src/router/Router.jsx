@@ -1,19 +1,20 @@
-import { Route, Routes } from "react-router-dom";
 import React from 'react';
 import { Suspense } from "react";
+import { Route, Routes } from "react-router-dom";
 import Loader from "../components/Loader/Loader"
-import ForgotPasswordPage from "../pages/forget-passowrd-page/ForgetPass";
-import UserProfile from "../pages/profile-page/user-profile.jsx";
-import Chat from "../components/Chat/Chat.jsx";
 
 // Code Splitting
 const Home =React.lazy(() => import('../pages/home-page/Home'));
 const Login =React.lazy(() => import('../pages/login-page/Login'));
+const ForgotPasswordPage =React.lazy(() => import('../pages/forget-password-page/ForgetPass'));
 const About =React.lazy(() => import('../pages/about-page/About'));
 const Explore =React.lazy(() => import('../pages/explore-page/Explore'));
 const Signup =React.lazy(() => import('../pages/signup-page/Signup'));
+const SignupSuccess =React.lazy(() => import('../pages/signup-page/SignupSuccess'));
+const ResendMail =React.lazy(() => import('../pages/signup-page/ResendMail'));
 const PetInfo =React.lazy(() => import('../pages/petinfo-page/PetInfo'));
 const Profile =React.lazy(() => import('../pages/profile-page/Profile'));
+const Chat =React.lazy(() => import('../pages/Chat/Chat'));
 const PageNotFound =React.lazy(() => import('../pages/notfound-page/PageNotFound'));
 const Offer =React.lazy(() => import('../pages/Offer-page/OfferPage'));
 const AddOffer =React.lazy(() => import('../pages/addoffer-page/Addoffer'));
@@ -28,14 +29,16 @@ const Router = () => {
                 {/* These pages are completely functional with api integration */}
                 <Route path="/explore" element={<Explore />}/>
                 <Route path="/login" element={<Login />}/>
+                <Route path="/signup/success" element={<SignupSuccess />}/>
 
                 {/* Partially Done */}
                 <Route path="/" element={<Home />}/>
+                <Route path="/signup" element={<Signup />}/>
 
                 {/* These pages are not */}
-
+                
                 <Route path="/about" element={<About />}/>
-                <Route path="/signup" element={<Signup />}/>
+                <Route path="/signup/resendmail" element={<ResendMail />}/>
                 <Route path="/petinfo" element={<PetInfo />}/>
                 <Route path="/profile/:id" element={<Profile />}/>
                 <Route path="/offers/:id" element={<Offer />}/>

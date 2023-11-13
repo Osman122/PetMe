@@ -1,103 +1,145 @@
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FormProvider, useForm } from 'react-hook-form'
+import Alert from 'react-bootstrap/Alert';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import {faPaw} from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+
+import { Input } from '../../components/form'
+import { axiosInstance } from '../../api/config';
+import cat from '../../assets/images/cat.png'
+
+import {
+  email_validation,
+  password_validation,
+  name_validation,
+} from '../../utils/inputValidations';
 
 const Signup = () => {
+    const methods = useForm()
+    const [fail, setFail] = useState(false)
+    const navigate = useNavigate();
 
+  
+    useEffect(()=>{
+        // if (synced){navigate('/')}
+    },[])
+
+    const onSubmit = methods.handleSubmit(data => {
+    
+        axiosInstance.post(`/accounts/users/`,data).then(res => {
+              methods.reset()
+              setFail(false)
+              navigate('/signup/success')
+  
+          }).catch((err)=>{
+              if (err.response.status === 400) {
+                  setFail(Object.values(err.response.data))
+              } else {
+                  setFail("An Error Happened! Try again.")
+              }
+              setTimeout(()=>{
+                  setFail(false)
+              },3000)
+          })
+      })
 
     return (
-        <div className="container main">
-            <div className="container">
-                <div className="row g-5" style={{ justifyContent: "space-between" }}>
-                <div className="col-6">
-                    <div className="row h-100">
-                    <div className="col-12 sec-border p-3">
-                        <img style={{ maxHeight: "450px" }} className="w-100 h-100" src="logo192.png" alt="" />
+        <div className="container py-5 vh-100 d-flex align-items-center">    
+        <FormProvider {...methods}>
+            <form
+            onSubmit={e => e.preventDefault()}
+            noValidate
+            autoComplete="off"
+            className="container"
+            >
+                    <div className="row g-5 pt-5" >
+                    <div className="col-6">
+                        <img className="bigcat" src={cat} alt="Cat" />
+                        <FontAwesomeIcon icon={faPaw} className="bigpaw" />
+
                     </div>
-                    </div>
-                </div>
-        
-                <div className="col-6">
-                    <div className="card sec-border">
-                    <div className="card-body">
-                        <div className="text-center mb-4 mt-3">
-                        <Link to="/" className="navbar-brand me-auto fw-bold" style={{ color: "#BF7245", fontSize: "2rem" }}>
-                            <FontAwesomeIcon icon={faPaw} className="me-2" />
-                            Pet.me
-                        </Link>
-                        </div>
-                        <h1 className="mt-4" style={{ color: "#BF7245" }}>Create Account</h1>
-                        <div className="form-group mt-4">
-                        <input
-                            type="text"
-                            className="form-control mt-3"
-                            id="fullname"
-                            style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}
-                            placeholder="Full Name"
-                        />
-                        </div>
-                        <div className="form-group mt-4">
-                        <input
-                            type="date"
-                            className="form-control mt-3"
-                            id="birthdate"
-                            style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}
-                            placeholder="Birthdate"
-                        />
-                        </div>
-                        <div className="form-group mt-4">
-                        <input
-                            type="email"
-                            className="form-control mt-3"
-                            id="email"
-                            style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}
-                            placeholder="Email"
-                        />
-                        </div>
-                        <div className="form-group">
-                        <div className="input-group">
-                            <input
-                            type="password"
-                            className="form-control mt-4"
-                            id="password"
-                            style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}
-                            placeholder="Password"
+            
+                    <div className="col-6">
+                        <div className="card sec-border">
+                        <div className="card-body">
+                            <div className="text-center mb-4 mt-5">
+                            <Link to="/" className="navbar-brand me-auto fw-bold" style={{ color: "#BF7245", fontSize: "2rem" }}>
+                                <FontAwesomeIcon icon={faPaw} className="me-2" />
+                                Pet.me
+                            </Link>
+                            </div>
+                            {fail && (
+                                <>{fail.map((error)=>{
+                                        return <Alert key='danger' variant='danger'>
+                                            {error}
+                                        </Alert>
+                                    })}</>
+                              
+                            )}
+                            <h1 className="mt-5" style={{ color: "#BF7245" }}>Signup</h1>
+
+                            <div className="form-group mt-4">
+                            <Input  
+                                {...name_validation}
+                                name = "username"
+                                type="text"
+                                label="Username"
+                                className="form-control"
+                                id="username"
+                                style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}
+                                placeholder="Username"
                             />
-                            {/* <div className="input-group-append">
-                            <span className="input-group-text" onClick={togglePasswordVisibility}>
-                                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-                            </span>
-                            </div> */}
-                        </div>
-                        </div>
-                        <div className="form-group">
-                        <div className="input-group">
-                            <input
-                            type="password"
-                            className="form-control mt-4"
-                            id="password"
-                            style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}
-                            placeholder="Confirm Password"
+                            </div>
+
+                            <div className="form-group">
+                            <Input  
+                                {...  email_validation}
+                                name="email"
+                                type="email"
+                                label="Email address"
+                                className="form-control"
+                                id="email"
+                                style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}
+                                placeholder="Email"
                             />
-                            {/* <div className="input-group-append">
-                            <span className="input-group-text" onClick={togglePasswordVisibility}>
-                                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-                            </span>
-                            </div> */}
+                            </div>
+
+                            <div className="form-group ">
+                                    <Input 
+                                    {...password_validation}
+                                    type="password"
+                                    label = "Password"
+                                    className="form-control"
+                                    id="password"
+                                    name="password"
+                                    style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}
+                                    placeholder="Password"
+                                    />
+                            </div>
+                            <div className="mt-3">
+                                <button style={{ width: "100%", backgroundColor: "#BF7245" }} 
+                                    type="button" className="btn text-white" onClick={onSubmit}>
+                                Create Account
+                                </button>
+
+                            </div>
+
+                            <p className="mt-4 text-center">Already have an account? <Link to="/login" style={{ color: "#BF7245", textDecoration: "none" }}>Login</Link></p>
+
+
                         </div>
                         </div>
-                        <button style={{ width: "100%", backgroundColor: "#BF7245" }} type="button" className="btn mt-3 text-white">
-                        Create Account
-                        </button>
-                        <p className="mt-3">Already have an account? <Link to="/login" style={{ color: "#BF7245", textDecoration: "none" }}>Login</Link></p>
                     </div>
                     </div>
-                </div>
-                </div>
-            </div>
+            </form>
+        </FormProvider>
         </div>
+
         );
     };
 
 export default Signup;
+
+
+

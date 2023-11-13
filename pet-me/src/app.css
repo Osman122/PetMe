@@ -27,3 +27,32 @@
     width: 360px;
     opacity: 0.9;
 }
+
+.midscreen {
+    position: absolute;
+    background: #D9C9BA;
+    width: 60vw;
+    max-width: 600px;
+    min-width: 350px;
+    min-height: 600px;
+    border-radius: 40px;
+    top: 50%;
+    left: 50%;
+    Transform: translate(-50%, -50%);
+}
+
+img.bigcat {
+    position: absolute;
+    height: 75vh;
+    bottom: 44px;
+    left: 0;
+    z-index: 2;
+}
+
+.bigpaw {
+    height: 20vh;
+    transform: rotate(-25deg);
+    position: absolute;
+    left: 390px;
+    color: #8c594dbd;
+}

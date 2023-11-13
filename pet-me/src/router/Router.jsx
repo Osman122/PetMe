@@ -25,12 +25,13 @@ const Router = () => {
             <Routes>
                 {/* These pages are completely functional with api integration */}
                 <Route path="/explore" element={<Explore />}/>
+                <Route path="/login" element={<Login />}/>
 
+                {/* Partially Done */}
+                <Route path="/" element={<Home />}/>
 
                 {/* These pages are not */}
 
-                <Route path="/" element={<Home />}/>
-                <Route path="/login" element={<Login />}/>
                 <Route path="/about" element={<About />}/>
                 <Route path="/signup" element={<Signup />}/>
                 <Route path="/petinfo" element={<PetInfo />}/>

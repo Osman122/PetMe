@@ -1,9 +1,12 @@
-body {
+#root {
+    min-height: 100vh;
     position: relative;
+
 }
 
 #root>div, #root>section {
-    margin-top: 60px;
+    padding-top: 60px;
+    margin-bottom: 0;
     padding-bottom: 45px;
     min-height: calc(100vh - 60px);
 

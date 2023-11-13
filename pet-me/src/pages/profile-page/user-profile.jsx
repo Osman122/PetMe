@@ -65,14 +65,14 @@ function UserProfile() {
                 <MDBListGroup flush className="rounded-3">
                    
                 {usrData.pets.map((pet) => {
-                    return pet?( <div class="card  shadow-0 mb-3" style={{maxHeight:"12em"}}>
+                    return pet?( <div className="card  shadow-0 mb-3" style={{maxHeight:"12em"}}>
                     <div class="card-header bg-transparent ">Type: {pet.pet_type}</div>
                     <div class="card-body">
                       <h5 class="card-title">Name: {pet.name}</h5>
                       <p class="card-text"> {pet.brief}</p>
                     </div>
                     <div class="card-footer bg-transparent ">Gender: {pet.gender}</div>
-                  </div>):(<></>)
+                  </div>):(<div className="card  shadow-0 mb-3" style={{maxHeight:"12em"}}><h3>no current pet</h3></div>)
                     
                     
                     
@@ -153,7 +153,7 @@ function UserProfile() {
                        return pet?( <div class="card  shadow-0 mb-3" style={{maxHeight:"12em"}}>
                       
                        <div class="card-body">
-                         <h5 class="card-title">Ha Host Pet With Name: {pet.petname}</h5>
+                         <h5 class="card-title">{usrData.first_name} Host Pet With Name: {pet.petname}</h5>
                          <p class="card-text"> From {pet.start_at}</p>
                          <p class="card-text"> Till {pet.ent_at?(pet.end_at):("now") }</p>
                        </div>

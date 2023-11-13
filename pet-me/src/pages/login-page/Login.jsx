@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import Cookies from 'js-cookie';
 import { axiosInstance } from '../../api/config';
+import {useSelector, useDispatch} from 'react-redux'
+import {setCurrUser} from '../../store/Slices/UserSlice'
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faPaw} from "@fortawesome/free-solid-svg-icons";
@@ -19,21 +21,44 @@ import {
 const Login = () => {
     const methods = useForm()
     const [fail, setFail] = useState(false)
+    const navigate = useNavigate();
+    const {currentUser, synced} = useSelector(state => state.currentUser)
+
+    const dispatch = useDispatch()
   
-    // const [showPassword, setShowPassword] = useState(false);
-
-    // const togglePasswordVisibility = () => {
-    //     setShowPassword(!showPassword);
-    // };
-
-    const onSubmit = methods.handleSubmit(data => {
-        axiosInstance.post(`/accounts/jwt/create/`,data).then(res => {
-            console.log(res.data)
-            Cookies.set('refresh', res.data.refresh, { expires: 7, domain: '.yourdomain.com'})
-            Cookies.set('access', res.data.access, { expires: 1, domain: '.yourdomain.com'})
+    const authenticate = (data) => {
+      let access = Cookies.get('access')
+      let refresh = Cookies.get('refresh')
+  
+      if (access) {
+        axiosInstance.get('/accounts/users/me/',  {
+          headers: {
+              'Authorization': 'JWT '+access,
+          }}).then(res => {
+            dispatch(setCurrUser(res.data))
+            navigate('/')
+            document.getElementById("success-auth").hidden = false;
+            setTimeout(() => {
+              document.getElementById("success-auth").hidden = true;
+            }, 3000);
+            return
+  
+        }).catch((err)=>{console.log(err)})
+        }
+      
+      if (refresh) {
+        axiosInstance.post('/accounts/jwt/refresh/', {'refresh':refresh}).then((res)=>{
+          Cookies.set('access', res.data.access, { expires: 1})
+          return authenticate()
+  
+      }).catch(err => {console.log(err)})}
+      
+      axiosInstance.post(`/accounts/jwt/create/`,data).then(res => {
+            Cookies.set('refresh', res.data.refresh, { expires: 7})
+            Cookies.set('access', res.data.access, { expires: 1})
             methods.reset()
             setFail(false)
-
+            return authenticate()
 
         }).catch((err)=>{
             if (err.response.status === 401) {
@@ -47,6 +72,15 @@ const Login = () => {
                 setFail(false)
             },3000)
         })
+        
+    };
+  
+    useEffect(()=>{
+        if (synced){navigate('/')}
+    },[])
+
+    const onSubmit = methods.handleSubmit(data => {
+        authenticate(data)
       })
 
     return (

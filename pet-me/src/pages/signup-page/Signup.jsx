@@ -1,15 +1,11 @@
-import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import {faPaw} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
 const Signup = () => {
-    const [showPassword, setShowPassword] = useState(false);
 
-    // const togglePasswordVisibility = () => {
-    //     setShowPassword(!showPassword);
-    // };
+
     return (
         <div className="container main">
             <div className="container">
@@ -62,7 +58,7 @@ const Signup = () => {
                         <div className="form-group">
                         <div className="input-group">
                             <input
-                            type={showPassword ? "text" : "password"}
+                            type="password"
                             className="form-control mt-4"
                             id="password"
                             style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}
@@ -78,7 +74,7 @@ const Signup = () => {
                         <div className="form-group">
                         <div className="input-group">
                             <input
-                            type={showPassword ? "text" : "password"}
+                            type="password"
                             className="form-control mt-4"
                             id="password"
                             style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}

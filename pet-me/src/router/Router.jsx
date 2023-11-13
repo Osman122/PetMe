@@ -14,6 +14,7 @@ const SignupSuccess =React.lazy(() => import('../pages/signup-page/SignupSuccess
 const ResendMail =React.lazy(() => import('../pages/signup-page/ResendMail'));
 const PetInfo =React.lazy(() => import('../pages/petinfo-page/PetInfo'));
 const Profile =React.lazy(() => import('../pages/profile-page/Profile'));
+const UserProfile =React.lazy(() => import('../pages/profile-page/user-profile'));
 const Chat =React.lazy(() => import('../pages/Chat/Chat'));
 const PageNotFound =React.lazy(() => import('../pages/notfound-page/PageNotFound'));
 const Offer =React.lazy(() => import('../pages/Offer-page/OfferPage'));
@@ -44,10 +45,12 @@ const Router = () => {
                 <Route path="/offers/:id" element={<Offer />}/>
                 <Route path="/search" element={<SearchPage />}/>
                 {/* <Route path="/posts/:id" element={<PostPage />}/> */}
+                <Route path="/userprofile/:id" element={<UserProfile />}/>
+                {/* <Route path="/chats" element={<Adopt />}/> */}
                 
                 <Route path="/addoffer" element={<AddOffer />}/>
                 <Route path="/addpet" element={<AddPet />}/>
-                <Route path="/editpet" element={<EditPet />}/>
+                <Route path="/editpet/:id" element={<EditPet />}/>
                 <Route path="/forgotpass" element={<ForgotPasswordPage />}/>
                 <Route path="/chats" element={<Chat />}/>
                 <Route path="/*" element={<PageNotFound />}/>

@@ -3,6 +3,7 @@ import React from 'react';
 import { Suspense } from "react";
 import Loader from "../components/Loader/Loader"
 import ForgotPasswordPage from "../pages/forget-passowrd-page/ForgetPass";
+import UserProfile from "../pages/profile-page/user-profile.jsx";
 import Chat from "../components/Chat/Chat.jsx";
 
 // Code Splitting
@@ -40,11 +41,12 @@ const Router = () => {
                 <Route path="/offers/:id" element={<Offer />}/>
                 <Route path="/search" element={<SearchPage />}/>
                 {/* <Route path="/posts/:id" element={<PostPage />}/> */}
+                <Route path="/userprofile/:id" element={<UserProfile />}/>
                 {/* <Route path="/chats" element={<Adopt />}/> */}
                 
                 <Route path="/addoffer" element={<AddOffer />}/>
                 <Route path="/addpet" element={<AddPet />}/>
-                <Route path="/editpet" element={<EditPet />}/>
+                <Route path="/editpet/:id" element={<EditPet />}/>
                 <Route path="/forgotpass" element={<ForgotPasswordPage />}/>
                 <Route path="/chats" element={<Chat />}/>
                 <Route path="/*" element={<PageNotFound />}/>

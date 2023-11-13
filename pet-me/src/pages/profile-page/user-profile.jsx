@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   MDBCol,
@@ -10,7 +9,7 @@ import {
   MDBCardImage,
   MDBIcon,
   MDBListGroup,
-  MDBListGroupItem
+
 } from 'mdb-react-ui-kit';
 import { useState,useEffect } from "react";
 import { axiosInstance } from '../../api/config';

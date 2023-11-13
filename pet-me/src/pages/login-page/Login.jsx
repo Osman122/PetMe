@@ -12,7 +12,9 @@ import Alert from 'react-bootstrap/Alert';
 
 
 import { Input } from '../../components/form'
+import cat from '../../assets/images/cat.png'
 import { FormProvider, useForm } from 'react-hook-form'
+
 import {
   email_validation,
   password_validation,
@@ -94,11 +96,9 @@ const Login = () => {
             >
                     <div className="row g-5 pt-5" >
                     <div className="col-6">
-                        <div className="row h-100">
-                        <div className="col-12 sec-border p-3">
-                            <img style={{ maxHeight: "450px" }} className="w-100 h-100" src="logo192.png" alt="" />
-                        </div>
-                        </div>
+                        <img className="bigcat" src={cat} alt="Cat" />
+                        <FontAwesomeIcon icon={faPaw} className="bigpaw" />
+
                     </div>
             
                     <div className="col-6">
@@ -121,6 +121,7 @@ const Login = () => {
                             <Input  
                                 {...email_validation}
                                 type="email"
+                                name="email"
                                 label="Email address"
                                 className="form-control"
                                 id="email"
@@ -132,6 +133,7 @@ const Login = () => {
                                     <Input 
                                     {...password_validation}
                                     type="password"
+                                    name="password"
                                     label = "Password"
                                     className="form-control"
                                     id="password"

@@ -30,7 +30,7 @@ const Post = (props) => {
             </div>
           </div>
           {
-            post.photos ? <Link to={`/posts/${post.id}`}>
+            post.photos.length ? <Link to={`/posts/${post.id}`}>
             <div className="post-image">
             <img className="img-fluid" alt="post_image" src={`${post.photos[0]['photo']}`}/>
           </div></Link> : <></>

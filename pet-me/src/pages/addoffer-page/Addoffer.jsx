@@ -2,6 +2,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { axiosInstance } from '../../api/config';
+
 
 const AddOffer = () => {
     const [petName, setPetName] = useState("");
@@ -15,10 +17,22 @@ const AddOffer = () => {
         setMessage(e.target.value);
     };
 
-    const handleSend = () => {
-        console.log("Pet Name:", petName);
-        console.log("Message:", message);
-    };
+    const handleSend = (id) => {
+        const data = {
+            petName: petName,
+            message: message,
+            };
+        
+            axiosInstance.post(`/pets/${id}/offer`, data)
+            .then((response) => {
+                console.log("Offer sent successfully");
+                // Handle any success actions here
+            })
+            .catch((error) => {
+                console.error("Error sending offer:", error);
+                // Handle any error actions here
+            });
+        };
 
     return (
         <div className="container-main" style={{ marginTop: "65px", marginLeft: "0px" , marginRight: "0px", marginBottom:"1px"}}>

@@ -23,7 +23,7 @@ axiosInstance.interceptors.response.use(function (response) {
     // Check if response is 401 unauthorized, then redirect user to login page
     
     return response;
-  }, function (error) {
+}, function (error) {
     // Do something with response error
     return Promise.reject(error);
 });

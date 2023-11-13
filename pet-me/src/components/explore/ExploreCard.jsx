@@ -12,11 +12,11 @@ function ExploreCard(props) {
             <img src={`${offer.pet.thumbnail}`}
             className="card-img-top img-fluid rounded" alt="product thumbnail"  style={{ backgroundColor: "white" }}/>
         </Link>
-        <div className="card-body p-3 position-relative rounded "  >
+        <div className="card-body p-3 position-relative rounded " style={{overflow:"hidden"}} >
             <p  className="d-inline-block card-title font-weight-bold"
             style={{textWrap: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' ,fontWeight:"bold", margin:"0"}}>{offer.pet.name} is for adoption</p>
-            <p className='text-secondary m-0' >{offer.user.username}</p>
-            <p style={{maxHeight:"50px", overflow:"hidden"}} className='position-absolute  text-secondary' >{offer.description}</p>
+            <p className='text-secondary m-0' >@{offer.user.username}</p>
+            <p style={{maxHeight:"50px"}} className='position-absolute  text-secondary' >{offer.description}</p>
         </div>
         </div>
     </div>

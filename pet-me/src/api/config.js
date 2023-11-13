@@ -20,6 +20,8 @@ axiosInstance.interceptors.request.use(function (config) {
 axiosInstance.interceptors.response.use(function (response) {
     console.log("RESPONSE", response)
     // Check if the response is saying that the cookie expired, then send request to refresh token
+    // Check if response is 401 unauthorized, then redirect user to login page
+    
     return response;
   }, function (error) {
     // Do something with response error

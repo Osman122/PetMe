@@ -13,7 +13,7 @@ import {
     email_validation,
   } from '../../utils/inputValidations';
 
-const ResendMail = () => {
+const PasswordResetPage = () => {
     const methods = useForm()
     const [fail, setFail] = useState(false)
     const navigate = useNavigate();
@@ -24,16 +24,17 @@ const ResendMail = () => {
     },[])
 
     const onSubmit = methods.handleSubmit(data => {
-        document.querySelector('button.login').innerHTML = `  <span class="spinner-border 
+        document.querySelector('button.reset').innerHTML = `  <span class="spinner-border 
         spinner-border-sm me-2" role="status" aria-hidden="true"></span>Sending...`
 
-        axiosInstance.post(`/accounts/users/resend_activation/`,data).then(res => {
+        axiosInstance.post(`/accounts/users/reset_password/`,data).then(res => {
               methods.reset()
               setFail(false)
-              navigate('/login')
+              document.querySelector('form.reset-form').innerHTML = `<div class="alert alert-success" role="alert">
+                Password Reset Link was sent successfully!</div>`
   
           }).catch((err)=>{
-            document.querySelector('button.login').innerHTML = 'Login'
+            document.querySelector('button.reset').innerHTML = 'Send Password Reset Link!'
 
             if (err.response.status === 403) {
               setFail("Already sent! Try again later.")
@@ -52,7 +53,7 @@ const ResendMail = () => {
                     <img src={emailsent} alt='emailsent' style={{height:"300px"}}/>
 
                     <FormProvider {...methods}>
-                    <form onSubmit={e => e.preventDefault()} noValidate autoComplete="off">
+                    <form className="reset-form" onSubmit={e => e.preventDefault()} noValidate autoComplete="off">
                         <div className="text-center mb-4 mt-5">
                         </div>
                         {fail && (
@@ -77,8 +78,8 @@ const ResendMail = () => {
                         </div>
                         <div className="mt-3">
                             <button style={{ width: "100%", backgroundColor: "#BF7245" }} 
-                                type="button" className="btn text-white login fs-5" onClick={onSubmit}>
-                            Resend Verification Mail!
+                                type="button" className="btn text-white reset fs-5 px-5" onClick={onSubmit}>
+                            Send Password Reset Link!
                             </button>
 
                         </div>
@@ -93,4 +94,4 @@ const ResendMail = () => {
     </>
 }
 
-export default ResendMail;
+export default PasswordResetPage;

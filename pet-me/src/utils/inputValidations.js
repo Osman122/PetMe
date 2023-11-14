@@ -80,6 +80,7 @@ export const email_validation = {
   type: 'email',
   id: 'email',
   placeholder: 'Input your email address',
+
   validation: {
     required: {
       value: true,

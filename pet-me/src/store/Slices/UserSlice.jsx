@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
+import Cookies from 'js-cookie';
 
 const Initial_State = {
     currentUser: {},
@@ -15,6 +16,9 @@ const UserSlice = createSlice({
         },
 
         clearCurrUser: (state,action) => {
+            Cookies.remove('access')
+            Cookies.remove('refresh')
+            state.synced = false
             state.currentUser =  {}
         }
     }

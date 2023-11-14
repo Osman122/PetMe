@@ -8,6 +8,7 @@ import {faPaw} from "@fortawesome/free-solid-svg-icons";
 import { Input } from '../../components/form'
 import { axiosInstance } from '../../api/config';
 import cat from '../../assets/images/cat.png'
+import {useSelector} from 'react-redux'
 
 import {
   email_validation,
@@ -19,20 +20,24 @@ const Signup = () => {
     const methods = useForm()
     const [fail, setFail] = useState(false)
     const navigate = useNavigate();
-
+    const {synced} = useSelector(state => state.currentUser)
   
     useEffect(()=>{
-        // if (synced){navigate('/')}
+        if (synced){navigate('/')}
     },[])
 
     const onSubmit = methods.handleSubmit(data => {
-    
+        document.querySelector('button.login').innerHTML = `  <span class="spinner-border 
+        spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...`
+
         axiosInstance.post(`/accounts/users/`,data).then(res => {
               methods.reset()
               setFail(false)
               navigate('/signup/success')
   
           }).catch((err)=>{
+            document.querySelector('button.login').innerHTML = 'Login'
+
               if (err.response.status === 400) {
                   setFail(Object.values(err.response.data))
               } else {
@@ -54,16 +59,16 @@ const Signup = () => {
             className="container"
             >
                     <div className="row g-5 pt-5" >
-                    <div className="col-6">
+                    <div className="col-6 d-none d-lg-block">
                         <img className="bigcat" src={cat} alt="Cat" />
                         <FontAwesomeIcon icon={faPaw} className="bigpaw" />
 
                     </div>
             
-                    <div className="col-6">
+                    <div className="col-12 col-lg-6">
                         <div className="card sec-border">
-                        <div className="card-body">
-                            <div className="text-center mb-4 mt-5">
+                        <div className="card-body p-4">
+                            <div className="text-center mb-4">
                             <Link to="/" className="navbar-brand me-auto fw-bold" style={{ color: "#BF7245", fontSize: "2rem" }}>
                                 <FontAwesomeIcon icon={faPaw} className="me-2" />
                                 Pet.me

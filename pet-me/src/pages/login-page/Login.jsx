@@ -63,6 +63,7 @@ const Login = () => {
             return authenticate()
 
         }).catch((err)=>{
+
             if (err.response.status === 401) {
                 console.log(err)
                 setFail("Credentials are incorrect.")
@@ -73,6 +74,7 @@ const Login = () => {
             setTimeout(()=>{
                 setFail(false)
             },3000)
+
         })
         
     };
@@ -82,6 +84,7 @@ const Login = () => {
     },[])
 
     const onSubmit = methods.handleSubmit(data => {
+        setFail("load")
         authenticate(data)
       })
 
@@ -95,13 +98,13 @@ const Login = () => {
             className="container"
             >
                     <div className="row g-5 pt-5" >
-                    <div className="col-6">
+                    <div className="col-6 d-none d-lg-block">
                         <img className="bigcat" src={cat} alt="Cat" />
                         <FontAwesomeIcon icon={faPaw} className="bigpaw" />
 
                     </div>
             
-                    <div className="col-6">
+                    <div className="col-12 col-lg-6">
                         <div className="card sec-border">
                         <div className="card-body">
                             <div className="text-center mb-4 mt-5">
@@ -141,11 +144,12 @@ const Login = () => {
                                     placeholder="Password"
                                     />
                             </div>
-                            <p className="mt-2 text-center">Forgot password? <Link to="/forgotpass" style={{ color: "#BF7245", textDecoration: "none" }}>Restore Password</Link></p>
+                            <p className="mt-2 text-center">Forgot password? <Link to="/password-reset" style={{ color: "#BF7245", textDecoration: "none" }}>Restore Password</Link></p>
                             <div className="mt-3">
                                 <button style={{ width: "100%", backgroundColor: "#BF7245" }} 
-                                    type="button" className="btn text-white" onClick={onSubmit}>
-                                Login
+                                    type="button" className="btn text-white login" onClick={onSubmit}>
+                                {fail==="load"?<><span class="spinner-border 
+        spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...</>:<>Login</>}
                                 </button>
 
                             </div>

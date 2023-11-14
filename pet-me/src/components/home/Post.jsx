@@ -39,12 +39,12 @@ const Post = (props) => {
           <p class="mt-3 mb-4 pb-2"> {post.content}</p>
 
           {
-            post.comments ? <>
+            post.comments.length ? <>
             <hr />
             <div className="comments">
               <h3 className="pb-2"> Comments </h3>
               {post.comments.map((comment) => {
-                  return <CommentCard comment={comment} />
+                  return <CommentCard comment={comment} key={comment.id}/>
               })}
             </div> </> : <></>
           }

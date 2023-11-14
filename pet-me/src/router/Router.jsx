@@ -62,10 +62,6 @@ const Router = () => {
                 <Route path="/addoffer" element={<AddOffer />}/>
                 <Route path="/addpet" element={<AddPet />}/>
                 <Route path="/editpet/:id" element={<EditPet />}/>
-<<<<<<< HEAD
-=======
-                <Route path="/forgotpass" element={<ForgotPasswordPage />}/>
->>>>>>> 4adfe94 (fix merge conflicts)
                 <Route path="/chats" element={<Chat />}/>
                 <Route path="/*" element={<PageNotFound />}/>
 

@@ -13,6 +13,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import {setCurrUser} from './store/Slices/UserSlice'
 import { Alert } from "react-bootstrap";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function App() {
   const {currentUser, synced} = useSelector(state => state.currentUser)
@@ -47,7 +48,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log('fasssadas')
       authenticate();
     }, []);
 
@@ -59,7 +59,10 @@ function App() {
       <Alert id="success-auth" variant="success" className="m-2" hidden={true}>
           Welcome back {currentUser.username}! You're logged in!
       </Alert>
-      <Footer/>
+      <Alert id="fail-auth" variant="danger" className="m-2" hidden={true} dismissible>
+          You need to be <Link to="/login">logged in</Link> to perform this action
+      </Alert>
+      <Footer/> 
       
     </BrowserRouter>
   );

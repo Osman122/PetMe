@@ -1,6 +1,11 @@
 :root {
     --primary: #8c594d;
 }
+
+.text-primary {
+    color: var(--primary) !important;
+}
+
 #root {
     min-height: 100vh;
     position: relative;

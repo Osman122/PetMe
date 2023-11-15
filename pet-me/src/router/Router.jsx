@@ -51,7 +51,6 @@ const Router = () => {
                 <Route path="/petinfo" element={<PetInfo />}/>
                 <Route path="/profile/:id" element={<Profile />}/>
 
-                <Route path="/profile/:id" element={<Profile />}/>
 
                 <Route path="/offers/:id" element={<Offer />}/>
                 <Route path="/search" element={<SearchPage />}/>

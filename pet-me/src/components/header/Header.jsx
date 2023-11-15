@@ -2,8 +2,18 @@ import {faMagnifyingGlass,faPaw, faComments} from "@fortawesome/free-solid-svg-i
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./style.css";
 import { Link } from "react-router-dom";
+import {useSelector, useDispatch} from 'react-redux'
+import {clearCurrUser} from '../../store/Slices/UserSlice'
 
 function Header() {
+
+  const {currentUser, synced} = useSelector(state => state.currentUser)
+  const dispatch = useDispatch()
+
+  const logout = () => {
+    dispatch(clearCurrUser())
+  }
+
   return (
     <nav className="navbar navbar-expand-lg fixed-top">
       <div className="container">
@@ -84,13 +94,26 @@ function Header() {
           </div>
         </div>
 
-        <Link to="/login" className="login-button mx-lg-2">
+        {synced? <> 
+        <Link to={`/userprofile/${currentUser.id}`} className="mx-lg-2">
+          <img class="rounded-circle shadow-1-strong me-3"
+              src={`${currentUser.picture}`} alt="avatar" width="30"
+              height="30" />  
+        </Link>
+
+        <Link to="/" className="ms-3 text-primary text-decoration-none fw-bold" onClick={logout}>
+          Logout
+        </Link>
+        </>:<>
+        <Link to="/" className="login-button mx-lg-2">
           Login
         </Link>
 
         <Link to="/signup" className="ms-3 login-button">
           Signup
         </Link>
+        </>}
+        
         <button
           className="navbar-toggler pe-0"
           type="button"

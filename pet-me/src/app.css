@@ -13,6 +13,10 @@
     position: relative;
 }
 
+#root>div:first-of-type, #root>section {
+    min-height: 100vh;
+}
+
 #fail-auth {
     height: 80px;
     position: fixed;

@@ -34,7 +34,7 @@ export const Input = ({
           : type === "password" ? <><span class="input-group-text border-0 bg-transparent" id="basic-addon1"><FontAwesomeIcon icon={faLock} /></span>
           </>:<></>
         }
-        <Input  
+        <input  
             id={id}
             type={type}
             className={className}
@@ -44,8 +44,6 @@ export const Input = ({
         { type === "password" ? <span class="input-group-text border-0 bg-transparent"><FontAwesomeIcon icon={faLock}/></span>
           :<></>
         }
-        
-
       </div>
 
       

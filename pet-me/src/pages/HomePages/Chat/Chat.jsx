@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Chat.css'
 // import "react-chat-elements/dist/main.css"
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 // import { emilyIco,kaiIco,akaneIco, eliotIco,zoeIco,patrikIco, lilyCo} from '../../../assets/images/hinata.jpeg'
@@ -76,7 +77,7 @@ const Chat = () => {
         </ConversationList>
       </Sidebar>
 
-      <ChatContainer>
+      <ChatContainer style={{backgroundColor:"red"}}>
         <ConversationHeader>
         <ConversationHeader.Back />
                     <Avatar src='' name="Zoe" />
@@ -96,8 +97,8 @@ const Chat = () => {
             sentTime: "15 mins ago",
             sender: "Zoe",
             direction: "incoming",
-            position: "single"
-          }}>
+            position: "single",
+          }} >
                       <Avatar src='' name="Zoe" />
                     </Message>
                     

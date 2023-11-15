@@ -5,7 +5,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { MdError } from 'react-icons/md'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
-import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react'
 
 export const Input = ({
   name,
@@ -25,10 +26,20 @@ export const Input = ({
   const inputErrors = findInputError(errors, name)
   const isInvalid = isFormInvalid(inputErrors)
 
+  const [shown, setShown] = useState(false)
+
+  const togglePassword = () => {
+    setShown(!shown)
+
+  }
 
   return (
-    <>
-      <div class="input-group mt-4">
+    <div className='position-relative'>
+      <label htmlFor={id} className='py-2'>
+        {label}
+      </label>
+      <div class="input-group">
+        
         { type==="email" ? 
           <span class="input-group-text border-0 bg-transparent" id="basic-addon1"><FontAwesomeIcon icon={faEnvelope} /></span>
           : type === "password" ? <><span class="input-group-text border-0 bg-transparent" id="basic-addon1"><FontAwesomeIcon icon={faLock} /></span>
@@ -36,19 +47,19 @@ export const Input = ({
         }
         <input  
             id={id}
-            type={type}
+            type={type==="password"?shown?"text":'password':type}
             className={className}
             placeholder={placeholder}
             autocomplete="on" {...register(name, validation)}
         />
-        { type === "password" ? <span class="input-group-text border-0 bg-transparent"><FontAwesomeIcon icon={faLock}/></span>
+        { type === "password" ? <span onClick={togglePassword} class="input-group-text border-0 bg-transparent"><FontAwesomeIcon icon={shown?faEyeSlash:faEye}/></span>
           :<></>
         }
       </div>
 
       
       {isInvalid && (
-      <div class="errors py-2 w-100">
+      <div class="errors pt-2">
         <AnimatePresence mode="wait" initial={false}>
               <InputError
                 message={inputErrors.error.message}
@@ -59,7 +70,7 @@ export const Input = ({
       )}
 
 
-    </>
+    </div>
   )
 }
 

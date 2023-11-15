@@ -7,6 +7,7 @@ const RegisterPagesTemplate =React.lazy(() => import('../pages/RegisterPages/Reg
 const HomePagesTemplate =React.lazy(() => import('../pages/HomePages/HomePagesTemplate'));
 
 const Login =React.lazy(() => import('../pages/RegisterPages/login-page/Login'));
+const SocialLoginAuth =React.lazy(() => import('../pages/RegisterPages/login-page/SocialLoginAuth'));
 const Signup =React.lazy(() => import('../pages/RegisterPages/signup-page/Signup'));
 const SignupSuccess =React.lazy(() => import('../pages/RegisterPages/signup-page/SignupSuccess'));
 const ActivateMailPage =React.lazy(() => import('../pages/RegisterPages/signup-page/ActivateMailPage'));
@@ -35,6 +36,7 @@ const Router = () => {
         <Routes>
             <Route path="register" element={<RegisterPagesTemplate />}>
                 <Route path="login" element={<Login />}/>
+                <Route path="social/complete/:provider" element={<SocialLoginAuth />}/>
                 <Route path="signup" element={<Signup />}/>
                 <Route path="signup/success" element={<SignupSuccess />}/>
                 <Route path="signup/resendmail" element={<ResendMail />}/>

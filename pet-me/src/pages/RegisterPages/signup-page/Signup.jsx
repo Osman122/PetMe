@@ -26,7 +26,7 @@ const Signup = () => {
     },[])
 
     const onSubmit = methods.handleSubmit(data => {
-        document.querySelector('button.login').innerHTML = `  <span class="spinner-border 
+        document.querySelector('button.signup').innerHTML = `  <span class="spinner-border 
         spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...`
 
         axiosInstance.post(`/accounts/users/`,data).then(res => {
@@ -35,7 +35,7 @@ const Signup = () => {
               navigate('/signup/success')
   
           }).catch((err)=>{
-            document.querySelector('button.login').innerHTML = 'Login'
+            document.querySelector('button.signup').innerHTML = 'Create Account'
 
               if (err.response.status === 400) {
                   setFail(Object.values(err.response.data))
@@ -119,7 +119,7 @@ const Signup = () => {
                             </div>
                             <div className="mt-3">
                                 <button style={{ width: "100%", backgroundColor: "#BF7245" }} 
-                                    type="button" className="btn text-white" onClick={onSubmit}>
+                                    type="submit" className="btn signup text-white" onClick={onSubmit}>
                                 Create Account
                                 </button>
 

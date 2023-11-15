@@ -1,9 +1,25 @@
 :root {
-    --primary: #8c594d;
+    --primary: #BF7245;
+    
 }
 
 .text-primary {
     color: var(--primary) !important;
+}
+
+.bg-primary {
+    background-color: var(--primary) !important;
+}
+
+.outline-primary {
+    background-color: white !important;
+    border-color: var(--primary) !important;
+    color: var(--primary) !important;
+}
+
+.outline-primary:hover {
+    background-color: var(--primary) !important;
+    color: white;
 }
 
 
@@ -11,6 +27,7 @@
 #root {
     min-height: 100vh;
     position: relative;
+    font-family: 'Lato', sans-serif;
 }
 
 #root>div:first-of-type, #root>section {

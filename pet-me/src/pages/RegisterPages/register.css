@@ -1,5 +1,7 @@
 .registeration {
-    background-image: url("../../assets/images/BackgroundImage.jpg");
+    /* background-image: url("../../assets/images/BackgroundImage.jpg"); */
+    background: linear-gradient(rgba(0,0,0,0.40), rgba(0,0,0,0.40)),
+    url("../../assets/images/BackgroundImage.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -11,8 +13,15 @@
     content: "";
     flex: 1;
     height: 1px;
-    background: #eee;
+    background: black;
     }
+
+.divider:after {
+    margin-right: 50px;
+}
+.divider:before {
+    margin-left: 50px;
+}
 
 .midscreen {
     position: absolute;
@@ -50,5 +59,42 @@ input {
 }
 
 .input-group {
-    border: 1px solid black;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    padding: 10px;
+    border-radius: 12px;
+    
+}
+
+.input-group *{
+    padding: 2px;
+}
+.input-group svg {
+    color: rgba(0, 0, 0, 0.50);
+    font-size: 24px;
+}
+
+.errors {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+label {
+    font-size: 20px;
+}
+
+.brands img {
+    height: 56px;
+    width: 56px;
+    box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.06);
+    box-shadow: 0 4px 0 0 rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+}
+
+form .alert {
+    position: absolute;
+    right: 50%;
+    top: 0;
+    padding: 10px;
+    transform: translateX(50%);
 }

@@ -37,21 +37,7 @@ const Login = () => {
         console.log(redirect)
 
         axiosInstance.get(`/accounts/o/${provider}/`,{ params: { redirect_uri: redirect } }).then((res)=>{
-            window.open(res.data['authorization_url'],"_blank")
-            setTimeout(()=>{
-                let code = prompt("code")
-                let state = prompt("state")
-                
-                const data = {'code':code,'state':state};
-                const formBody = Object.keys(data).map(key=> encodeURIComponent(key)+'='+encodeURIComponent(data[key])).join('&')
-
-                console.log(data)
-                
-                axiosInstance.post(`/accounts/o/${provider}/?${formBody}`, {
-                    headers: { 'Content-Type':'application/x-www-form-urlencoded'}}).then(res => {
-                    console.log(res)
-                }).catch(error => console.log(error))
-            },5000)
+            window.location.replace(res.data['authorization_url'])
         }).catch(error => console.log(error))
 
 

@@ -27,8 +27,10 @@ const SocialLoginAuth = () => {
 
         console.log(data)
         axiosInstance.post(`/accounts/o/${provider}/`, qs.stringify(data), { headers: { 'content-type': 'application/x-www-form-urlencoded' } }).then(res => {
-            console.log(res)
-    
+            Cookies.set('access', res.data.access, { expires: 1})
+            Cookies.set('refresh', res.data.refresh, { expires: 7})
+            navigate('/')
+            
         }).catch((err)=>{
           console.log(err)
         })

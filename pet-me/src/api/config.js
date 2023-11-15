@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+axios.defaults.withCredentials = true;
 
 export const axiosInstance = axios.create({
     baseURL: 'http://localhost:8000/'

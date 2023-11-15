@@ -5,16 +5,15 @@ import Alert from 'react-bootstrap/Alert';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faPaw} from "@fortawesome/free-solid-svg-icons";
 
-import { Input } from '../../components/form'
-import { axiosInstance } from '../../api/config';
-import cat from '../../assets/images/cat.png'
+import { Input } from  '../../../components/form'
+import { axiosInstance } from '../../../api/config';
 import {useSelector} from 'react-redux'
 
 import {
   email_validation,
   password_validation,
   name_validation,
-} from '../../utils/inputValidations';
+} from '../../../utils/inputValidations';
 
 const Signup = () => {
     const methods = useForm()
@@ -59,11 +58,7 @@ const Signup = () => {
             className="container"
             >
                     <div className="row g-5 pt-5" >
-                    <div className="col-6 d-none d-lg-block">
-                        <img className="bigcat" src={cat} alt="Cat" />
-                        <FontAwesomeIcon icon={faPaw} className="bigpaw" />
 
-                    </div>
             
                     <div className="col-12 col-lg-6">
                         <div className="card sec-border">

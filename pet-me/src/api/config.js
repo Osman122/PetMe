@@ -27,17 +27,16 @@ axiosInstance.interceptors.request.use(function (config) {
 });
 
 
-axiosInstance.interceptors.response.use(function (response) {
-    
-    // Check if the response is saying that the cookie expired, then send request to refresh token
-    // Check if response is 401 unauthorized, then redirect user to login page
-    
+axiosInstance.interceptors.response.use(function (response) {    
     return response;
+
 }, function (error) {
-    if (error.response.status === 401) {
+    console.log(error)
+    if ((error.response.status < 500) && (error.response.data.detail !== "No active account found with the given credentials")) {
         document.getElementById("fail-auth").hidden = false;
+        document.getElementById("fail-auth").innerText = error.response.data.detail
         setTimeout(() => {
-          document.getElementById("fail-auth").hidden = true;
+            document.getElementById("fail-auth").hidden = true;
         }, 3000);
     }
     return Promise.reject(error);

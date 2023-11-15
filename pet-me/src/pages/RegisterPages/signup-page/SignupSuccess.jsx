@@ -1,5 +1,5 @@
-import logo from '../../assets/images/Logo.png'
-import emailsent from '../../assets/images/emailsent.png'
+import logo from '../../../assets/images/Logo.png'
+import emailsent from '../../../assets/images/emailsent.png'
 
 import { Link } from "react-router-dom";
 import {useSelector} from 'react-redux';

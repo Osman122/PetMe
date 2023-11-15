@@ -3,6 +3,9 @@ import { findInputError, isFormInvalid } from '../../utils'
 import { useFormContext } from 'react-hook-form'
 import { AnimatePresence, motion } from 'framer-motion'
 import { MdError } from 'react-icons/md'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 export const Input = ({
   name,
@@ -24,40 +27,41 @@ export const Input = ({
 
 
   return (
-    <div className={cn('flex flex-col w-full gap-2')}>
-        <label htmlFor={id} className='py-1'>
-          {label}
-        </label>
-
-      {multiline ? (
-        <textarea
-          id={id}
-          type={type}
-          className = {className}
-          placeholder={placeholder}
-          {...register(name, validation)}
-        ></textarea>
-      ) : (
-        <input
-          id={id}
-          type={type}
-          className={className}
-          placeholder={placeholder}
-          {...register(name, validation)}
+    <>
+      <div class="input-group mt-4">
+        { type==="email" ? 
+          <span class="input-group-text border-0 bg-transparent" id="basic-addon1"><FontAwesomeIcon icon={faEnvelope} /></span>
+          : type === "password" ? <><span class="input-group-text border-0 bg-transparent" id="basic-addon1"><FontAwesomeIcon icon={faLock} /></span>
+          </>:<></>
+        }
+        <Input  
+            id={id}
+            type={type}
+            className={className}
+            placeholder={placeholder}
+            autocomplete="on" {...register(name, validation)}
         />
-      )}
-      <div class="errors py-2">
+        { type === "password" ? <span class="input-group-text border-0 bg-transparent"><FontAwesomeIcon icon={faLock}/></span>
+          :<></>
+        }
+        
+
+      </div>
+
+      
+      {isInvalid && (
+      <div class="errors py-2 w-100">
         <AnimatePresence mode="wait" initial={false}>
-            {isInvalid && (
               <InputError
                 message={inputErrors.error.message}
                 key={inputErrors.error.message}
               />
-            )}
           </AnimatePresence>
         </div>
+      )}
 
-    </div>
+
+    </>
   )
 }
 

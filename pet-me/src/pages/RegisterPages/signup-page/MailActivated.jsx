@@ -1,5 +1,5 @@
-import logo from '../../assets/images/Logo.png'
-import emailsent from '../../assets/images/emailsent.png'
+import logo from '../../../assets/images/Logo.png'
+import emailsent from '../../../assets/images/emailsent.png'
 
 import {useSelector} from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";

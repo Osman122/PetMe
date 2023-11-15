@@ -1,18 +1,47 @@
+import Cookies from "js-cookie";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { axiosInstance } from "../../api/config";
+import {useSelector, useDispatch} from 'react-redux'
+import {clearCurrUser, setCurrUser} from '../../store/Slices/UserSlice'
+
+import "./style.css";
 import {faMagnifyingGlass,faPaw, faComments} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./style.css";
-import { Link } from "react-router-dom";
-import {useSelector, useDispatch} from 'react-redux'
-import {clearCurrUser} from '../../store/Slices/UserSlice'
 
 function Header() {
 
   const {currentUser, synced} = useSelector(state => state.currentUser)
   const dispatch = useDispatch()
 
+  const authenticate = () => {
+    let access = Cookies.get('access')
+    let refresh = Cookies.get('refresh')
+
+    if (access) {
+      axiosInstance.get('/accounts/users/me/',  {
+        headers: {
+            'Authorization': 'JWT '+access,
+        }}).then(res => {
+          dispatch(setCurrUser(res.data))
+      }).catch((err)=>{console.log(err)})
+
+    } else if (refresh) {
+      axiosInstance.post('/accounts/jwt/refresh/', {'refresh':refresh}).then((res)=>{
+        Cookies.set('access', res.data.access, { expires: 1})
+        authenticate()
+
+    }).catch(err => {console.log(err)})}
+   
+  };
+
   const logout = () => {
     dispatch(clearCurrUser())
   }
+
+  useEffect(() => {
+    authenticate();
+  }, []);
 
   return (
     <nav className="navbar navbar-expand-lg fixed-top">
@@ -105,11 +134,11 @@ function Header() {
           Logout
         </Link>
         </>:<>
-        <Link to="/" className="login-button mx-lg-2">
+        <Link to="/register/login" className="login-button mx-lg-2">
           Login
         </Link>
 
-        <Link to="/signup" className="ms-3 login-button">
+        <Link to="/register/signup" className="ms-3 login-button">
           Signup
         </Link>
         </>}

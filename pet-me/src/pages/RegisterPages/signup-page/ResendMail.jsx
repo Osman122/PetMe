@@ -1,17 +1,17 @@
-import logo from '../../assets/images/Logo.png'
-import emailsent from '../../assets/images/emailsent.png'
+import logo from '../../../assets/images/Logo.png'
+import emailsent from '../../../assets/images/emailsent.png'
 
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {useSelector} from 'react-redux'
 import { FormProvider, useForm } from 'react-hook-form'
-import { axiosInstance } from '../../api/config';
+import { axiosInstance } from '../../../api/config';
 import Alert from 'react-bootstrap/Alert';
-import { Input } from '../../components/form'
+import { Input } from '../../../components/form'
 
 import {
     email_validation,
-  } from '../../utils/inputValidations';
+  } from '../../../utils/inputValidations';
 
 const ResendMail = () => {
     const methods = useForm()

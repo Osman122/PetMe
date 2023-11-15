@@ -1,11 +1,11 @@
-import logo from '../../assets/images/Logo.png'
+import logo from '../../../assets/images/Logo.png'
 
 import {useSelector} from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
-import { axiosInstance } from '../../api/config';
+import { axiosInstance } from '../../../api/config';
 
 const ActivateMailPage = () => {
     const { uid, token } = useParams();

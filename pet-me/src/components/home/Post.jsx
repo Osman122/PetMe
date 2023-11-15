@@ -1,9 +1,13 @@
 import "./assets/post.css";
 import CommentCard from '../CommentCard/CommentCard'
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Post = (props) => {
     const {post} = props
+    const {currentUser, synced} = useSelector(state => state.currentUser)
+
+
 
     return post ? (
       <div class="card">
@@ -52,21 +56,23 @@ const Post = (props) => {
 
 
         </div>
-        <div class="card-footer py-3 border-0" style={{backgroundColor:"#f8f9fa"}}>
-          <div class="d-flex flex-start w-100">
-            <img class="rounded-circle shadow-1-strong me-3"
-              src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp" alt="avatar" width="40"
-              height="40" />
-            <div class="form-outline w-100">
-              <textarea class="form-control" id="textAreaExample" rows="4"
-                style={{backgroundColor:"#fff"}}></textarea>
+        { synced && (
+          <div class="card-footer py-3 border-0" style={{backgroundColor:"#f8f9fa"}}>
+            <div class="d-flex flex-start w-100">
+              <img class="rounded-circle shadow-1-strong me-3"
+                src={`${currentUser.picture}`} alt="avatar" width="40"
+                height="40" />
+              <div class="form-outline w-100">
+                <textarea class="form-control" id="textAreaExample" rows="4"
+                  style={{backgroundColor:"#fff"}}></textarea>
+              </div>
+            </div>
+            <div class="float-end mt-2 pt-1">
+              <button type="button" class="btn btn-primary btn-sm me-3">Post comment</button>
+              <button type="button" class="btn btn-outline-primary btn-sm">Cancel</button>
             </div>
           </div>
-          <div class="float-end mt-2 pt-1">
-            <button type="button" class="btn btn-primary btn-sm me-3">Post comment</button>
-            <button type="button" class="btn btn-outline-primary btn-sm">Cancel</button>
-          </div>
-        </div>
+        )}
       </div>
 
     ): <></>;

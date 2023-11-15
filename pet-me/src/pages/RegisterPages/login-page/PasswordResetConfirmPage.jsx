@@ -1,18 +1,18 @@
-import logo from '../../assets/images/Logo.png'
-import emailsent from '../../assets/images/emailsent.png'
+import logo from '../../../assets/images/Logo.png'
+import emailsent from '../../../assets/images/emailsent.png'
 
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {useSelector, useDispatch} from 'react-redux'
-import {clearCurrUser} from '../../store/Slices/UserSlice'
+import {clearCurrUser} from '../../../store/Slices/UserSlice'
 
 import { FormProvider, useForm } from 'react-hook-form'
-import { axiosInstance } from '../../api/config';
+import { axiosInstance } from '../../../api/config';
 import Alert from 'react-bootstrap/Alert';
-import { Input } from '../../components/form'
+import { Input } from '../../../components/form'
 import {
     password_validation,
-} from '../../utils/inputValidations';
+} from '../../../utils/inputValidations';
 
 const PasswordResetPage = () => {
     const { uid, token } = useParams();

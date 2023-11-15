@@ -1,10 +1,10 @@
 import './search.css'
 import { useParams } from "react-router-dom"
 
-import PageContext from '../../Context/PageContext';
-import Paginator from '../../components/Paginator/Paginator';
+import PageContext from '../../../Context/PageContext';
+import Paginator from '../../../components/Paginator/Paginator';
 import { useEffect, useState } from "react"
-import { axiosInstance } from '../../api/config';
+import { axiosInstance } from '../../../api/config';
 
 const Search = () => {
     const [ page, setPage ] = useState(1)

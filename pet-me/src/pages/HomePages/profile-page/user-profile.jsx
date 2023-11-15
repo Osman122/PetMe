@@ -12,7 +12,7 @@ import {
 
 } from 'mdb-react-ui-kit';
 import { useState,useEffect } from "react";
-import { axiosInstance } from '../../api/config';
+import { axiosInstance } from '../../../api/config';
 import { useParams } from "react-router-dom";
 
 

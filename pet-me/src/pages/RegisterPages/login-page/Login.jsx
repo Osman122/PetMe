@@ -93,7 +93,7 @@ const Login = () => {
                         <div className="form-group mt-4">
 
                         </div>
-                        <Input  
+                        {/* <Input  
                             {...email_validation}
                             type="email" name="email"
                             label="Email address" className="form-control border-start-0 shadow-none"
@@ -106,7 +106,7 @@ const Login = () => {
                         label = "Password" className="form-control shadow-none"
                         id="password" style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}
                         placeholder="Password"
-                        />
+                        /> */}
                         <p className="mt-2 text-center">Forgot password? <Link to="/password-reset" style={{ color: "#BF7245", textDecoration: "none" }}>Restore Password</Link></p>
                         <div className="mt-3">
                             <button style={{ width: "100%", backgroundColor: "#BF7245" }} 
@@ -131,6 +131,3 @@ const Login = () => {
     };
 
 export default Login;
-
-
-

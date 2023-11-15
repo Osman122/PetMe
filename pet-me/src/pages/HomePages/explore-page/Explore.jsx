@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import ExploreCard from "../../components/explore/ExploreCard";
+import ExploreCard from "../../../components/explore/ExploreCard";
 import Form from 'react-bootstrap/Form';
-import { axiosInstance } from '../../api/config';
-import PageContext from '../../Context/PageContext';
-import Paginator from '../../components/Paginator/Paginator'
+import { axiosInstance } from '../../../api/config';
+import PageContext from '../../../Context/PageContext';
+import Paginator from '../../../components/Paginator/Paginator'
 
 const Explore = () => {
     const [ type , setType ] = useState('')

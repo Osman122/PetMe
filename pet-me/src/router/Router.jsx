@@ -3,9 +3,8 @@ import { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import Loader from "../components/Loader/Loader"
 
-// const RegisterPagesRouter =React.lazy(() => import('./RegisterPagesRouter'));
-const HomeRouter =React.lazy(() => import('./HomeRouter'));
-const RegisterPagesRouter =React.lazy(() => import('./RegisterPagesRouter'));
+const RegisterPagesTemplate =React.lazy(() => import('../pages/RegisterPages/RegisterPagesTemplate'));
+const HomePagesTemplate =React.lazy(() => import('../pages/HomePages/HomePagesTemplate'));
 
 const Login =React.lazy(() => import('../pages/RegisterPages/login-page/Login'));
 const Signup =React.lazy(() => import('../pages/RegisterPages/signup-page/Signup'));
@@ -16,25 +15,25 @@ const PasswordResetPage =React.lazy(() => import('../pages/RegisterPages/login-p
 const PasswordResetConfirmPage =React.lazy(() => import('../pages/RegisterPages/login-page/PasswordResetConfirmPage'));
 const ResendMail =React.lazy(() => import('../pages/RegisterPages/signup-page/ResendMail'));
 
-const Home =React.lazy(() => import('../pages/home-page/Home'));
-const About =React.lazy(() => import('../pages/about-page/About'));
-const Explore =React.lazy(() => import('../pages/explore-page/Explore'));
-const PetInfo =React.lazy(() => import('../pages/petinfo-page/PetInfo'));
-const Profile =React.lazy(() => import('../pages/profile-page/Profile'));
-const UserProfile =React.lazy(() => import('../pages/profile-page/user-profile'));
-const Chat =React.lazy(() => import('../pages/Chat/Chat'));
-const PageNotFound =React.lazy(() => import('../pages/notfound-page/PageNotFound'));
-const Offer =React.lazy(() => import('../pages/Offer-page/OfferPage'));
-const AddOffer =React.lazy(() => import('../pages/addoffer-page/Addoffer'));
-const AddPet =React.lazy(() => import('../pages/addpet-page/Addpet'));
-const EditPet =React.lazy(() => import('../pages/editpet-page/Editpet'));
-const SearchPage =React.lazy(() => import('../pages/search-page/Search.jsx'));
+const Home =React.lazy(() => import('../pages/HomePages/home-page/Home'));
+const About =React.lazy(() => import('../pages/HomePages/about-page/About'));
+const Explore =React.lazy(() => import('../pages/HomePages/explore-page/Explore'));
+const PetInfo =React.lazy(() => import('../pages/HomePages/petinfo-page/PetInfo'));
+const Profile =React.lazy(() => import('../pages/HomePages/profile-page/Profile'));
+const UserProfile =React.lazy(() => import('../pages/HomePages/profile-page/user-profile'));
+const Chat =React.lazy(() => import('../pages/HomePages/Chat/Chat'));
+const PageNotFound =React.lazy(() => import('../pages/HomePages/notfound-page/PageNotFound'));
+const Offer =React.lazy(() => import('../pages/HomePages/Offer-page/OfferPage'));
+const AddOffer =React.lazy(() => import('../pages/HomePages/addoffer-page/Addoffer'));
+const AddPet =React.lazy(() => import('../pages/HomePages/addpet-page/Addpet'));
+const EditPet =React.lazy(() => import('../pages/HomePages/editpet-page/Editpet'));
+const SearchPage =React.lazy(() => import('../pages/HomePages/search-page/Search.jsx'));
 
 const Router = () => {
     return ( 
     <Suspense fallback={<Loader />}>
         <Routes>
-            <Route path="register" element={<RegisterPagesRouter />}>
+            <Route path="register" element={<RegisterPagesTemplate />}>
                 <Route path="login" element={<Login />}/>
                 <Route path="signup" element={<Signup />}/>
                 <Route path="signup/success" element={<SignupSuccess />}/>
@@ -45,26 +44,20 @@ const Router = () => {
                 <Route path="password-reset/:uid/:token" element={<PasswordResetConfirmPage />}/>
             </Route>
 
-            <Route path="" element={<HomeRouter />}>
-                    {/* These pages are completely functional with api integration */}
-                    <Route path="explore" element={<Explore />}/>
-                    {/*  */}
-
-                    {/* Partially Done */}
-                    <Route path="" element={<Home />}/>
-
-                    {/* These pages are not */}
-                    <Route path="about" element={<About />}/>
-                    <Route path="petinfo" element={<PetInfo />}/>
-                    <Route path="profile/:id" element={<Profile />}/>
-                    <Route path="offers/:id" element={<Offer />}/>
-                    <Route path="search" element={<SearchPage />}/>
-                    <Route path="userprofile/:id" element={<UserProfile />}/>
-                    <Route path="addoffer" element={<AddOffer />}/>
-                    <Route path="addpet" element={<AddPet />}/>
-                    <Route path="editpet/:id" element={<EditPet />}/>
-                    <Route path="chats" element={<Chat />}/>
-                    <Route path="*" element={<PageNotFound />}/>
+            <Route path="/" element={<HomePagesTemplate />}>
+                <Route index={true} element={<Home />}/>
+                <Route path="explore" element={<Explore />}/>
+                <Route path="about" element={<About />}/>
+                <Route path="petinfo" element={<PetInfo />}/>
+                <Route path="profile/:id" element={<Profile />}/>
+                <Route path="offers/:id" element={<Offer />}/>
+                <Route path="search" element={<SearchPage />}/>
+                <Route path="userprofile/:id" element={<UserProfile />}/>
+                <Route path="addoffer" element={<AddOffer />}/>
+                <Route path="addpet" element={<AddPet />}/>
+                <Route path="editpet/:id" element={<EditPet />}/>
+                <Route path="chats" element={<Chat />}/>
+                <Route path="*" element={<PageNotFound />}/>
             </Route>
         </Routes>
     </Suspense>

@@ -1,5 +1,5 @@
 import React from 'react'
-import hinata from '../../assets/images/hinata.jpeg'
+import hinata from '../../../assets/images/hinata.jpeg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faUser, faVolumeXmark } from '@fortawesome/free-solid-svg-icons'
 

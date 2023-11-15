@@ -1,8 +1,8 @@
-import Post from "../../components/home/Post";
-import { axiosInstance } from '../../api/config';
+import Post from "../../../components/home/Post";
+import { axiosInstance } from '../../../api/config';
 import { useState, useEffect } from "react";
-import PageContext from '../../Context/PageContext';
-import Paginator from '../../components/Paginator/Paginator'
+import PageContext from '../../../Context/PageContext';
+import Paginator from '../../../components/Paginator/Paginator'
 
 
 const Home = () => {

@@ -13,8 +13,9 @@ import {
 } from 'mdb-react-ui-kit';
 import { useState,useEffect } from "react";
 import { axiosInstance } from '../../../api/config';
-import { useParams } from "react-router-dom";
-
+import { Link, useParams } from "react-router-dom";
+import Chat from '../Chat/Chat';
+// import Chat from '../../HomePages/Chat/Chat'
 
 function UserProfile() {
     const { id } = useParams();
@@ -53,8 +54,11 @@ function UserProfile() {
                 <p className="text-muted mb-1">{usrData.first_name}</p>
                 <p className="text-muted mb-4">{usrData.date_joined}</p>
                 <div className="d-flex justify-content-center mb-2">
-                  <btn className="btn" style={{backgroundColor:"#BF7245"}}>Message</btn>
+                <Link to='/Chats'>
+                   <btn className="btn" style={{backgroundColor:"#BF7245"}}>Message</btn>
                   
+                </Link>
+                 
                 </div>
               </MDBCardBody>
             </MDBCard>

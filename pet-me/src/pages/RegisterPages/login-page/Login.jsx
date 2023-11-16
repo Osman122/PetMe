@@ -2,6 +2,7 @@ import Cookies from 'js-cookie';
 import Facebook from '../../../assets/images/Facebook.png'
 import Github from '../../../assets/images/Github.png'
 import Google from '../../../assets/images/Google.png'
+import logo from '../../../assets/images/Logo.png'
 
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,7 +14,6 @@ import Alert from 'react-bootstrap/Alert';
 import { axiosInstance } from '../../../api/config';
 import {setCurrUser} from '../../../store/Slices/UserSlice'
 import { Input } from '../../../components/form'
-import logo from '../../../assets/images/Logo.png'
 
 import { useSearchParams } from 'react-router-dom';
 import qs from 'qs';
@@ -34,14 +34,10 @@ const Login = () => {
 
     const socialAuth = (provider) => {
         let redirect = window.location.origin + `/register/social/complete/${provider}/`
-        console.log(redirect)
 
         axiosInstance.get(`/accounts/o/${provider}/`,{ params: { redirect_uri: redirect } }).then((res)=>{
             window.location.replace(res.data['authorization_url'])
         }).catch(error => console.log(error))
-
-
-        
     }
 
     const fetchUserInfo = () => {
@@ -70,13 +66,20 @@ const Login = () => {
                 return authenticate()
 
             }).catch((err)=>{
-                if (err.response.status === 401) {
-                    setFail("Credentials are incorrect.")
+                try {
+                    if (err.response.status === 401) {
+                        setFail("Credentials are incorrect.")
+                    } else {
+                        setFail(Object.values(err.response.data))
+                    }
+                    setTimeout(()=>{
+                        setFail(false)
+                    },3000)
+                    
+                } catch (error) {
+                    console.log(error)
                 }
-                setTimeout(()=>{
-                    setFail(false)
-                },3000)
-
+                
             })
         }
         
@@ -108,7 +111,7 @@ const Login = () => {
 
                     <FormProvider {...methods}>
                     <form onSubmit={e => e.preventDefault()}
-                    noValidate className='mt-4 py-2 position-relative'>
+                    noValidate className='mt-3 position-relative'>
                         {fail && fail!=="load" && (
                             <Alert key='danger' variant='danger'>
                                 {fail}
@@ -118,17 +121,15 @@ const Login = () => {
                         <Input  
                             {...email_validation}
                             type="email" name="email"
-                            label="Email" className="form-control border-start-0 shadow-none ps-3"
-                            id="email" placeholder="Write Your Email"
-                            style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}
-                        />
+                            label="Email" className="form-control ps-3" id="email" placeholder="Write Your Email"
+                            style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}/>
+                        
                         <Input 
                         {...password_validation}
-                        type="password" name="password"
-                        label = "Password" className="form-control shadow-none ps-3"
+                        type="password" name="password" label = "Password" className="form-control ps-3"
                         id="password" style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}
-                        placeholder="Write Your Password"
-                        />
+                        placeholder="Write Your Password"/>
+
                         <div class="d-flex flex-row-reverse">
                             <Link className="mt-2 text-info" to="/register/password-reset" 
                             style={{ color: "#BF7245", textDecoration: "none" }}>Forgot Your Password?</Link>
@@ -141,7 +142,7 @@ const Login = () => {
                             spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...</>:<>Login</>}
                             </button>
                         </div>
-                        <div class="divider d-flex align-items-center my-3">
+                        <div class="divider d-flex align-items-center mt-3 mb-2">
                             <p class="text-center mx-3 mb-0">OR</p>
                         </div>
                         <div className="brands d-flex justify-content-center mb-3">
@@ -150,7 +151,7 @@ const Login = () => {
                             <img onClick={()=>socialAuth('google-oauth2')} src={Google} alt="Google" />
                         </div>
 
-                        <p className="text-center ">Don't have an account? <Link to="/register/signup" className='text-primary' style={{ textDecoration: "none" }}>Signup</Link></p>
+                        <p className="text-center p-0">Don't have an account? <Link to="/register/signup" className='text-primary' style={{ textDecoration: "none" }}>Signup</Link></p>
 
                     </form>
                     </FormProvider>

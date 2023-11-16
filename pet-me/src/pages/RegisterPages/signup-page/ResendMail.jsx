@@ -8,6 +8,9 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { axiosInstance } from '../../../api/config';
 import Alert from 'react-bootstrap/Alert';
 import { Input } from '../../../components/form'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 
 import {
     email_validation,
@@ -24,72 +27,63 @@ const ResendMail = () => {
     },[])
 
     const onSubmit = methods.handleSubmit(data => {
-        document.querySelector('button.login').innerHTML = `  <span class="spinner-border 
-        spinner-border-sm me-2" role="status" aria-hidden="true"></span>Sending...`
-
+        setFail("load")
         axiosInstance.post(`/accounts/users/resend_activation/`,data).then(res => {
-              methods.reset()
-              setFail(false)
-              navigate('/login')
-  
-          }).catch((err)=>{
-            document.querySelector('button.login').innerHTML = 'Login'
-
-            if (err.response.status === 403) {
-              setFail("Already sent! Try again later.")
-            } else {
-                setFail(Object.values(err.response.data))
-            }
+            methods.reset()
+            navigate('/register/signup/success')
+        }).catch((err)=>{
+            setFail("An error! Try again later.")
             setTimeout(()=>{setFail(false)},3000)
           })
       })
 
     return <>
-        <div className="container">
-            <div className="midscreen">
-                <div className='d-flex flex-column align-items-center p-5' style={{color:"#8c594d"}}>
-                    <img src={logo} alt='logo' style={{height:"40px"}}/>
-                    <img src={emailsent} alt='emailsent' style={{height:"300px"}}/>
-
-                    <FormProvider {...methods}>
-                    <form onSubmit={e => e.preventDefault()} noValidate autoComplete="off">
-                        <div className="text-center mb-4 mt-5">
-                        </div>
-                        {fail && (
-                            <>{fail.map((error)=>{
-                                    return <Alert key='danger' variant='danger'>
-                                        {error}
-                                    </Alert>
-                                })}</>
-                            
-                        )}
-                        <div className="form-group mt-4">
-                        <Input  
-                            {...email_validation}
-                            type="email"
-                            name="email"
-                            label="Email address"
-                            className="form-control"
-                            id="email"
-                            style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}
-                            placeholder="Email"
-                        />
-                        </div>
-                        <div className="mt-3">
-                            <button style={{ width: "100%", backgroundColor: "#BF7245" }} 
-                                type="button" className="btn text-white login fs-5" onClick={onSubmit}>
-                            Resend Verification Mail!
-                            </button>
-
-                        </div>
-
-                    </form>
-                </FormProvider>
+        <section>
+        <div className="midscreen container d-flex justify-content-center align-items-center">
+            <div className="register-card" style={{minHeight:"30vh", height:"30%"}}>
+                <div className="text-center">
+                    <Link to="/" className="mx-auto my-3"><img src={logo} alt='logo' style={{height:"40px"}}/></Link>
+                    <p className='fs-6 mt-3' style={{textTransform:'capitalize'}}>We'll send you and email with a link</p>
                 </div>
                 
+                <FormProvider {...methods}>
+                <form onSubmit={e => e.preventDefault()}
+                noValidate className='mt-3 position-relative reset-form'>
+                    {fail && fail !== "load" && (<>
+                        <Alert key='danger' variant='danger'>
+                            {fail}
+                        </Alert>
+                        <div className="pt-5"></div></>
+                        
+                    )}
+                    
+                    <Input  
+                        {...email_validation}
+                        type="email"
+                        name="email"
+                        label="Email address"
+                        className="form-control"
+                        id="email"
+                        style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}
+                        placeholder="Email"
+                    />
+                    
+                    <div className="mt-4 pt-2">
+                        <button style={{ width: "100%", height:'56px', borderRadius:'16px'}} 
+                            type="submit" className="btn bg-primary text-white p-2 fw-semibold fs-4" onClick={onSubmit}>
+                        {fail==="load"?<><span class="spinner-border 
+                        spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...</>:<>Resend Email</>}
+                        </button>
+                    </div>
 
+
+                </form>
+                <p className="text-center mt-3">Back to <Link to="/register/login" className='text-primary' style={{ textDecoration: "none" }}>Login</Link> Page</p>
+
+                </FormProvider>
             </div>
         </div>
+        </section>     
     </>
 }
 

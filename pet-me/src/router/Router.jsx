@@ -11,7 +11,6 @@ const SocialLoginAuth =React.lazy(() => import('../pages/RegisterPages/login-pag
 const Signup =React.lazy(() => import('../pages/RegisterPages/signup-page/Signup'));
 const SignupSuccess =React.lazy(() => import('../pages/RegisterPages/signup-page/SignupSuccess'));
 const ActivateMailPage =React.lazy(() => import('../pages/RegisterPages/signup-page/ActivateMailPage'));
-const MailActivated =React.lazy(() => import('../pages/RegisterPages/signup-page/MailActivated'));
 const PasswordResetPage =React.lazy(() => import('../pages/RegisterPages/login-page/PasswordResetPage'));
 const PasswordResetConfirmPage =React.lazy(() => import('../pages/RegisterPages/login-page/PasswordResetConfirmPage'));
 const ResendMail =React.lazy(() => import('../pages/RegisterPages/signup-page/ResendMail'));
@@ -40,8 +39,7 @@ const Router = () => {
                 <Route path="signup" element={<Signup />}/>
                 <Route path="signup/success" element={<SignupSuccess />}/>
                 <Route path="signup/resendmail" element={<ResendMail />}/>
-                <Route path="signup/mailactivated" element={<MailActivated />}/>
-                <Route path="accounts/users/activate/:uid/:token" element={<ActivateMailPage />}/>
+                <Route path="activate/:uid/:token" element={<ActivateMailPage />}/>
                 <Route path="password-reset" element={<PasswordResetPage />}/>
                 <Route path="password-reset/:uid/:token" element={<PasswordResetConfirmPage />}/>
             </Route>

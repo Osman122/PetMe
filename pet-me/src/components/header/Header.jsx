@@ -127,7 +127,7 @@ function Header() {
         <Link to={`/userprofile/${currentUser.id}`} className="mx-lg-2">
           <img class="rounded-circle shadow-1-strong me-3"
               src={`${currentUser.picture}`} alt="avatar" width="30"
-              height="30" />  
+              height="30"/>  
         </Link>
 
         <Link to="/" className="ms-3 text-primary text-decoration-none fw-bold" onClick={logout}>

@@ -1,8 +1,12 @@
 
 .navbar {
-    background-color: #D9C9BA;
-    height: 60px;
-    
+    background-color: #FCFCFC;
+    height: 70px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.06);
+}
+
+.main {
+    background: #FAFAFA;
 }
 
 .chat-icon{

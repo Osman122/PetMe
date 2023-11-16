@@ -41,8 +41,8 @@ export const Input = ({
       <div class="input-group">
         
         { type==="email" ? 
-          <span class="input-group-text border-0 bg-transparent" id="basic-addon1"><FontAwesomeIcon icon={faEnvelope} /></span>
-          : type === "password" ? <><span class="input-group-text border-0 bg-transparent" id="basic-addon1"><FontAwesomeIcon icon={faLock} /></span>
+          <span class="input-group-text border-0 bg-transparent me-3" id="basic-addon1"><FontAwesomeIcon icon={faEnvelope} /></span>
+          : type === "password" ? <><span class="input-group-text border-0 bg-transparent me-3" id="basic-addon1"><FontAwesomeIcon icon={faLock} /></span>
           </>:<></>
         }
         <input  

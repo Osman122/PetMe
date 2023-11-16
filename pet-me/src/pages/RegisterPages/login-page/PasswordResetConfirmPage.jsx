@@ -1,5 +1,6 @@
 import logo from '../../../assets/images/Logo.png'
 import emailsent from '../../../assets/images/emailsent.png'
+import { Link } from 'react-router-dom';
 
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -28,8 +29,7 @@ const PasswordResetPage = () => {
     },[synced])
 
     const onSubmit = methods.handleSubmit(data => {
-        document.querySelector('button.reset').innerHTML = `  <span class="spinner-border 
-        spinner-border-sm me-2" role="status" aria-hidden="true"></span>Sending...`
+        setFail('load')
 
         axiosInstance.post(`/accounts/users/reset_password_confirm/`,{...data,'uid':uid,'token':token}).then(res => {
               methods.reset()
@@ -37,41 +37,36 @@ const PasswordResetPage = () => {
               document.querySelector('form.reset-form').innerHTML = `<h3>Password Changed Successfully!</h3>
               <p className='text-center py-3'>You may now login using your new credentials.</p>`
               dispatch(clearCurrUser())
-              
 
           }).catch((err)=>{
-            document.querySelector('button.reset').innerHTML = 'Send Password Reset Link!'
+            console.log(err)
+            setFail("An error happened! Try again.")
 
-            if (err.response.status === 403) {
-              setFail("Already sent! Try again later.")
-            } else {
-                setFail(Object.values(err.response.data))
-            }
             setTimeout(()=>{setFail(false)},3000)
           })
           
       })
 
     return <>
-        <div className="container">
-            <div className="midscreen">
-                <div className='d-flex flex-column align-items-center p-5' style={{color:"#8c594d"}}>
-                    <img src={logo} alt='logo' style={{height:"40px"}}/>
-                    <img src={emailsent} alt='emailsent' style={{height:"300px"}}/>
+        <section>
+            <div className="midscreen container d-flex justify-content-center align-items-center">
+                <div className="register-card" style={{minHeight:"60vh", height:"60vh"}}>
+                    <div className="text-center">
+                        <Link to="/" className="mx-auto my-3"><img src={logo} alt='logo' style={{height:"40px"}}/></Link>
+                        <p className='fs-5 mt-3' style={{textTransform:'capitalize'}}>Enter a new password for your account</p>
+                    </div>
+
 
                     <FormProvider {...methods}>
-                    <form className="reset-form" onSubmit={e => e.preventDefault()} noValidate autoComplete="off">
-                        <div className="text-center mb-4 mt-5">
-                        </div>
-                        {fail && (
-                            <>{fail.map((error)=>{
-                                    return <Alert key='danger' variant='danger'>
-                                        {error}
-                                    </Alert>
-                                })}</>
+                    <form onSubmit={e => e.preventDefault()}
+                    noValidate className='mt-3 position-relative reset-form'>
+                        {fail && fail!=="load" && (
+                            <Alert key='danger' variant='danger'>
+                                {fail}
+                            </Alert>
                             
                         )}
-                        <div className="form-group mt-4">
+
                         <Input 
                             {...password_validation}
                             type="password"
@@ -82,8 +77,7 @@ const PasswordResetPage = () => {
                             style={{ borderBottom: "1px solid #BF7245", width: "100%", color: "#BF7245" }}
                             placeholder="Enter a unique strong password"
                             />
-                        </div>
-                        <div className="form-group mt-4">
+                        <div className="mt-3"></div>
                         <Input 
                             {...password_validation}
                             type="password"
@@ -102,22 +96,23 @@ const PasswordResetPage = () => {
                                 },
                                })}
                             />
-                        </div>
-                        <div className="mt-3">
-                            <button style={{ width: "100%", backgroundColor: "#BF7245" }} 
-                                type="button" className="btn text-white reset fs-5 px-5" onClick={onSubmit}>
-                            Change Password
+                        
+                        <div className="mt-4 pt-2">
+                            <button style={{ width: "100%", height:'56px', borderRadius:'16px'}} 
+                                type="submit" className="btn bg-primary text-white p-2 fw-semibold fs-4" onClick={onSubmit}>
+                            {fail==="load"?<><span class="spinner-border 
+                            spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...</>:<>Change Password</>}
                             </button>
-
                         </div>
+
+                        <p className="text-center mt-4">Back to <Link to="/register/login" className='text-primary' style={{ textDecoration: "none" }}>Login</Link> Page</p>
 
                     </form>
-                </FormProvider>
-                </div>
-                
+                    </FormProvider>
 
+                </div>
             </div>
-        </div>
+        </section>                
     </>
 }
 

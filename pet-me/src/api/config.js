@@ -35,10 +35,11 @@ axiosInstance.interceptors.response.use(function (response) {
 }, function (error) {
     console.log(error)
     if ((error.response.status < 500) && !(error.config.url.includes('accounts'))) {
-        document.getElementById("fail-auth").hidden = false;
-        document.getElementById("fail-auth").innerText = error.response.data
+        let alert = document.getElementById("fail")
+        alert.hidden = false;
+        alert.lastChild.innerText = error.response.data
         setTimeout(() => {
-            document.getElementById("fail-auth").hidden = true;
+            document.getElementById("fail").hidden = true;
         }, 3000);
     }
     return Promise.reject(error);

@@ -14,8 +14,12 @@ function App() {
 
       <Router />
 
-      <Alert id="fail-auth" variant="danger" className="m-2" hidden={true} dismissible></Alert>
-      
+      <Alert id="fail" variant="danger" className="m-2 float" hidden={true} dismissible>
+        <p>message</p>
+      </Alert>
+      <Alert id="success" variant="success" className="m-2 float" hidden={true} dismissible>
+        <p>message</p>
+      </Alert>
     </BrowserRouter>
   );
 }

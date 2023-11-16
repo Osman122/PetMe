@@ -8,16 +8,16 @@
 }
 
 .btn-primary {
-    background-color: var(--primary);
-    color: white;
-    border-color: var(--primary);
+    background-color: var(--primary) !important;
+    color: white !important;
+    border-color: var(--primary) !important;
 }
 
 .btn-primary:hover {
-    background-color: var(--primary);
+    background-color: var(--primary) !important;
     opacity: 90%;
-    color: white;
-    border-color: var(--primary);
+    color: white !important;
+    border-color: var(--primary) !important;
 }
 
 .bg-primary {
@@ -47,15 +47,18 @@
     min-height: 100vh;
 }
 
-#fail-auth {
-    height: 80px;
+.alert.float {
     position: fixed;
+    top: 10%;
     left: 50%;
     transform: translateX(-50%);
-    top: 75px;
-    min-width: 400px;
     opacity: 0.9;
     text-align: center;
+    height: 50px;
+    line-height: 50px;
+    padding: 0;
+    min-width: 400px;
+    z-index: 10000;
 }
 
 form input {

@@ -18,13 +18,33 @@ const Offer = ({ offerId }) => {
     }
 
     const sendRequest = (e) => {
-        e.target.disabled = true
-        let message = "Hi, I want to adopt max"
+        e.preventDefault()
+        let message = e.target.querySelector('textarea').value
+
         axiosInstance.post(`/offers/${offerData.id}/requests/`,{message:message}).then(()=>{
-            e.target.innerHTML = "Request Sent"
-            e.target.classList.remove('btn-primary')
-            
-        }).catch(e => console.log(e))
+            let alert = document.getElementById('success')
+            alert.lastChild.innerText = "Request Sent Successfully."
+            document.getElementById('closeModal').click()
+            alert.hidden = false
+            setTimeout(()=>{
+                document.getElementById('success').hidden = true
+            },3000)
+
+        }).catch(e => {
+            console.log(e)
+            let alert = document.getElementById('fail')
+            alert.lastChild.innerText = "Something went wrong!."
+            alert.hidden = false
+            setTimeout(()=>{
+                document.getElementById('fail').hidden = true
+            },3000)
+
+        })
+
+        console.log(alert)
+        
+
+
     }
 
     const fetchOfferData = async () => {
@@ -56,7 +76,7 @@ const Offer = ({ offerId }) => {
                         </div>
                     </div>
 
-                    <div className="col-12 col-md-6 p-0 m-0 ps-4 d-flex flex-column" style={{height:"85vh"}}>
+                    <div className="col-12 col-md-6 p-0 m-0 ps-4 d-flex flex-column position-relative" style={{height:"85vh"}}>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="/" className='text-decoration-none text-muted'>Home</a></li>
@@ -67,7 +87,7 @@ const Offer = ({ offerId }) => {
 
                         <div className='offer-info-card flex-grow-1 d-flex flex-column'>
                             {currentUser.id === offerData.user.id?<>
-                                <button onClick={deleteOffer} className="btn btn-outline-danger float-end">Delete Offer</button>
+                                <button style={{right:"30px"}} onClick={deleteOffer} className="btn btn-outline-danger float-end position-absolute">Delete Offer</button>
                             </>:<></>}
 
                             <h2 className='fw-bold mb-3' style={{maxWidth:"75%"}}>{offerData.pet.name} needs a new home</h2>
@@ -124,51 +144,40 @@ const Offer = ({ offerId }) => {
                             {/* Render buttons */}
                             <div className="d-flex">
 
-                                <button onClick={e=>sendRequest(e)} style={{height: "50px", borderRadius:"12px"}} type="button" className="btn btn-success mt-2 btn-primary text-light fw-bold py-2 px-3 w-100">
+                                <button style={{height: "50px", borderRadius:"12px"}} 
+                                type="button" className="btn mt-2 btn-primary text-light fw-bold py-2 px-3 w-100"
+                                data-bs-toggle="modal" data-bs-target="#exampleModal" disabled={currentUser.id === offerData.user.id}>
                                 Send Adoption Request
                                 </button>
                             </div>
                             
-                            <button type="button" class="float-end btn btn-outline-info" 
-data-bs-toggle="modal" data-bs-target="#exampleModal">Add Review</button>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Review</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form method="POST" action="{% url 'create_review' pk=projectid %}">
-          <div class="mb-3">    
-            <label for="recipient-name" class="col-form-label">Rate:</label>
-            <div class="rating"> 
-
-                <input type="radio" name="rate" value="1" id="1" checked/><label for="1">☆</label>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="message-text" class="col-form-label">Message:</label>
-            <textarea name="review" class="form-control" id="message-text" required></textarea>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Send Review</button>
-          </div>
-          
-        </form>
-      </div>
-
-    </div>
-  </div>
-</div>
-
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Send adoption request</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" onSubmit={e=>sendRequest(e)}>
+                                    <div class="mb-3">
+                                        <label for="message-text" class="col-form-label">Message:</label>
+                                        <textarea minLength={30} name="review" class="form-control" id="message-text" required></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button id="closeModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Send Review</button>
+                                    </div>
+                                    
+                                    </form>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
 
 
 
                         </div>
-
                     </div>
                 </div>
                 )}

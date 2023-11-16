@@ -92,7 +92,7 @@ const Offer = ({ offerId }) => {
 
                             <h2 className='fw-bold mb-3' style={{maxWidth:"75%"}}>{offerData.pet.name} needs a new home</h2>
                             <div className='d-flex justify-content-between align-items-center'>
-                                <Link to={`/userprofile/${offerData.user.id}`} className='text-decoration-none align-items-center d-flex'>
+                                <Link to={`/profile/${offerData.user.id}`} className='text-decoration-none align-items-center d-flex'>
                                     <img class="rounded-circle shadow-1-strong"
                                         src={`${offerData.user.picture}`} alt="avatar" width="40"
                                         height="40"/>

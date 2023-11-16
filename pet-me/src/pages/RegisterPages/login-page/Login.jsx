@@ -38,17 +38,13 @@ const Login = () => {
 
         axiosInstance.get(`/accounts/o/${provider}/`,{ params: { redirect_uri: redirect } }).then((res)=>{
             window.location.replace(res.data['authorization_url'])
-        }).catch(error => console.log(error))
-
-
-        
+        }).catch(error => console.log(error))   
     }
-
     const fetchUserInfo = () => {
         axiosInstance.get('/accounts/users/me/').then(res => {
             dispatch(setCurrUser(res.data))
             navigate('/')
-        })
+        }).catch(e=>console.log(e))
     }
 
     const authenticate = (data) => {

@@ -13,13 +13,17 @@ import {
 } from 'mdb-react-ui-kit';
 import { useState,useEffect } from "react";
 import { axiosInstance } from '../../../api/config';
-import { Link, useParams } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { Button } from 'react-bootstrap';
+import {clearCurrUser, setCurrUser} from '../../../store/Slices/UserSlice'
 
 
 function UserProfile() {
     const { id } = useParams();
     const { synced, currentUser } = useSelector(state => state.currentUser);
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const [ usrData , setUserData ] = useState(null);
       
@@ -32,7 +36,34 @@ function UserProfile() {
     }
     useEffect(()=>{
       getUserData();
-    },[]);
+    },[id]);
+
+    const deleteAccount = (e) => {
+        e.preventDefault()
+
+        let password = e.target.querySelector('input').value
+
+        axiosInstance.delete(`/accounts/users/me/`,{password:password}).then(()=>{
+          dispatch(clearCurrUser)
+          navigate('/')
+        }).catch(e => {
+            console.log(e)
+            let alert = document.getElementById('fail')
+            alert.lastChild.innerText = "Something went wrong!."
+            alert.hidden = false
+            setTimeout(()=>{
+                document.getElementById('fail').hidden = true
+            },3000)
+
+        })
+
+        console.log(alert)
+        
+
+
+    
+
+    }
 
     return usrData?  (
     <section style={{ backgroundColor: '#eee' }}>
@@ -47,16 +78,39 @@ function UserProfile() {
                   src= {usrData.picture}
                   alt="avatar"
                   className="rounded-circle"
-                  style={{ width: '150px' }}
+                  style={{ width: '150px', height: '150px' }}
                   fluid />
                 <p className="text-muted mb-1">{usrData.first_name}</p>
                 <p className="text-muted mb-4">{usrData.date_joined}</p>
                 <div className="d-flex justify-content-center mb-2">
-                {synced? currentUser.id == id ? <Link to="/profile/edit" className="btn outline-primary">Edit Profile</Link>:<button className="btn outline-primary">Message</button>:<></>}
-                <Link to='/Chats'>
-                   <btn className="btn" style={{backgroundColor:"#BF7245"}}>Message</btn>
-                  
-                </Link>
+                {synced? currentUser.id == id ? <><Link to="/profile/edit" className="btn outline-primary me-3">Edit Profile</Link>
+                <Button variant='outline-danger' data-bs-toggle="modal" data-bs-target="#exampleModal">Delete Account</Button>
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Careful! You are going to delete your data</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" onSubmit={e=>deleteAccount(e)}>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Enter your password for confirmation:</label>
+                            <input name="password" type='password' class="form-control border " id="password" required></input>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="closeModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-danger">Delete Account</button>
+                        </div>
+                        
+                        </form>
+                    </div>
+                    </div>
+                </div>
+                </div></>
+
+                :<button className="btn outline-primary">Message</button>:<></>}
                  
                 </div>
               </MDBCardBody>

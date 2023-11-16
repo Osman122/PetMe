@@ -36,7 +36,7 @@ axiosInstance.interceptors.response.use(function (response) {
     console.log(error)
     if ((error.response.status < 500) && !(error.config.url.includes('accounts'))) {
         document.getElementById("fail-auth").hidden = false;
-        document.getElementById("fail-auth").innerText = error.response.data.detail
+        document.getElementById("fail-auth").innerText = error.response.data
         setTimeout(() => {
             document.getElementById("fail-auth").hidden = true;
         }, 3000);

@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaw, faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { faPaw, } from "@fortawesome/free-solid-svg-icons";
 import { useState,useEffect } from "react";
 import { axiosInstance } from '../../../api/config';
 import { useParams } from "react-router-dom";

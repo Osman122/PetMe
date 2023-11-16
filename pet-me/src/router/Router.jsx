@@ -26,7 +26,6 @@ const UserProfile =React.lazy(() => import('../pages/HomePages/profile-page/user
 const Chat =React.lazy(() => import('../pages/HomePages/Chat/Chat'));
 const PageNotFound =React.lazy(() => import('../pages/HomePages/notfound-page/PageNotFound'));
 const Offer =React.lazy(() => import('../pages/HomePages/Offer-page/OfferPage'));
-const AddOffer =React.lazy(() => import('../pages/HomePages/addoffer-page/Addoffer'));
 const AddPet =React.lazy(() => import('../pages/HomePages/addpet-page/Addpet'));
 const EditPet =React.lazy(() => import('../pages/HomePages/editpet-page/Editpet'));
 const SearchPage =React.lazy(() => import('../pages/HomePages/search-page/Search.jsx'));
@@ -59,7 +58,6 @@ const Router = () => {
                 <Route path="petinfo/:id" element={<PetInfo />}/>
                 <Route path="search" element={<SearchPage />}/>
                 <Route path="profile/:id" element={<UserProfile />}/>
-                <Route path="addoffer" element={<AddOffer />}/>
                 <Route path="addpet" element={<AddPet />}/>
                 <Route path="editpet/:id" element={<EditPet />}/>
                 <Route path="chats" element={<Chat />}/>

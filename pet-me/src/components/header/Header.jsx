@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import logo from '../../../assets/images/Logo.png'
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { axiosInstance } from "../../api/config";

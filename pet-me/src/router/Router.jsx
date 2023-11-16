@@ -48,7 +48,7 @@ const Router = () => {
                 <Route index={true} element={<Home />}/>
                 <Route path="explore" element={<Explore />}/>
                 <Route path="about" element={<About />}/>
-                <Route path="petinfo" element={<PetInfo />}/>
+                <Route path="petinfo/:id" element={<PetInfo />}/>
                 <Route path="profile/:id" element={<Profile />}/>
                 <Route path="offers/:id" element={<Offer />}/>
                 <Route path="search" element={<SearchPage />}/>

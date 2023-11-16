@@ -1,11 +1,13 @@
 
-.cs-message__content {
+.cs-message__content,
+.cs-conversation-header{
     background-color: #d9c9ba48 !important;
     /* font-weight: bold !important; */
     /* color: white !important; */
 }
 
 
+.cs-search,
 .cs-search{
     background-color: #d9c9ba48 !important;
     color: #d9c9ba48 !important;
@@ -17,6 +19,7 @@
 }
 
 .scrollbar-container.cs-message-input__content-editor-container.ps,
+/* .cs-conversation-header__content , */
 .cs-message-input__content-editor,
 .cs-search__input {
     background-color: #d9c9ba00 !important;
@@ -27,6 +30,15 @@
 .cs-button.cs-button--attachment,
 .svg-inline--fa.fa-search.fa-w-16.cs-search__search-icon,
 .svg-inline--fa.fa-phone-alt.fa-w-16 ,
-.svg-inline--fa.fa-video.fa-w-18  {
+.svg-inline--fa.fa-video.fa-w-18 ,
+.cs-typing-indicator__indicator,
+.cs-typing-indicator__dot,
+.cs-typing-indicator__text,
+.cs-button.cs-button--send {
     color: #8c594d !important;
+}
+
+
+.cs-message-list__typing-indicator-container {
+    height: 30vw !important; 
 }

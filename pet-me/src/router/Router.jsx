@@ -2,6 +2,7 @@ import React from "react";
 import { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import Loader from "../components/Loader/Loader"
+// import { ChatProvider } from "../pages/HomePages/Chat/ChatProvider.jsx";
 
 const RegisterPagesTemplate =React.lazy(() => import('../pages/RegisterPages/RegisterPagesTemplate'));
 const HomePagesTemplate =React.lazy(() => import('../pages/HomePages/HomePagesTemplate'));

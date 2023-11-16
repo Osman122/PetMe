@@ -74,7 +74,7 @@ const About = () => {
                 
                     <Fade right>
                     <div className="whoweare section container mb-5" style={{ boxShadow: "#8c594d52 1px 20px 11px 0px", padding:"2rem", height:"20vw", textAlign:"center"}}>
-                    <h1>Who We Are</h1>        
+                    <h1 className="mb-5">Who We Are</h1>        
                     <p style={{color:"gray"}}>
                     Pet Me is a non-profit organization that provides free and low-cost technology services to the animal welfare community. RescueGroups.org is an unaffiliated, volunteer-driven, non-competitive organization that wants to work with like-minded organizations to help animal welfare organizations, volunteers and pets.
                     </p>
@@ -83,7 +83,7 @@ const About = () => {
 
                 <Fade top>
                <div className="mission section mb-5 my-5" style={{ boxShadow: "#8c594d52 1px 20px 11px 0px", padding:"2rem"}}>
-               <h2 style={{textAlign:"center"}}>Our Mission And Values :</h2>
+               <h2 style={{textAlign:"center"}}  className="mb-5">Our Mission And Values :</h2>
         
                     <p style={{color:"gray"}}>
                     <FontAwesomeIcon icon={faCheck} style={{color: "#8e4501"}} />

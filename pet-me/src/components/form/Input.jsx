@@ -15,7 +15,6 @@ export const Input = ({
   id,
   placeholder,
   validation,
-  multiline,
   className,
 }) => {
   const {

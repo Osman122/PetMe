@@ -13,28 +13,26 @@ import {
 } from 'mdb-react-ui-kit';
 import { useState,useEffect } from "react";
 import { axiosInstance } from '../../../api/config';
-import { useParams } from "react-router-dom";
-
+import { Link, useParams } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 function UserProfile() {
     const { id } = useParams();
+    const { synced, currentUser } = useSelector(state => state.currentUser);
+
     const [ usrData , setUserData ] = useState(null);
       
     const getUserData  = () => {
       axiosInstance.get(`/accounts/users/${id}/`)
       .then((res) => { 
         setUserData(res.data)
-        
     })
       .catch((err) => console.log("osssssss",id,err));
-        
-    
     }
     useEffect(()=>{
       getUserData();
-      
-      
-    },[]);    
+    },[]);
+
     return usrData?  (
     <section style={{ backgroundColor: '#eee' }}>
       <MDBContainer className="py-5">
@@ -53,8 +51,7 @@ function UserProfile() {
                 <p className="text-muted mb-1">{usrData.first_name}</p>
                 <p className="text-muted mb-4">{usrData.date_joined}</p>
                 <div className="d-flex justify-content-center mb-2">
-                  <btn className="btn" style={{backgroundColor:"#BF7245"}}>Message</btn>
-                  
+                  {synced? currentUser.id == id ? <Link to="/profile/edit" className="btn outline-primary">Edit Profile</Link>:<button className="btn outline-primary">Message</button>:<></>}
                 </div>
               </MDBCardBody>
             </MDBCard>

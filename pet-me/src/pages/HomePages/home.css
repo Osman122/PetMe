@@ -12,7 +12,7 @@
     transform: translateX(-50%);
 }
 
-.offer-info-card {
+.offer-info-card, .user-form {
     padding: 24px;
     margin: 16px 8px 8px 8px;
     border-radius: 16px;

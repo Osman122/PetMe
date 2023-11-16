@@ -118,7 +118,7 @@ function Header() {
                   <FontAwesomeIcon icon={faEnvelope} className="text-primary fw-bold fs-4"/>
               </Link>
 
-              <Link to={`/userprofile/${currentUser.id}`} className="mx-4">
+              <Link to={`/profile/${currentUser.id}`} className="mx-4">
                 <img class="rounded-circle shadow-1-strong"
                     src={`${currentUser.picture}`} alt="avatar" width="40"
                     height="40"/>  

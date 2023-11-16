@@ -29,7 +29,8 @@ axiosInstance.interceptors.request.use(function (config) {
 });
 
 
-axiosInstance.interceptors.response.use(function (response) {    
+axiosInstance.interceptors.response.use(function (response) {   
+    console.log(response)
     return response;
 
 }, function (error) {

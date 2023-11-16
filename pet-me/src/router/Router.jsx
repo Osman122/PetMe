@@ -21,7 +21,7 @@ const About =React.lazy(() => import('../pages/HomePages/about-page/About'));
 const Blog =React.lazy(() => import('../pages/HomePages/blog-page/Blog'));
 const Explore =React.lazy(() => import('../pages/HomePages/explore-page/Explore'));
 const PetInfo =React.lazy(() => import('../pages/HomePages/petinfo-page/PetInfo'));
-const Profile =React.lazy(() => import('../pages/HomePages/profile-page/Profile'));
+const EditProfile =React.lazy(() => import('../pages/HomePages/profile-page/EditProfile'));
 const UserProfile =React.lazy(() => import('../pages/HomePages/profile-page/user-profile'));
 const Chat =React.lazy(() => import('../pages/HomePages/Chat/Chat'));
 const PageNotFound =React.lazy(() => import('../pages/HomePages/notfound-page/PageNotFound'));
@@ -47,15 +47,17 @@ const Router = () => {
             </Route>
 
             <Route path="/" element={<HomePagesTemplate />}>
+                {/* Done */}
+                <Route path="offers/:id" element={<Offer />}/>
+                <Route path="profile/edit" element={<EditProfile />}/>
+
                 <Route index={true} element={<Home />}/>
                 <Route path="explore" element={<Explore />}/>
                 <Route path="blog" element={<Blog />}/>
                 <Route path="about" element={<About />}/>
                 <Route path="petinfo/:id" element={<PetInfo />}/>
-                <Route path="profile/:id" element={<Profile />}/>
-                <Route path="offers/:id" element={<Offer />}/>
                 <Route path="search" element={<SearchPage />}/>
-                <Route path="userprofile/:id" element={<UserProfile />}/>
+                <Route path="profile/:id" element={<UserProfile />}/>
                 <Route path="addoffer" element={<AddOffer />}/>
                 <Route path="addpet" element={<AddPet />}/>
                 <Route path="editpet/:id" element={<EditPet />}/>

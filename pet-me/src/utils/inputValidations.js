@@ -7,20 +7,25 @@
 *-------------------------------------------------------------------*/
 
 export const name_validation = {
-  name: 'name',
-  label: 'name',
-  type: 'text',
-  id: 'name',
-  placeholder: 'write your name ...',
   validation: {
-    required: {
-      value: true,
-      message: 'required',
-    },
     maxLength: {
       value: 30,
       message: '30 characters max',
     },
+  },
+}
+
+export const phone_validation = {
+  name: 'phone',
+  label: 'Phone',
+  type: 'text',
+  id: 'phone',
+  placeholder: 'Write your phone number ...',
+  validation: {
+    pattern: {
+      value: /^01[0125]{1}[0-9]{8}$/i,
+      message: "Phone must match Egyptian format"
+    }
   },
 }
 

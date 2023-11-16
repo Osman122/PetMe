@@ -30,6 +30,7 @@ const AddOffer =React.lazy(() => import('../pages/HomePages/addoffer-page/Addoff
 const AddPet =React.lazy(() => import('../pages/HomePages/addpet-page/Addpet'));
 const EditPet =React.lazy(() => import('../pages/HomePages/editpet-page/Editpet'));
 const SearchPage =React.lazy(() => import('../pages/HomePages/search-page/Search.jsx'));
+const AdminPanel =React.lazy(() => import('../pages/HomePages/admin-panel/AdminPanel.jsx'));
 
 const Router = () => {
     return ( 
@@ -62,6 +63,7 @@ const Router = () => {
                 <Route path="addpet" element={<AddPet />}/>
                 <Route path="editpet/:id" element={<EditPet />}/>
                 <Route path="chats" element={<Chat />}/>
+                <Route path="admin-panel" element={<AdminPanel />}/>
                 <Route path="*" element={<PageNotFound />}/>
             </Route>
         </Routes>

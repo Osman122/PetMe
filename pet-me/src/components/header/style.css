@@ -9,11 +9,6 @@
     background: #FAFAFA;
 }
 
-.chat-icon{
-    color: #8c594d;
-    font-size: 28px;
-}
-
 .navbar-brand {
     font-weight: 500;
     color: #D9C9BA;
@@ -22,7 +17,7 @@
 }
 
 .login-button {
-    background-color: #8c594d;
+    background-color: var(--primary);
     color: #fff;
     font-size: 14px;
     padding: 8px 20px;
@@ -31,8 +26,13 @@
     transition: 0.3s background-color;
 }
 
+.navbar-nav .nav-link {
+    font-size: 16px;
+    font-weight: 500;
+}
+
 .login-button:hover {
-    background-color: #8c594d;
+    background-color: var(--primary);
 }
 
 .navbar-toggler {

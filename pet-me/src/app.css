@@ -46,3 +46,14 @@
     align-items: center;
     justify-content: center;
 }
+
+form input {
+    outline: none;
+    box-shadow:none !important;
+    border:none !important;
+}
+
+form .input-group {
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    border-radius: 12px;
+}

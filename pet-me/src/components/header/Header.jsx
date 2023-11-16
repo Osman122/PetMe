@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
-import logo from '../../../assets/images/Logo.png'
+import logo from '../../assets/images/Logo.png'
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../api/config";
 import {useSelector, useDispatch} from 'react-redux'
 import {clearCurrUser, setCurrUser} from '../../store/Slices/UserSlice'
@@ -9,11 +9,14 @@ import {clearCurrUser, setCurrUser} from '../../store/Slices/UserSlice'
 import "./style.css";
 import {faMagnifyingGlass,faPaw, faComments} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
+import { Form, InputGroup } from "react-bootstrap";
 
 function Header() {
 
   const {currentUser, synced} = useSelector(state => state.currentUser)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const authenticate = () => {
     let access = Cookies.get('access')
@@ -40,6 +43,12 @@ function Header() {
     dispatch(clearCurrUser())
   }
 
+  const search = (e) => {
+    e.preventDefault()
+    let query = e.target.querySelector('input#search').value
+    navigate(`/search?search=${query}`)
+  }
+
   useEffect(() => {
     authenticate();
   }, []);
@@ -47,50 +56,34 @@ function Header() {
   return (
     <nav className="navbar navbar-expand-lg fixed-top">
       <div className="container">
-        <Link
-          to='/'
-          className="navbar-brand me-auto fw-bold"
-          style={{ color: "#8c594d" }}
-        >
-          <FontAwesomeIcon icon={faPaw} className="me-2" />
+        <Link to='/' className="navbar-brand text-primary">
+          <img src={logo} alt='logo' style={{height:"32px", marginRight:"10px"}}/>
           Pet.me
         </Link>
-        <div
-          className="offcanvas offcanvas-end"
-          tabIndex="-1"
-          id="offcanvasNavbar"
-          aria-labelledby="offcanvasNavbarLabel"
-        >
-          <div className="offcanvas-header">
-          <Link
-          to='/'
-          className="navbar-brand me-auto fw-bold"
-          style={{ color: "#8c594d" }}
-        >
-          <FontAwesomeIcon icon={faPaw} className="me-2" />
-          Pet.me
-        </Link>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close"
-            ></button>
+
+        <div className="offcanvas offcanvas-end"
+          tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <div className="offcanvas-header me-lg-2">
+          <Link to='/' className="navbar-brand text-primary">
+            <img src={logo} alt='logo' style={{height:"32px", marginRight:"10px"}}/>
+            Pet.me
+          </Link>
+          <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
-          <div className="offcanvas-body">
+
+          <div className="offcanvas-body ms-lg-5">
             <ul className="navbar-nav justify-content-center flex-grow-1 pe-3">
               <li className="nav-item">
                 <Link
                   className="nav-link mx-lg-2"
                   aria-current="page"
-                  to="/"
-                >
-                  Home
+                  to="/explore">
+                  Explore
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link mx-lg-2" to="/explore">
-                  Explore
+                <Link className="nav-link mx-lg-2" to="/blog">
+                  Blog
                 </Link>
               </li>
               <li className="nav-item">
@@ -98,51 +91,54 @@ function Header() {
                   About
                 </Link>
               </li>
-              <li className="nav-item">
-                <form className="input-group mx-lg-2">
-                  <input
-                    type="text"
-                    placeholder="Search here ..."
-                    className="form-control"
-                    id="inputGroupFile04"
-                  />
-                  <button
-                    className="btn bg-white "
-                    type="button"
-                    id="inputGroupFileAddon04"
-                  >
-                    <FontAwesomeIcon icon={faMagnifyingGlass} style={{color:'#8c594d' , fontSize:'15px'}}/>
-                  </button>
+              <li className="nav-item ms-auto me-5 d-flex align-items-center w-50 mb-5 mb-lg-0">
+                <form className="input-group mx-lg-2" onSubmit={e => search(e)}>
+                  <InputGroup className="p-1">
+                    <InputGroup.Text id="basic-addon1" className="bg-transparent border-0">
+                      <button type="submit" className="border-0 bg-transparent">
+                        <FontAwesomeIcon icon={faMagnifyingGlass} style={{color:'#8c594d' , fontSize:'18px'}}/>
+                      </button>
+                      </InputGroup.Text>
+                    <Form.Control
+                      className="p-0"
+                      type="text"
+                      placeholder="Search here ..."
+                      aria-label="Search"
+                      id="search"
+                      aria-describedby="basic-addon1"
+                    />
+                  </InputGroup>
                 </form>
               </li>
-              {/* Hide when user not logged in */}
-              <li className="nav-item ms-3">
-                <Link className="nav-link mx-lg-2 fs-4 p-0 m-0" to="/chats">
-                  <FontAwesomeIcon icon={faComments} style={{color:'#8c594d'}}/></Link>
-              </li>
             </ul>
+
+            <div className="d-flex align-items-center justify-content-between">
+              {synced? <> 
+              <Link to="/chats">
+                  <FontAwesomeIcon icon={faEnvelope} className="text-primary fw-bold fs-4"/>
+              </Link>
+
+              <Link to={`/userprofile/${currentUser.id}`} className="mx-4">
+                <img class="rounded-circle shadow-1-strong"
+                    src={`${currentUser.picture}`} alt="avatar" width="40"
+                    height="40"/>  
+              </Link>
+
+              <Link to="/" className="text-primary text-decoration-none fw-bold" onClick={logout}>
+                Logout
+              </Link>
+              </>:<>
+              <Link to="/register/login" className="login-button mx-lg-2">
+                Login
+              </Link>
+              </>}
+            </div>
+
           </div>
+
         </div>
 
-        {synced? <> 
-        <Link to={`/userprofile/${currentUser.id}`} className="mx-lg-2">
-          <img class="rounded-circle shadow-1-strong me-3"
-              src={`${currentUser.picture}`} alt="avatar" width="30"
-              height="30"/>  
-        </Link>
 
-        <Link to="/" className="ms-3 text-primary text-decoration-none fw-bold" onClick={logout}>
-          Logout
-        </Link>
-        </>:<>
-        <Link to="/register/login" className="login-button mx-lg-2">
-          Login
-        </Link>
-
-        <Link to="/register/signup" className="ms-3 login-button">
-          Signup
-        </Link>
-        </>}
         
         <button
           className="navbar-toggler pe-0"

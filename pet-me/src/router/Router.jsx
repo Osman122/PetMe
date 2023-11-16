@@ -17,6 +17,7 @@ const ResendMail =React.lazy(() => import('../pages/RegisterPages/signup-page/Re
 
 const Home =React.lazy(() => import('../pages/HomePages/home-page/Home'));
 const About =React.lazy(() => import('../pages/HomePages/about-page/About'));
+const Blog =React.lazy(() => import('../pages/HomePages/blog-page/Blog'));
 const Explore =React.lazy(() => import('../pages/HomePages/explore-page/Explore'));
 const PetInfo =React.lazy(() => import('../pages/HomePages/petinfo-page/PetInfo'));
 const Profile =React.lazy(() => import('../pages/HomePages/profile-page/Profile'));
@@ -47,6 +48,7 @@ const Router = () => {
             <Route path="/" element={<HomePagesTemplate />}>
                 <Route index={true} element={<Home />}/>
                 <Route path="explore" element={<Explore />}/>
+                <Route path="blog" element={<Blog />}/>
                 <Route path="about" element={<About />}/>
                 <Route path="petinfo/:id" element={<PetInfo />}/>
                 <Route path="profile/:id" element={<Profile />}/>

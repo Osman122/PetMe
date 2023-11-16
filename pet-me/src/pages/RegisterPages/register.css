@@ -52,17 +52,10 @@
     color: var(--primary) !important;
 }
 
-.registeration input {
-    outline: none;
-    box-shadow:none !important;
-    border:none !important;
-}
+
 
 .registeration .input-group {
-    border: 1px solid rgba(0, 0, 0, 0.50);
-    padding: 10px;
-    border-radius: 12px;
-    
+    padding: 10px;    
 }
 
 .registeration .input-group *{

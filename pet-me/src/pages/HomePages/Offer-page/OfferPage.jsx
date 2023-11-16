@@ -128,6 +128,45 @@ const Offer = ({ offerId }) => {
                                 Send Adoption Request
                                 </button>
                             </div>
+                            
+                            <button type="button" class="float-end btn btn-outline-info" 
+data-bs-toggle="modal" data-bs-target="#exampleModal">Add Review</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Review</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{% url 'create_review' pk=projectid %}">
+          <div class="mb-3">    
+            <label for="recipient-name" class="col-form-label">Rate:</label>
+            <div class="rating"> 
+
+                <input type="radio" name="rate" value="1" id="1" checked/><label for="1">☆</label>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Message:</label>
+            <textarea name="review" class="form-control" id="message-text" required></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Send Review</button>
+          </div>
+          
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
                         </div>
 
                     </div>

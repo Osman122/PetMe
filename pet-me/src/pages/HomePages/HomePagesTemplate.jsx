@@ -8,7 +8,7 @@ export default function HomePagesTemplate ()  {
     return ( 
         <>
         <Header />
-        <div className="main d-flex justify-content-center align-items-center">
+        <div className="main ">
             <Outlet/>
         </div>
         {/* <Footer/>  */}

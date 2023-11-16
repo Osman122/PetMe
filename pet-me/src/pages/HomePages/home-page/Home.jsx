@@ -24,7 +24,7 @@ const Home = () => {
     },[page])
 
     return ( 
-        <section style={{backgroundColor:'#eee'}}>
+        <section >
             <div class="container posts py-5">
                 <div class="row d-flex justify-content-center">
                     <div class="col-md-12 col-lg-10 col-xl-8">

@@ -30,7 +30,7 @@ const Chat = () => {
   return (
     <>
 
-<MainContainer responsive style={{width:"80vw", minWidth:"800px"}}>
+<MainContainer responsive className='container mt-5' style={{minHeight:"75vh", minWidth:"800px"}}>
        <Sidebar position="left" scrollable={false}>
          <Search placeholder="Search..." />
          <ConversationList>
@@ -80,7 +80,7 @@ const Chat = () => {
                                         <InfoButton />
                                     </ConversationHeader.Actions>          
                                     </ConversationHeader>
-                                    <MessageList scrollBehavior="smooth" typingIndicator={<TypingIndicator content="Kai is typing" />}>
+                                    <MessageList scrollBehavior="smooth"  style={{minHeight:'60vh'}}>
                                       {messages.map((m, i) => <Message key={i} model={m} />)}
                                     </MessageList>
                             

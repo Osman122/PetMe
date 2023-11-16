@@ -35,7 +35,7 @@ const Explore = () => {
     },[type,gender,page])
 
     return ( 
-    <div className="container main">
+    <div className="container"> 
         <h3 className="p-3"> Apply Filters</h3>
 
         <div className="filters d-flex justify-content-around">

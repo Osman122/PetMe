@@ -7,6 +7,19 @@
     color: var(--primary) !important;
 }
 
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary);
+    opacity: 90%;
+    color: white;
+    border-color: var(--primary);
+}
+
 .bg-primary {
     background-color: var(--primary) !important;
 }
@@ -19,7 +32,7 @@
 
 .outline-primary:hover {
     background-color: var(--primary) !important;
-    color: white;
+    color: white !important;
 }
 
 
@@ -40,11 +53,9 @@
     left: 50%;
     transform: translateX(-50%);
     top: 75px;
-    width: 400px;
+    min-width: 400px;
     opacity: 0.9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    text-align: center;
 }
 
 form input {

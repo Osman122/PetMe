@@ -39,7 +39,7 @@ const Chat = () => {
 <br/>
 <br/> */}
     
-    <MainContainer responsive>
+    <MainContainer responsive style={{width:"80vw", minWidth:"800px"}}>
       <Sidebar position="left" scrollable={false}>
         <Search placeholder="Search..." />
         <ConversationList>

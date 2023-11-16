@@ -1,8 +1,7 @@
 
-#root>div:first-of-type, #root>section {
+.main {
     padding-top: 70px;
     margin-bottom: 0;
-    padding-bottom: 45px;
 }
 
 .paginator{
@@ -13,3 +12,11 @@
     transform: translateX(-50%);
 }
 
+.offer-info-card {
+    padding: 24px;
+    margin: 16px 8px 8px 8px;
+    border-radius: 16px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.06);
+}

@@ -23,6 +23,10 @@ const Dashboard = (props) => {
                             <FontAwesomeIcon icon={faFlag} className="pe-3" />{" "}
                              Reports
                             </ListGroup.Item>
+                            <ListGroup.Item action href="#users-page">
+                            <FontAwesomeIcon icon={faUsers} className="pe-3" />{" "}
+                             Users
+                            </ListGroup.Item>
 
                         </ListGroup>
                     </Col>
@@ -154,13 +158,15 @@ const Dashboard = (props) => {
                                 </Row>
                             </Tab.Pane>
                             <Tab.Pane eventKey="#reports-page">
-                                <h3 className="border rounded">All Reports: {props.reports}</h3>
+                                <h3 className="p-2">All Reports: {props.reports}</h3>
+                                <hr/>
                                 {console.log(props.reportsList)}
-                                <table className="table">
+                                <table className="table table-striped table-hover fs-6">
                                             <thead className="">
                                                 <th>User</th>
                                                 <th>Comment</th>
                                                 <th>Report Content</th>
+                                                
                                             </thead>
                                         
                                 {props.reportsList.map(report =>{
@@ -170,6 +176,38 @@ const Dashboard = (props) => {
                                                 <td>{report.user.username}</td>
                                                 <td>{report.comment.content}</td>
                                                 <td>{report.reason}</td>
+                                                
+                                            </tr>
+                                           
+
+                                        </tbody>
+                                    );
+                                })}
+                                </table>
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="#users-page">
+                                <h3 className="p-2">All Users: {props.users}</h3>
+                                <hr/>
+                                {/* {console.log(props.usersList)} */}
+                                <table className="table table-striped table-hover fs-6">
+                                            <thead className="">
+                                                <tr>
+                                                <th>username</th>
+                                                <th>First Name</th>
+                                                <th>Last Name</th>
+                                                <th>Email</th>
+                                                </tr>
+                                                
+                                            </thead>
+                                        
+                                {props.usersList.map(user =>{
+                                    return(
+                                        <tbody>
+                                            <tr>
+                                                <td>{user.username}</td>
+                                                <td>{user.first_name}</td>
+                                                <td>{user.last_name}</td>
+                                                <td>{user.email}</td>
                                             </tr>
                                            
 

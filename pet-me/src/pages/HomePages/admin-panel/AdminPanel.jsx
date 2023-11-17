@@ -4,6 +4,7 @@ import Dashboard from "../../../components/Admin/Dashboard";
 
 const AdminPanel = () => {
     const [ users , setUsers ] = useState(0)
+    const [ usersList , setUsersList ] = useState([])
     const [ reports , setReports ] = useState(0)
     const [ reportsList , setReportsList ] = useState([])
     const [ posts , setPosts ] = useState(0)
@@ -15,6 +16,7 @@ const AdminPanel = () => {
         .then((res) => {
             // console.log(res.data.count)
             setUsers(res.data.count)
+            setUsersList(res.data.results)
         })
         .catch((err) => console.log(err));
     }
@@ -56,7 +58,7 @@ const AdminPanel = () => {
 
 
     return ( 
-        <Dashboard users={users} reports={reports} reportsList={reportsList} pets={pets} posts={posts}/>
+        <Dashboard users={users} usersList={usersList} reports={reports} reportsList={reportsList} pets={pets} posts={posts} />
      );
 }
  

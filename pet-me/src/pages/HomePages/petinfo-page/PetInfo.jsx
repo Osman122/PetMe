@@ -1,9 +1,12 @@
 import { useState,useEffect } from "react";
 import { axiosInstance } from '../../../api/config';
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 const PetInfo = () => {
     const { id } = useParams();
-   
+    const {synced, currentUser } = useSelector(state => state.currentUser);
+
 
   const [ petData , setPetData ] = useState(null);
     
@@ -76,9 +79,10 @@ const PetInfo = () => {
                         
                     <hr/>
                          <p className="mb-5">{petData.brief}</p>
-                         
-                         <button style={{width:"100%",  backgroundColor:"#BF7245"}} type="button" className="btn mt-1"  >
-                            View Pet Owner Profile</button>
+                         {petData.owner.user_id == currentUser.id? 
+                         <Link to={`/editpet/${petData.id}`} className="btn w-100 btn-outline-primary mb-3"> Edit Pet Data </Link>
+                         :<Link to={`/profile/${petData.owner.user_id}`} className="w-100 btn-primary btn my-1" type="button">
+                            View Pet Owner Profile</Link>}
                         </div>
     
                    

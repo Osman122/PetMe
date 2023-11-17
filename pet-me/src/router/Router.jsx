@@ -26,8 +26,7 @@ const UserProfile =React.lazy(() => import('../pages/HomePages/profile-page/user
 const Chat =React.lazy(() => import('../pages/HomePages/Chat/Chat'));
 const PageNotFound =React.lazy(() => import('../pages/HomePages/notfound-page/PageNotFound'));
 const Offer =React.lazy(() => import('../pages/HomePages/Offer-page/OfferPage'));
-const AddPet =React.lazy(() => import('../pages/HomePages/addpet-page/Addpet'));
-const EditPet =React.lazy(() => import('../pages/HomePages/editpet-page/Editpet'));
+const PetForm =React.lazy(() => import('../pages/HomePages/addpet-page/PetForm'));
 const SearchPage =React.lazy(() => import('../pages/HomePages/search-page/Search.jsx'));
 const AdminPanel =React.lazy(() => import('../pages/HomePages/admin-panel/AdminPanel.jsx'));
 
@@ -50,6 +49,9 @@ const Router = () => {
                 {/* Done */}
                 <Route path="offers/:id" element={<Offer />}/>
                 <Route path="profile/edit" element={<EditProfile />}/>
+                <Route path="addpet" element={<PetForm />}/>
+                <Route path="editpet/:id" element={<PetForm />}/>
+
 
                 <Route index={true} element={<Home />}/>
                 <Route path="explore" element={<Explore />}/>
@@ -58,8 +60,6 @@ const Router = () => {
                 <Route path="petinfo/:id" element={<PetInfo />}/>
                 <Route path="search" element={<SearchPage />}/>
                 <Route path="profile/:id" element={<UserProfile />}/>
-                <Route path="addpet" element={<AddPet />}/>
-                <Route path="editpet/:id" element={<EditPet />}/>
                 <Route path="chats" element={<Chat />}/>
                 <Route path="admin-panel" element={<AdminPanel />}/>
                 <Route path="*" element={<PageNotFound />}/>

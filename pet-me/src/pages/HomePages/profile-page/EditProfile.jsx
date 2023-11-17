@@ -1,5 +1,3 @@
-import "./profile.css";
-
 import { useSelector } from 'react-redux';
 import { axiosInstance } from '../../../api/config';
 import React, { useState, useEffect } from 'react';

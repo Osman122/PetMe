@@ -12,12 +12,14 @@ import {
       Conversation,
       MessageSeparator,
     } from "@chatscope/chat-ui-kit-react";
+import { axiosInstance } from '../../../api/config';
 const Chat = () => {
     const [users, setUsers]=useState([]);
     const inputRef = useRef();
     const [msgInputValue, setMsgInputValue] = useState("");
     const [messages, setMessages] = useState([]);
     const [messageInputValue, setMessageInputValue] = useState("");
+    const [speakingUser,setSpeakingUser] = useState(false)
   
     const handleSend = message => {
       setMessages([...messages, {
@@ -28,22 +30,15 @@ const Chat = () => {
       inputRef.current.focus();
     };
 
+
+    // const currentUserDomain = 'http://127.0.0.1:8000/accounts/user/42'
+
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/chats/')
-          .then(response => response.json())
-          .then(data => {
-            if (Array.isArray(data)) {
-              setUsers(data.users);  
-              console.log(setUsers(data.users));  
-            //   setUsers(users.data);  
-            //   setUsers(users); 
-            } else {
-              console.error('Invalid data format received:', data);
-            }
-          })
-          .catch(error => {
-            console.error('Error fetching users: ', error);
-          });
+      axiosInstance.get('/chats/')
+       .then(res => {
+          setUsers(res.data);
+          console.log(res.data)
+      }).catch((err)=>{console.log(err)})
       }, []);
 
       
@@ -63,7 +58,7 @@ const Chat = () => {
         lastSenderName={user[2]}
         info="Yes i can do it for you"
       >
-        <Avatar src={user[1]} name={`${user[3]} ${user[4]}`} size="md" />
+        <Avatar src={`http://localhost:8000/media/${user[1]}`} name={`${user[3]} ${user[4]}`} size="md" />
       </Conversation>
     ))
   ) : (

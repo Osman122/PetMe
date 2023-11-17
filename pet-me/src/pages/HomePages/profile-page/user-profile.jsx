@@ -41,16 +41,16 @@ function UserProfile() {
     const deleteAccount = (e) => {
         e.preventDefault()
 
-        let password = e.target.querySelector('input').value
+        let current_password = e.target.querySelector('input').value
 
-        axiosInstance.delete(`/accounts/users/me/`,{password:password}).then(()=>{
-          dispatch(clearCurrUser)
-          navigate('/')
+        axiosInstance.delete(`/accounts/users/me/`, {data: {current_password:current_password}}).then(()=>{
+          dispatch(clearCurrUser())
+          document.getElementById('closeModal').click()
+          navigate('/register/login')
         }).catch(e => {
             console.log(e)
-            let alert = document.getElementById('fail')
-            alert.lastChild.innerText = "Something went wrong!."
-            alert.hidden = false
+            document.getElementById('fail').lastChild.innerText = "Something went wrong!."
+            document.getElementById('fail').hidden = false
             setTimeout(()=>{
                 document.getElementById('fail').hidden = true
             },3000)
@@ -96,8 +96,8 @@ function UserProfile() {
                     <div class="modal-body">
                         <form method="POST" onSubmit={e=>deleteAccount(e)}>
                         <div class="mb-3">
-                            <label for="message-text" class="col-form-label">Enter your password for confirmation:</label>
-                            <input name="password" type='password' class="form-control border " id="password" required></input>
+                            <label for="current_password" class="col-form-label">Enter your password for confirmation:</label>
+                            <input name="current_password" type='password' class="form-control border " id="current_password" required></input>
                         </div>
                         <div class="modal-footer">
                             <button id="closeModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

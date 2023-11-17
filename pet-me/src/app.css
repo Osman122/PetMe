@@ -24,13 +24,13 @@
     background-color: var(--primary) !important;
 }
 
-.outline-primary {
+.btn-outline-primary, .outline-primary {
     background-color: white !important;
     border-color: var(--primary) !important;
     color: var(--primary) !important;
 }
 
-.outline-primary:hover {
+.btn-outline-primary:hover, .outline-primary:hover {
     background-color: var(--primary) !important;
     color: white !important;
 }

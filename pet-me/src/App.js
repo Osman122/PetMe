@@ -14,10 +14,10 @@ function App() {
 
       <Router />
 
-      <Alert id="fail" variant="danger" className="m-2 float" hidden={true} dismissible>
+      <Alert id="fail" variant="danger" className="m-2 float" hidden={true}>
         <p>message</p>
       </Alert>
-      <Alert id="success" variant="success" className="m-2 float" hidden={true} dismissible>
+      <Alert id="success" variant="success" className="m-2 float" hidden={true}>
         <p>message</p>
       </Alert>
     </BrowserRouter>

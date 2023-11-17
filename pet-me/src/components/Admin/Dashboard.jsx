@@ -28,7 +28,7 @@ const Dashboard = (props) => {
                     <Col sm={8} className="mt-5 p-3 rounded-5 bg-light">
                         <Tab.Content>
                             <Tab.Pane eventKey="#dashboard">
-                                <Row sm={6}>
+                                <Row md={6}>
                                     
                                         <Card style={{
                                             border : '1px solid #3f708f',

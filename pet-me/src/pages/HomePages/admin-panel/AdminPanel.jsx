@@ -12,16 +12,16 @@ const AdminPanel = () => {
     const getUsers = () => {
         axiosInstance.get('/accounts/users/list/')
         .then((res) => {
-            console.log(res.data.count)
+            // console.log(res.data.count)
             setUsers(res.data.count)
         })
         .catch((err) => console.log(err));
     }
 
     const getReports = () => {
-        axiosInstance.get(`/admin/social/report/`)
+        axiosInstance.get(`/posts/reports/`)
         .then((res) => {
-            console.log(res.data.count)
+            console.log(res.data)
             setReports(res.data.count)
         })
         .catch((err) => console.log(err));
@@ -30,7 +30,7 @@ const AdminPanel = () => {
     const getPosts = () => {
         axiosInstance.get(`/posts/`)
         .then((res) => {
-            console.log(res.data.count)
+            // console.log(res.data.count)
             setPosts(res.data.count)
         })
         .catch((err) => console.log(err));
@@ -39,7 +39,7 @@ const AdminPanel = () => {
     const getPets = () => {
         axiosInstance.get(`/pets/`)
         .then((res) => {
-            console.log(res.data.count)
+            // console.log(res.data.count)
             setPets(res.data.count)
         })
         .catch((err) => console.log(err));

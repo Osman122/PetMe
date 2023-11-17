@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Avatar, ChatContainer, ConversationHeader, InfoButton, Message, MessageInput, MessageList, TypingIndicator, VideoCallButton, VoiceCallButton } from '@chatscope/chat-ui-kit-react';
 import kaiIco from '../../../assets/images/akane.svg'
 import './Chat.css'
@@ -13,6 +13,7 @@ import {
       MessageSeparator,
     } from "@chatscope/chat-ui-kit-react";
 const Chat = () => {
+    const [users, setUsers]=useState([]);
     const inputRef = useRef();
     const [msgInputValue, setMsgInputValue] = useState("");
     const [messages, setMessages] = useState([]);
@@ -26,7 +27,26 @@ const Chat = () => {
       setMsgInputValue("");
       inputRef.current.focus();
     };
-  
+
+    useEffect(() => {
+        fetch('http://127.0.0.1:8000/chats/')
+          .then(response => response.json())
+          .then(data => {
+            if (Array.isArray(data)) {
+              setUsers(data.users);  
+              console.log(setUsers(data.users));  
+            //   setUsers(users.data);  
+            //   setUsers(users); 
+            } else {
+              console.error('Invalid data format received:', data);
+            }
+          })
+          .catch(error => {
+            console.error('Error fetching users: ', error);
+          });
+      }, []);
+
+      
   return (
     <>
 
@@ -34,7 +54,23 @@ const Chat = () => {
        <Sidebar position="left" scrollable={false}>
          <Search placeholder="Search..." />
          <ConversationList>
-         <Conversation name="Lilly" lastSenderName="Lilly" info="Yes i can do it for you">
+         {
+  Array.isArray(users) && users.length > 0 ? (
+    users.map(user => (
+      <Conversation
+        key={user[0]}
+        name={`${user[3]} ${user[4]}`}
+        lastSenderName={user[2]}
+        info="Yes i can do it for you"
+      >
+        <Avatar src={user[1]} name={`${user[3]} ${user[4]}`} size="md" />
+      </Conversation>
+    ))
+  ) : (
+    <p>No users found</p>
+  )
+}
+         {/* <Conversation name="Lilly" lastSenderName="Lilly" info="Yes i can do it for you">
          <Avatar src="" name="" size="md" />
                      </Conversation>
                     
@@ -64,7 +100,7 @@ const Chat = () => {
                     
                      <Conversation name="Patrik" lastSenderName="Patrik" info="Yes i can do it for you">
                        <Avatar src="" name="Patrik" status="invisible" />
-                     </Conversation>
+                     </Conversation> */}
          </ConversationList>
        </Sidebar>
 

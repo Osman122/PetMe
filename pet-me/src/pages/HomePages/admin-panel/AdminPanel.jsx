@@ -5,6 +5,7 @@ import Dashboard from "../../../components/Admin/Dashboard";
 const AdminPanel = () => {
     const [ users , setUsers ] = useState(0)
     const [ reports , setReports ] = useState(0)
+    const [ reportsList , setReportsList ] = useState([])
     const [ posts , setPosts ] = useState(0)
     const [ pets , setPets ] = useState(0)
 
@@ -21,8 +22,9 @@ const AdminPanel = () => {
     const getReports = () => {
         axiosInstance.get(`/posts/reports/`)
         .then((res) => {
-            console.log(res.data)
+            // console.log(res.data)
             setReports(res.data.count)
+            setReportsList(res.data.results)
         })
         .catch((err) => console.log(err));
     }
@@ -54,7 +56,7 @@ const AdminPanel = () => {
 
 
     return ( 
-        <Dashboard users={users} reports={reports} pets={pets} posts={posts}/>
+        <Dashboard users={users} reports={reports} reportsList={reportsList} pets={pets} posts={posts}/>
      );
 }
  

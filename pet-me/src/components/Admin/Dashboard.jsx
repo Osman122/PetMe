@@ -1,13 +1,14 @@
 import { faCat, faFlag, faPalette, faShapes, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Card, Col, ListGroup, Row, Tab } from "react-bootstrap";
+import { h1 } from "fontawesome";
+import { Card, Col, ListGroup, Row, Tab , Container} from "react-bootstrap";
 
 const Dashboard = (props) => {
 
     
 
     return ( 
-        <div className="dashboard">
+        
             <Tab.Container defaultActiveKey="#dashboard" className="">
                 <Row>
                     <Col sm={3}  className="m-5">
@@ -152,12 +153,37 @@ const Dashboard = (props) => {
                                         
                                 </Row>
                             </Tab.Pane>
+                            <Tab.Pane eventKey="#reports-page">
+                                <h3 className="border rounded">All Reports: {props.reports}</h3>
+                                {console.log(props.reportsList)}
+                                <table className="table">
+                                            <thead className="">
+                                                <th>User</th>
+                                                <th>Comment</th>
+                                                <th>Report Content</th>
+                                            </thead>
+                                        
+                                {props.reportsList.map(report =>{
+                                    return(
+                                        <tbody>
+                                            <tr>
+                                                <td>{report.user.username}</td>
+                                                <td>{report.comment.content}</td>
+                                                <td>{report.reason}</td>
+                                            </tr>
+                                           
+
+                                        </tbody>
+                                    );
+                                })}
+                                </table>
+                            </Tab.Pane>
                         </Tab.Content>
                     </Col>
                 </Row>
 
             </Tab.Container>
-        </div>
+        
      );
 }
  

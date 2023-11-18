@@ -22,7 +22,7 @@ const PetForm = () => {
     function Redirect () {
         setTimeout(()=>{
             if (!synced){
-                navigate('/')
+                // navigate('/')
             }
             },2000)
         }
@@ -56,10 +56,10 @@ const PetForm = () => {
 
         switch (name){
             case "name":
-                if (/^[a-z]{3,}$/i.test(val)){
+                if (/^[a-z]{3,20}$/i.test(val)){
                     delete formErrors_[name]
                 } else {                   
-                    formErrors_[name] = "Please enter valid names"
+                    formErrors_[name] = "Please enter valid names, 3 to 20 characters long"
                 }
                 break;
   
@@ -115,7 +115,7 @@ const PetForm = () => {
             }
             dispatch(addPet(res.data))
             navigate(`/petinfo/${res.data.id}`)
-
+            
         } catch (e) {
             console.log(e)
             let alert = document.getElementById('fail')
@@ -124,7 +124,6 @@ const PetForm = () => {
             setTimeout(()=>{
                 document.getElementById('fail').hidden = true
             },3000)
-            setFail(false)
         }
 
     }
@@ -133,7 +132,16 @@ const PetForm = () => {
     e.preventDefault()
     setFail("load")
     const formData = new FormData(e.target)
-    console.log(formData.getAll('photos'))
+    if (formData.getAll("photos").length > 4){
+        let alert = document.getElementById('fail')
+        alert.lastChild.innerText = "You cannot upload more than 4 photos."
+        alert.hidden = false
+        setFail(false)
+        setTimeout(()=>{
+            document.getElementById('fail').hidden = true
+        })
+        return
+        }
 
     if (formData.getAll("photos")[0].name === ""){
       formData.delete("photos")
@@ -145,7 +153,7 @@ const PetForm = () => {
     sendData(formData)
   };
     
-  return (petData? Object.values(petData).length > 1 || id ? <>
+  return (petData? Object.values(petData).length > 1 || !id ? <>
       <div className="container light-style flex-grow-1 container-p-y p-3 mb-3">
         <h2 className="fw-bold pt-3 mb-2">{id? "Edit Pet Profile":"Add A New Pet"}</h2>
         <hr style={{border:"2px solid #DDDDDD"}}/>
@@ -198,6 +206,7 @@ const PetForm = () => {
                             <option value="Turtle" selected={petData.species === "Turtle"}>Turtle</option>
                             <option value="Hamster" selected={petData.species === "Hamster"}>Hamster</option>
                             <option value="Bird" selected={petData.species === "Bird"}>Bird</option>
+                            <option value="Other" selected={petData.species === "Other"}>Other</option>
                         </select>
                   </Form.Group>
                   <Form.Group className="col-lg-4">
@@ -219,17 +228,10 @@ const PetForm = () => {
                         </div>
                   </Form.Group>
                   <Form.Group className="col">
-
-                <Form.Label htmlFor="exampleColorInput">Pick a Color</Form.Label>
-                <Form.Control
-                    className='w-25'
-                    type="color"
-                    name="color"
-                    id="exampleColorInput"
-                    value={petData.color===""?"#563d7c":petData.color}
-                    title="Choose your color"/>
+                      <Form.Label>Color</Form.Label>
+                      <Form.Control type="text" required={true} onBlur={e => validateField(e)} onChange={e => handleChange(e)} name="color" id="color" value={petData.color} />
+                      {formErrors['color']?<div className="form-text text-danger">{formErrors['color']}</div>:<></>}
                   </Form.Group>
-
                   <div className="col d-flex flex-row-reverse align-items-center">
                         <button style={{ height:'40px', borderRadius:'16px'}}
                             type="submit" className="btn bg-primary text-white fw-semibold">

@@ -1,6 +1,5 @@
 import { faCat, faFlag, faPalette, faShapes, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { h1 } from "fontawesome";
 import { Card, Col, ListGroup, Row, Tab , Container} from "react-bootstrap";
 
 const Dashboard = (props) => {

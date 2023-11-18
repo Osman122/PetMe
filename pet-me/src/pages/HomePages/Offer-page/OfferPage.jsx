@@ -33,7 +33,11 @@ const Offer = ({ offerId }) => {
         }).catch(e => {
             console.log(e)
             let alert = document.getElementById('fail')
-            alert.lastChild.innerText = "Something went wrong!."
+            if (e.response.data.includes("already")){
+                alert.lastChild.innerText = "You already sent a request before"
+            } else {
+                alert.lastChild.innerText = "Something went wrong!."
+            }
             alert.hidden = false
             setTimeout(()=>{
                 document.getElementById('fail').hidden = true
@@ -68,7 +72,7 @@ const Offer = ({ offerId }) => {
                 {offerData && (
                 <div className="row g-5 m-0 py-4">
                     <div className="col-12 col-md-6 p-0 m-0" style={{height:"85vh"}}>
-                        <img style={{ borderRadius: "16px", objectFit:"contain" }} className="w-100 h-75" src={offerData.pet.thumbnail} alt="main pet" />
+                        <img style={{ borderRadius: "16px", objectFit:"cover", maxHeight:"600px", objectPosition:"top left" }} className="w-100 h-75" src={offerData.pet.thumbnail || require('../../../assets/images/Cat_annon.png')} alt="main pet" />
                         <div className="d-flex h-auto w-100 mt-4 justify-content-between">
                             {offerData.pet.photos.slice(1,).map((image, index) =>
                                 <img className='img-fluid border border-secondary' key={index} src={image.photo} alt="secondary" style={{width:"30%", borderRadius: "16px"}}/>
@@ -120,10 +124,10 @@ const Offer = ({ offerId }) => {
                                         {offerData.pet.gender}
                                     </p>
                                 </div>:<></>}
-                                {offerData.pet.pet_type?<div>
+                                {offerData.pet.species?<div>
                                     <p className="text-muted m-0">Species</p>
                                     <p className="fw-semibold fs-5 mb-2">
-                                        {offerData.pet.pet_type}
+                                        {offerData.pet.species}
                                     </p>
                                 </div>:<></>}
                                 {offerData.pet.color?<div>

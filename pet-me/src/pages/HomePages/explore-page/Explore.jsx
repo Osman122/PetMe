@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import ExploreCard from "../../../components/explore/ExploreCard";
+import OfferCard from "../../../components/explore/OfferCard";
 import Form from 'react-bootstrap/Form';
 import { axiosInstance } from '../../../api/config';
 import PageContext from '../../../Context/PageContext';
@@ -14,7 +14,7 @@ const Explore = () => {
     const [ offersList , setOffersList ] = useState([])
 
     const getOffersList = () => {
-        axiosInstance.get(`/offers/?page=${page}${type === ''? '':'&pet_type='+ type}${gender === ''? '':'&gender='+ gender}`)
+        axiosInstance.get(`/offers/?page=${page}${type === ''? '':'&species='+ type}${gender === ''? '':'&gender='+ gender}`)
         .then((res) => {
             setOffersList(res.data.results)
             setmaxpages(res.data.total_pages)
@@ -58,7 +58,7 @@ const Explore = () => {
 
         <div className="row gy-3">
             {offersList.map((offer) => {
-                    return <ExploreCard offer={offer} />
+                    return <OfferCard offer={offer} />
             })}
         </div>
 

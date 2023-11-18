@@ -35,7 +35,10 @@
     color: white !important;
 }
 
-
+.container {
+    max-width: 1224px;
+    padding: 0;
+}
 
 #root {
     min-height: 100vh;

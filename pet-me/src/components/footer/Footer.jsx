@@ -1,6 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebook, faInstagram, faThreads, faTwitter } from '@fortawesome/free-brands-svg-icons';
-import './style.css'
 const Footer = () => {
     return ( 
         <footer className="footer">

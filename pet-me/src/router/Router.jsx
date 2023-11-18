@@ -47,13 +47,13 @@ const Router = () => {
 
             <Route path="/" element={<HomePagesTemplate />}>
                 {/* Done */}
+                <Route index={true} element={<Home />}/>
                 <Route path="offers/:id" element={<Offer />}/>
                 <Route path="profile/edit" element={<EditProfile />}/>
                 <Route path="addpet" element={<PetForm />}/>
                 <Route path="editpet/:id" element={<PetForm />}/>
 
 
-                <Route index={true} element={<Home />}/>
                 <Route path="explore" element={<Explore />}/>
                 <Route path="blog" element={<Blog />}/>
                 <Route path="about" element={<About />}/>

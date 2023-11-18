@@ -1,8 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Avatar, ChatContainer, ConversationHeader, InfoButton, Message, MessageInput, MessageList, TypingIndicator, VideoCallButton, VoiceCallButton } from '@chatscope/chat-ui-kit-react';
 import kaiIco from '../../../assets/images/akane.svg'
-import './Chat.css'
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
+import './Chat.css'
+
+import { useNavigate } from 'react-router-dom';
+
+import { useSelector } from 'react-redux';
 import {
       MainContainer,
       Sidebar,
@@ -12,7 +16,9 @@ import {
       Conversation,
       MessageSeparator,
     } from "@chatscope/chat-ui-kit-react";
+
 import { axiosInstance } from '../../../api/config';
+import { Link } from 'react-router-dom';
 const Chat = () => {
     const [users, setUsers]=useState([]);
     const inputRef = useRef();
@@ -20,28 +26,48 @@ const Chat = () => {
     const [messages, setMessages] = useState([]);
     const [messageInputValue, setMessageInputValue] = useState("");
     const [speakingUser,setSpeakingUser] = useState(false)
-  
+    const {currentUser, synced} = useSelector(state => state.currentUser)
+
+    const navigate = useNavigate()
+
     const handleSend = message => {
-      setMessages([...messages, {
-        message,
-        direction: 'outgoing'
-      }]);
+      /* Send a post request with the content of the message and save the response*/
+      if (speakingUser.id){
+        axiosInstance.post(`/chats/user/${speakingUser.id}/`,{content:message}).then((res)=>
+          setMessages([...messages, res.data])).catch(e=>{console.log(e)})
+      }
+      // setMessages([...messages, {
+      //   message,
+      //   direction: 'outgoing'
+      // }]);
       setMsgInputValue("");
       inputRef.current.focus();
     };
 
+    const handleChangeUser = function (e) {
+      document.querySelectorAll('.conversation').forEach((e)=>{e.classList.remove('active')})
+      e.target.closest('.conversation').classList.add('active')
 
-    // const currentUserDomain = 'http://127.0.0.1:8000/accounts/user/42'
+      const currUserId = e.target.closest('.conversation').getAttribute('userId')
+
+      if (currUserId != speakingUser.id){
+        setSpeakingUser(users.find(ele=> ele.id == currUserId ))
+        axiosInstance.get(`/chats/user/${currUserId}/`).then((res)=>{
+          setMessages(res.data.results)
+        }).catch(e=>{
+          console.log(e)
+        })
+      }
+
+    }
 
     useEffect(() => {
       axiosInstance.get('/chats/')
        .then(res => {
           setUsers(res.data);
-          console.log(res.data)
       }).catch((err)=>{console.log(err)})
-      }, []);
+    }, []);
 
-      
   return (
     <>
 
@@ -50,113 +76,87 @@ const Chat = () => {
          <Search placeholder="Search..." />
          <ConversationList>
          {
-  Array.isArray(users) && users.length > 0 ? (
+  users.length ? (
     users.map(user => (
-      <Conversation
-        key={user[0]}
-        name={`${user[3]} ${user[4]}`}
-        lastSenderName={user[2]}
-        info="Yes i can do it for you"
-      >
-        <Avatar src={`http://localhost:8000/media/${user[1]}`} name={`${user[3]} ${user[4]}`} size="md" />
-      </Conversation>
+      <>
+      <div class="conversation d-flex" onClick={(e) => {handleChangeUser(e)}} userId={user.id} key={user.id}>
+        <div class="cs-avatar cs-avatar--md me-3">
+            <img src={`http://localhost:8000/media/${user.picture}`} alt="Avatar"/>
+          </div>
+          <div class="cs-conversation__content justify-content-center">
+            <h5 class="fw-bold m-0">{`${user.first_name}${user.last_name?" "+user.last_name:""}` || user.username}
+            </h5>
+          </div>
+      </div></>
     ))
   ) : (
     <p>No users found</p>
   )
 }
-         {/* <Conversation name="Lilly" lastSenderName="Lilly" info="Yes i can do it for you">
-         <Avatar src="" name="" size="md" />
-                     </Conversation>
-                    
-                     <Conversation name="Joe" lastSenderName="Joe" info="Yes i can do it for you">
-                     <Avatar src="" name="" size="md" />
-                     </Conversation>
-                    
-                     <Conversation name="Emily" lastSenderName="Emily" info="Yes i can do it for you" unreadCnt={3}>
-                       <Avatar src="" name="Emily" status="available" />
-                     </Conversation>
-                    
-                     <Conversation name="Kai" lastSenderName="Kai" info="Yes i can do it for you" unreadDot>
-                       <Avatar src="" name="Kai" status="unavailable" />
-                     </Conversation>
-                                
-                     <Conversation name="Akane" lastSenderName="Akane" info="Yes i can do it for you">
-                       <Avatar src="" name="Akane" status="eager" />
-                     </Conversation>
-                                        
-                     <Conversation name="Eliot" lastSenderName="Eliot" info="Yes i can do it for you">
-                       <Avatar src="" name="Eliot" status="away" />
-                     </Conversation>
-                                                        
-                     <Conversation name="Zoe" lastSenderName="Zoe" info="Yes i can do it for you" active>
-                       <Avatar src="" name="Zoe" status="dnd" />
-                     </Conversation>
-                    
-                     <Conversation name="Patrik" lastSenderName="Patrik" info="Yes i can do it for you">
-                       <Avatar src="" name="Patrik" status="invisible" />
-                     </Conversation> */}
-         </ConversationList>
+      </ConversationList>
        </Sidebar>
 
- 
-                            <ChatContainer>
-                                <ConversationHeader>
-                                <ConversationHeader.Back />
-                                    <Avatar src={kaiIco} name="Kai" />
-                                    <ConversationHeader.Content userName="Kai" info="Active 10 mins ago" />
-                                    <ConversationHeader.Actions>
-                                        <VoiceCallButton />
-                                        <VideoCallButton />
-                                        <InfoButton />
-                                    </ConversationHeader.Actions>          
-                                    </ConversationHeader>
-                                    <MessageList scrollBehavior="smooth"  style={{minHeight:'60vh'}}>
-                                      {messages.map((m, i) => <Message key={i} model={m} />)}
-                                    </MessageList>
-                            
-                                    <MessageInput placeholder="Type message here" onSend={handleSend} onChange={setMsgInputValue} value={msgInputValue} ref={inputRef} />
-                          </ChatContainer>
+        <ChatContainer>
+            <ConversationHeader onClick={e => {navigate(`/profile/${speakingUser.id}`)}}>
+                <ConversationHeader.Back />
+                <Avatar src={`http://localhost:8000/media/${speakingUser.picture}`} />
+                <ConversationHeader.Content userName={`${speakingUser.first_name}${speakingUser.last_name?" "+speakingUser.last_name:""}` || speakingUser.username} info="Tap to view profile"/>                          
+            </ConversationHeader>
+
+            <MessageList scrollBehavior="smooth"  style={{minHeight:'60vh'}}>
+            
+              {messages.map((message) => <>
+                <section class={`cs-message cs-message--${message.sender_id == speakingUser.id?"incoming":"outgoing"}`} data-cs-message="">
+                  <div class="cs-message__content-wrapper">
+                    <div class="cs-message__content" title={Date(message.created_at)}>
+                      <div class="cs-message__html-content">
+                        {message.content}
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </>)}
+            </MessageList>
+    
+            <MessageInput placeholder="Type message here" onSend={handleSend} onChange={setMsgInputValue} value={msgInputValue} ref={inputRef} />
+      </ChatContainer>
+
+      {/* <Sidebar position="right">
+  <ExpansionPanel open title="INFO">
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+  </ExpansionPanel>
+  <ExpansionPanel title="LOCALIZATION">
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+  </ExpansionPanel>
+  <ExpansionPanel title="MEDIA">
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+  </ExpansionPanel>
+  <ExpansionPanel title="SURVEY">
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+  </ExpansionPanel>
+  <ExpansionPanel title="OPTIONS">
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+  </ExpansionPanel>
+      </Sidebar>             */}
 
 
-
-                          <Sidebar position="right">
-                     <ExpansionPanel open title="INFO">
-                       <p>Lorem ipsum</p>
-                       <p>Lorem ipsum</p>
-                       <p>Lorem ipsum</p>
-                       <p>Lorem ipsum</p>
-                     </ExpansionPanel>
-                     <ExpansionPanel title="LOCALIZATION">
-                       <p>Lorem ipsum</p>
-                       <p>Lorem ipsum</p>
-                       <p>Lorem ipsum</p>
-                       <p>Lorem ipsum</p>
-                     </ExpansionPanel>
-                     <ExpansionPanel title="MEDIA">
-                       <p>Lorem ipsum</p>
-                       <p>Lorem ipsum</p>
-                       <p>Lorem ipsum</p>
-                       <p>Lorem ipsum</p>
-                     </ExpansionPanel>
-                     <ExpansionPanel title="SURVEY">
-                       <p>Lorem ipsum</p>
-                       <p>Lorem ipsum</p>
-                       <p>Lorem ipsum</p>
-                       <p>Lorem ipsum</p>
-                     </ExpansionPanel>
-                     <ExpansionPanel title="OPTIONS">
-                       <p>Lorem ipsum</p>
-                       <p>Lorem ipsum</p>
-                       <p>Lorem ipsum</p>
-                       <p>Lorem ipsum</p>
-                     </ExpansionPanel>
-                   </Sidebar>            
-
-
-                          </MainContainer>
-
-                          </>
+  </MainContainer>
+  </>
   );
     
 }

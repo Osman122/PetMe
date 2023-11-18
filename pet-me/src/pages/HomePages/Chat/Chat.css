@@ -1,25 +1,35 @@
-
-.cs-message__content,
-.cs-conversation-header{
-    background-color: #d9c9ba48 !important;
-    /* font-weight: bold !important; */
-    /* color: white !important; */
+.conversation {
+    margin: 5px;
+    padding: 10px;
+    border-radius: 16px;
+    cursor:pointer;
 }
 
+.conversation.active {
+    background-color: var(--secondary) ;
+    cursor: auto;
+}
 
-.cs-search,
-.cs-search{
-    background-color: #d9c9ba48 !important;
+.cs-conversation-header{
+    cursor: pointer;
+}
+
+.cs-message__content, .cs-search,
+.cs-message-input__content-editor-wrapper,
+.cs-conversation-header
+{
+    background-color: var(--secondary) !important ;
+}
+
+.cs-conversation-header,
+.cs-conversation-header > *
+.cs-search
+{
     color: #d9c9ba48 !important;
 }
 
-.cs-message-input__content-editor-wrapper,
-.cs-conversation.cs-conversation--active{
-    background-color: #d9c9ba48 !important;
-}
-
 .scrollbar-container.cs-message-input__content-editor-container.ps,
-/* .cs-conversation-header__content , */
+.cs-conversation-header__content ,
 .cs-message-input__content-editor,
 .cs-search__input {
     background-color: #d9c9ba00 !important;
@@ -39,6 +49,12 @@
 }
 
 
-.cs-message-list__typing-indicator-container {
-    height: 30vw !important; 
+.cs-conversation-header__content * {
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: bold;
+    color: rgba(0,0,0,.87);
+    background-color: transparent !important;
 }

@@ -59,19 +59,6 @@ const Chat = () => {
     };
   }, []);
 
-  const handleSend = () => {
-    if (messageInputValue.trim() !== '' && speakingUser) {
-      const message = {
-        content: messageInputValue,
-        userId: speakingUser.id,
-      };
-
-      socket.current.emit('message', message);
-      setMessageInputValue('');
-      inputRef.current.focus();
-    }
-  };
-
 
 
     // hna listen for incoming msgs from server, update msgs state when a new msg is received 
@@ -96,6 +83,30 @@ const Chat = () => {
     //   inputRef.current.focus();
 
     // };
+
+    const handleSend = async () => {
+      if (messageInputValue.trim() !== '' && speakingUser) {
+        const messageData = {
+          content: messageInputValue,
+          userId: speakingUser.id,
+        };
+    
+        try {
+          // Send the message via Axios to the Django backend
+          const response = await axiosInstance.post(`/chats/user/${speakingUser.id}/`, messageData);
+          setMessages([...messages, response.data]); // Fixed the syntax here
+    
+          // Emit the message via Socket.IO to other clients
+          socket.current.emit('message', messageData);
+    
+          setMessageInputValue('');
+          inputRef.current.focus();
+        } catch (error) {
+          console.error('Error sending message:', error);
+        }
+      }
+    };
+    
 
     // const handleSend = message => {
     //   /* Send a post request with the content of the message and save the response*/

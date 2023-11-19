@@ -1,0 +1,15 @@
+.list-group a{
+    border: none;
+}
+
+.list-group a:hover{
+    color: #fff;
+    background-color: #bf7245;
+}
+
+.list-group .active{
+    color: #fff;
+    background-color: #bf7245;
+}
+
+

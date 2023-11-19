@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react';
-import { axiosInstance } from '../../../api/config';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-
+import { Offcanvas, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { axiosInstance } from '../../../api/config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const Offer = ({ offerId }) => {
     const [offerData, setOfferData] = useState(null);
+    const [showCanvas, setShowCanvas] = useState(false);
+    const [requestsList, setRequestsList] = useState([]);
+
+
+
     const { id } = useParams();
     const {currentUser, synced} = useSelector(state => state.currentUser)
     const navigate = useNavigate()
@@ -51,15 +57,41 @@ const Offer = ({ offerId }) => {
 
     }
 
+    const acceptRequest = (id) => {
+        axiosInstance.get(`/offers/request/${id}/accept/`).then(()=>{
+            navigate(`/petinfo/${offerData.pet.id}`)
+        }).catch(e=>{console.log(e)})
+    }
+
+    const deleteRequest = (e, id) => {
+        axiosInstance.get(`/offers/request/${id}/reject/`).then(()=>{
+            e.target.closest('.request').remove()
+        }).catch(e=>{console.log(e)})
+    }
+
+    const getRequests = () => {
+        if (!(requestsList.length)) {
+            axiosInstance.get(`/offers/${id}/requests/`).then((res)=>{
+                setRequestsList(res.data.results)
+                console.log(res.data.results)
+            }).catch(e => {console.log(e)})
+        }
+    }
+
     const fetchOfferData = async () => {
         try {
             const response = await axiosInstance.get(`/offers/${id}/`); // Use the extracted ID
             // Convert date
             setOfferData({...response.data, 'created_at':new Date(response.data.created_at)});
-            console.log(response.data)
         } catch (error) {
             console.error('Error fetching offer data:', error);
         }
+    };
+
+    const handleClose = () => setShowCanvas(false);
+    const toggleShow = () => {
+        getRequests();
+        setShowCanvas(!showCanvas);
     };
 
     useEffect(() => {
@@ -73,9 +105,9 @@ const Offer = ({ offerId }) => {
                 <div className="row g-5 m-0 py-4">
                     <div className="col-12 col-md-6 p-0 m-0" style={{height:"85vh"}}>
                         <img style={{ borderRadius: "16px", objectFit:"cover", maxHeight:"600px", objectPosition:"top left" }} className="w-100 h-75" src={offerData.pet.thumbnail || require('../../../assets/images/Cat_annon.png')} alt="main pet" />
-                        <div className="d-flex h-auto w-100 mt-4 justify-content-between">
+                        <div className="d-flex w-100 mt-4 justify-content-between" style={{height:"155px"}}>
                             {offerData.pet.photos.slice(1,).map((image, index) =>
-                                <img className='img-fluid border border-secondary' key={index} src={image.photo} alt="secondary" style={{width:"30%", borderRadius: "16px"}}/>
+                                <img className='img-fluid border border-secondary' key={index} src={image.photo} alt="secondary" style={{width:"30%", borderRadius: "16px", objectFit:"cover"}}/>
                             )}
                         </div>
                     </div>
@@ -146,13 +178,51 @@ const Offer = ({ offerId }) => {
  
                                 
                             {/* Render buttons */}
-                            <div className="d-flex">
+                            <div >
+                                {currentUser.id === offerData.user.id? <>
+                                    <Button onClick={toggleShow} className="btn mt-2 btn-outline-primary text-light fw-bold py-2 px-3 w-100" 
+                                    style={{height: "50px", borderRadius:"12px"}} 
+                                    >
+                                    See Requests on this Offer
+                                    </Button>
+                                    <Offcanvas show={showCanvas} onHide={handleClose} scroll={false} backdrop={true} placement='end'>
+                                        <Offcanvas.Header closeButton style={{borderBottom:"2px solid rgba(0,0,0,0.25)"}}>
+                                            <Offcanvas.Title>Requests</Offcanvas.Title>
+                                        </Offcanvas.Header>
+                                        <Offcanvas.Body>
+                                        {requestsList.length ? <>
+                                            {requestsList.map((request) => {
+                                                return <div key={request.request_id} className='d-flex request mb-3 border-bottom'>
+                                                    <Link to={`/profile/${request.user_id}`} className='p-3'>
+                                                        <img src={request.user_picture} alt="Requester Avatar" className='rounded-circle' style={{width:"40px", height:"40px"}}/>
+                                                    </Link>
+                                                    <div className='flex-grow-1'>
+                                                        <h4 className='m-0'>{request.username}</h4>
+                                                        <p className='m-0'>{request.message}</p>
+                                                        <p className="text-muted">{request.created_at}</p>
+                                                    </div>
+                                                    <div className='d-flex flex-column'>
+                                                        <Button title="Accept Offer" onClick={()=>{acceptRequest(request.request_id)}} className='mb-2' variant='outline-success'><FontAwesomeIcon icon={faCheck} /></Button>
+                                                        <Button title="Delete Offer" onClick={(e)=>{deleteRequest(e, request.request_id)}} variant='outline-danger'><FontAwesomeIcon icon={faTrash} /></Button>
+                                                    </div>
+                                                </div>
+                                            })}
+                                        </>:<>There are currently no requests on this offer.</>}
 
-                                <button style={{height: "50px", borderRadius:"12px"}} 
-                                type="button" className="btn mt-2 btn-primary text-light fw-bold py-2 px-3 w-100"
-                                data-bs-toggle="modal" data-bs-target="#exampleModal" disabled={currentUser.id === offerData.user.id}>
-                                Send Adoption Request
-                                </button>
+                                        
+                                        </Offcanvas.Body>
+                                    </Offcanvas>
+                                </>:<>
+                                    <button style={{height: "50px", borderRadius:"12px"}} 
+                                    type="button" className="btn mt-2 btn-primary text-light fw-bold py-2 px-3 w-100"
+                                    data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Send Adoption Request
+                                    </button>                                
+                                </>}
+
+
+
+
                             </div>
                             
                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -166,7 +236,7 @@ const Offer = ({ offerId }) => {
                                     <form method="POST" onSubmit={e=>sendRequest(e)}>
                                     <div class="mb-3">
                                         <label for="message-text" class="col-form-label">Message:</label>
-                                        <textarea minLength={30} name="review" class="form-control" id="message-text" required></textarea>
+                                        <textarea minLength={15} name="review" class="form-control" id="message-text" required></textarea>
                                     </div>
                                     <div class="modal-footer">
                                         <button id="closeModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

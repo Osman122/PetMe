@@ -42,7 +42,7 @@ const Chat = () => {
     const navigate = useNavigate()
 
     // url of socket server
-    const socket = io("http://localhost:3000/chats")
+    const socket = io("http://localhost:3001")
 
 
     // hna listen for incoming msgs from server, update msgs state when a new msg is received 

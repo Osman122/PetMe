@@ -9,7 +9,6 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(function (config) {
     let access = Cookies.get('access')
     let refresh = Cookies.get('refresh')
-    console.log(config)
     
     if (access) {
         config.headers['Authorization']="Bearer " + access
@@ -30,7 +29,6 @@ axiosInstance.interceptors.request.use(function (config) {
 
 
 axiosInstance.interceptors.response.use(function (response) {   
-    console.log(response)
     return response;
 
 }, function (error) {

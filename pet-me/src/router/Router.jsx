@@ -19,7 +19,6 @@ const ResendMail =React.lazy(() => import('../pages/RegisterPages/signup-page/Re
 const Home =React.lazy(() => import('../pages/HomePages/home-page/Home'));
 const About =React.lazy(() => import('../pages/HomePages/about-page/About'));
 const Blog =React.lazy(() => import('../pages/HomePages/blog-page/Blog'));
-const Explore =React.lazy(() => import('../pages/HomePages/explore-page/Explore'));
 const PetInfo =React.lazy(() => import('../pages/HomePages/petinfo-page/PetInfo'));
 const EditProfile =React.lazy(() => import('../pages/HomePages/profile-page/EditProfile'));
 const UserProfile =React.lazy(() => import('../pages/HomePages/profile-page/user-profile'));
@@ -54,7 +53,6 @@ const Router = () => {
                 <Route path="editpet/:id" element={<PetForm />}/>
 
 
-                <Route path="explore" element={<Explore />}/>
                 <Route path="blog" element={<Blog />}/>
                 <Route path="about" element={<About />}/>
                 <Route path="petinfo/:id" element={<PetInfo />}/>

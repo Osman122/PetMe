@@ -2,12 +2,59 @@ import "./assets/post.css";
 import CommentCard from '../CommentCard/CommentCard'
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { axiosInstance } from "../../api/config";
+import { useState } from "react";
+import { faFlag, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Post = (props) => {
     const {post} = props
     const {currentUser, synced} = useSelector(state => state.currentUser)
+    const [comments, setComments ] = useState(post.comments)
 
+    const reportPost = (e) => {
+      e.preventDefault()
+      let reason = e.target.querySelector('textarea').value
+      
+      axiosInstance.post(`/posts/${post.id}/reports/`, {reason:reason}).then(()=>{
+        let alert = document.getElementById('success')
+        alert.lastChild.innerText = "Report Sent Successfully."
+        document.getElementById(`closePostModal${post.id}`).click()
+        alert.hidden = false
+        setTimeout(()=>{
+            document.getElementById('success').hidden = true
+        },3000)
+      }).catch((e)=>{
+        console.log(e)
+        let alert = document.getElementById('fail')
+        if (e.response.data.includes("unique")){
+            alert.lastChild.innerText = "You already sent a report before"
+        } else {
+            alert.lastChild.innerText = "Something went wrong!."
+        }
+        alert.hidden = false
+        setTimeout(()=>{
+            document.getElementById('fail').hidden = true
+        },3000)
+      })
+    }
 
+    const deletePost = (e) => {
+      axiosInstance.delete(`/posts/${post.id}/`).then(()=>{
+        e.target.closest('.card').remove()
+      }).catch(e => console.log(e))
+    }
+
+    const addComment = (e) => {
+      e.preventDefault()
+
+      let content = e.target.querySelector('textarea').value
+        axiosInstance.post(`posts/${post.id}/comments/`, {'content':content}).then((res)=>{
+          setComments([...comments, res.data])
+          console.log(res.data)
+        }).catch(err => {
+            console.log(err)
+        })}
 
     return post ? (
       <div class="card">
@@ -20,7 +67,7 @@ const Post = (props) => {
             </Link>
 
 
-            <div>
+            <div className="flex-grow-1">
               <Link to={`/profile/${post.user.user_id}`} className="text-decoration-none text-dark">
                 <h6 class="fw-bold mb-1">{post.user.username}</h6>
               </Link>
@@ -32,7 +79,44 @@ const Post = (props) => {
               </Link>
 
             </div>
+          {synced? <>
+            {currentUser.id === post.user_id?<>
+              <button class="btn btn-outline-danger float-end">
+              <FontAwesomeIcon icon={faTrash} onClick={(e)=>deletePost(e)}/></button>                                 
+            </>:<>
+              <button class="btn btn-outline-danger float-end" 
+              data-bs-toggle="modal" data-bs-target={`#PostReportModal${post.id}`}>
+                  <FontAwesomeIcon icon={faFlag}/>
+              </button>
+              <div class="modal fade" id={`PostReportModal${post.id}`} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Report this comment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" onSubmit={e=>reportPost(e)}>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Report Cause:</label>
+                            <textarea minLength={15} name="review" class="form-control" id="message-text" required></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button id={`closePostModal${post.id}`} type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Send Report</button>
+                        </div>
+                        
+                        </form>
+                    </div>
+                    </div>
+                </div>
+              </div>                 
+            </>}
+          
+
+          </>:<></>}
           </div>
+
           {
             post.photos.length ? <Link to={`/posts/${post.id}`}>
             <div className="post-image">
@@ -43,11 +127,10 @@ const Post = (props) => {
           <p class="mt-3 mb-4 pb-2"> {post.content}</p>
 
           {
-            post.comments.length ? <>
+            comments.length ? <>
             <hr />
             <div className="comments">
-              <h3 className="pb-2"> Comments </h3>
-              {post.comments.map((comment) => {
+              {comments.map((comment) => {
                   return <CommentCard comment={comment} key={comment.id}/>
               })}
             </div> </> : <></>
@@ -57,21 +140,22 @@ const Post = (props) => {
 
         </div>
         { synced && (
-          <div class="card-footer py-3 border-0" style={{backgroundColor:"#f8f9fa"}}>
+          <form class="card-footer py-3 border-0" style={{backgroundColor:"#f8f9fa"}}
+          onSubmit={e => addComment(e)}>
             <div class="d-flex flex-start w-100">
               <img class="rounded-circle shadow-1-strong me-3"
                 src={`${currentUser.picture}`} alt="avatar" width="40"
                 height="40" />
               <div class="form-outline w-100">
-                <textarea class="form-control" id="textAreaExample" rows="4"
+                <textarea class="form-control" id="textAreaExample" rows="2"
                   style={{backgroundColor:"#fff"}}></textarea>
               </div>
             </div>
             <div class="float-end mt-2 pt-1">
-              <button type="button" class="btn btn-primary btn-sm me-3">Post comment</button>
-              <button type="button" class="btn btn-outline-primary btn-sm">Cancel</button>
+              <button type="submit" class="btn btn-primary btn-sm me-3">Post comment</button>
+              <button type="reset" class="btn btn-outline-primary btn-sm">Cancel</button>
             </div>
-          </div>
+          </form>
         )}
       </div>
 

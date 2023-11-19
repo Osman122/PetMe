@@ -11,12 +11,15 @@ import {
   MDBListGroup,
 
 } from 'mdb-react-ui-kit';
+import {Row,Col}from 'react-bootstrap';
 import { useState,useEffect } from "react";
 import { axiosInstance } from '../../../api/config';
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import {clearCurrUser, setCurrUser} from '../../../store/Slices/UserSlice'
+import PetCard from '../../../components/explore/PetCard';
+import ProfilePetCard from '../../../components/Profile/profile-pet-card';
 
 
 function UserProfile() {
@@ -117,11 +120,26 @@ function UserProfile() {
             </MDBCard>
 
             <MDBCard className="mb-4 mb-lg-0">
-              <MDBCardBody className="p-0 " style={{textAlign:"center", alignContent:"center"}}> 
-              <h5>Current pets</h5>
+                     <h5 style={{textAlign:"center", fontWeight:"bolder", padding:"10px"}}>Previous Addaptions </h5>
+
+              <MDBCardBody className="p-0 " > 
                 <MDBListGroup flush className="rounded-3">
                    
-                {usrData.pets.map((pet) => {
+                {usrData.adoptions.map((pet) => {
+                       return pet?( <div class="card  shadow-0 mb-3" style={{maxHeight:"12em"}}>
+                      
+                       <div class="card-body">
+                         <h5 class="card-title">{usrData.first_name} Host Pet With Name: {pet.petname}</h5>
+                         <p class="card-text"> From {pet.start_at}</p>
+                         <p class="card-text"> Till {pet.ent_at?(pet.end_at):("now") }</p>
+                       </div>
+                       
+
+                     </div>):(<></>) 
+                    
+                
+                
+                /* {usrData.pets.map((pet) => {
                     return pet?( <div className="card  shadow-0 mb-3" style={{maxHeight:"12em"}}>
                     <div class="card-header bg-transparent ">Type: {pet.pet_type}</div>
                     <div class="card-body">
@@ -130,7 +148,7 @@ function UserProfile() {
                     </div>
                     <div class="card-footer bg-transparent ">Gender: {pet.gender}</div>
                   </div>):(<div className="card  shadow-0 mb-3" style={{maxHeight:"12em"}}><h3>no current pet</h3></div>)
-                    
+                     */
                     
                     
                 //     <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
@@ -204,22 +222,28 @@ function UserProfile() {
                 </MDBRow>
               </MDBCardBody>
             </MDBCard>
+            <MDBCard>
             <MDBListGroup flush className="rounded-3">
-                   
-                   {usrData.adoptions.map((pet) => {
-                       return pet?( <div class="card  shadow-0 mb-3" style={{maxHeight:"12em"}}>
-                      
-                       <div class="card-body">
-                         <h5 class="card-title">{usrData.first_name} Host Pet With Name: {pet.petname}</h5>
-                         <p class="card-text"> From {pet.start_at}</p>
-                         <p class="card-text"> Till {pet.ent_at?(pet.end_at):("now") }</p>
-                       </div>
-                       
-
-                     </div>):(<></>) 
-                    })}
+              {/* <div>{synced? currentUser.id == id ? <><Link to="/profile/edit" className="btn outline-primary me-3">Edit Profile</Link>
+                <Button variant='outline-danger' data-bs-toggle="modal" data-bs-target="#exampleModal">Delete Account</Button>
+                   </>:<></> }</div> */}
+            <div style={{display:"flex",justifyContent:"center",marginBottom:"20px" }}>
+            <h3 style={{textAlign:"center", fontWeight:"bolder" ,paddingBottom:"10px", display:"inline" ,marginTop:"6px"}}>Current pets</h3>
+            {synced? currentUser.id == id ? <><Link to="/addpet" className='m-2 btn outline-primary me-3'>Add New</Link>
+            </>:<></>:<></>}
+           </div>
+            {usrData.pets.length>0?(<Row className="row-cols-lg-2 row-cols-md-2 row-cols-1">
+                        { usrData.pets.map((pet) => {return <>
+                            <Col className='d-flex justify-content-center mb-3 mb-lg-0 py-2'>
+                                <ProfilePetCard pet={pet} />
+                            </Col>
+                        </>})}
+                    </Row>):(<> 
+                    <h5 style={{textAlign:"center", fontWeight:"bolder" }}> No Current pets you can add now</h5></>)}
+        
+                  
             </MDBListGroup>
-
+</MDBCard>
             
           </MDBCol>
         </MDBRow>

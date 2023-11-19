@@ -1,10 +1,11 @@
 import './search.css'
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 
 import PageContext from '../../../Context/PageContext';
 import Paginator from '../../../components/Paginator/Paginator';
 import { useEffect, useState } from "react"
 import { axiosInstance } from '../../../api/config';
+import { Card, Row, Col } from 'react-bootstrap';
 
 const Search = () => {
     const [ page, setPage ] = useState(1);
@@ -124,22 +125,83 @@ const Search = () => {
                     
                     
                     <div className="table-responsive">
-                    <table className="table table-hover">
-                    <tbody>
-                    {resultList.map((result, index) => (
-                        <tr key={index}>
-                            <td className="number text-center">{index + 1}</td>
-                            
-                            <td className="product"><strong>{result.name}</strong><br/></td>
-                            <td className="product"><strong>{result.content}</strong><br/></td>
-                            <td className="product"><strong>{result.description}</strong><br/></td>
-                            <td className="product"><strong>{result.username}</strong><br/></td>
-                            
-                        
-                        </tr>
-                        ))}
-                    </tbody></table>
+                    {filter === 'users' ? (
+                        resultList.map((result, index) => (
+                        <Link to={`/profile/${result.id}`} key={index} className="text-decoration-none">
+                            <Card className="my-3" style={{ width: '350px', margin: 'auto' }}>
+                            <Row className="align-items-center">
+                                <Col xs={4}>
+                                <Card.Img src={result.picture} style={{ width: '100px', margin: 'auto' }} />
+                                </Col>
+                                <Col xs={8}>
+                                <Card.Body>
+                                    <Card.Title>{result.username}</Card.Title>
+                                    <Card.Text>
+                                    <strong>Full name:</strong> {result.first_name} {result.last_name}<br />
+                                    <strong>Gender:</strong> {result.gender}<br />
+                                    <strong>Phone:</strong> {result.phone}
+                                    </Card.Text>
+                                </Card.Body>
+                                </Col>
+                            </Row>
+                            </Card>
+                        </Link>
+                        ))
+                    ) : filter === 'pets' ? (
+                        resultList.map((result, index) => (
+                            <Link to={`/petinfo/${result.id}`} key={index} className="text-decoration-none">
+                                <Card key={index} className="my-3">
+                                    <Card.Img src={result.thumbnail} style={{ width: '100px', margin: 'auto' }}  />
+                                    <Card.Body>
+                                    <Card.Title>{result.name}</Card.Title>
+                                    <Card.Text>Owner:  {result.owner && result.owner.username ? result.owner.username : 'Unknown'}</Card.Text>
+                                    </Card.Body>
+                                </Card>
+                            </Link>
+                        ))
+                    ): filter === 'offers' ? (
+                        <div className="table-container">
+                            <table className="table table-hover">
+                                <tbody>
+                                <tr>
+                                    <th>Index</th>
+                                    <th>Description</th>
+                                    <th>Pet Name</th>
+                                    <th>Pet Owner</th>
+                                </tr>
+                                {resultList.map((result, index) => (
+                                    <tr key={index}>
+                                    <td className="number text-center">{index + 1}</td>
+                                    <td className="product"><strong>{result.description}</strong><br/></td>
+                                    <td className="product"><strong>{result.pet && result.pet.name ? result.pet.name: 'Unknown' }</strong><br/></td>
+                                    <td className="product"><strong>{result.user && result.user.username ? result.user.username: 'Unknown' }</strong><br/></td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                            </div>
+                        ) :filter === 'posts' ? (
+                            <div className="table-container">
+                            <table className="table table-hover">
+                                <tbody>
+                                <tr>
+                                        <th>Index</th>
+                                        <th>Content</th>
+                                        <th>Poster</th>
+                                    </tr>
+                                {resultList.map((result, index) => (
+                                    <tr key={index}>
+                                    <td className="number text-center">{index + 1}</td>
+                                    <td className="product"><strong>{result.content}</strong><br/></td>
+                                    <td className="product"><strong>{result.user && result.user.username ? result.user.username : 'Unknown'}</strong><br/></td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                            </div>
+                        ): null}
                     </div>
+
                     
                     <div className="pagination">
                         <PageContext.Provider  value={{page,setPage}}>

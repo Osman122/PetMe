@@ -36,7 +36,7 @@ function Header() {
         authenticate()
 
     }).catch(err => {console.log(err)})}
-   
+  
   };
 
   const logout = () => {

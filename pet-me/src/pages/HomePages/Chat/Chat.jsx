@@ -21,6 +21,11 @@ import { axiosInstance } from '../../../api/config';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faX } from '@fortawesome/free-solid-svg-icons';
+
+import { io } from 'socket.io-client';
+
+
+
 const Chat = () => {
     const [users, setUsers]=useState([]);
     const [filteredusers, setFilteredUsers]=useState([]);
@@ -36,19 +41,46 @@ const Chat = () => {
 
     const navigate = useNavigate()
 
-    const handleSend = message => {
-      /* Send a post request with the content of the message and save the response*/
-      if (speakingUser.id){
-        axiosInstance.post(`/chats/user/${speakingUser.id}/`,{content:message}).then((res)=>
-          setMessages([...messages, res.data])).catch(e=>{console.log(e)})
+    // url of socket server
+    const socket = io("http://localhost:3000/chats")
+
+
+    // hna listen for incoming msgs from server, update msgs state when a new msg is received 
+    useEffect(()=> {
+      socket.on("message", (message)=> {
+        // handle incoming messages
+        setMessages([...messages, message]);
+      });
+      return () => {
+        // clean up the event listener when component unmounts
+        socket.off("message");
+      };
+    }, [messages]);
+
+
+    // modify handlesend to emit msgs to server
+    const handleSend = (message) => {
+      if (speakingUser.id) {
+        socket.emit("message", { content: message, userId: speakingUser.id});
       }
-      // setMessages([...messages, {
-      //   message,
-      //   direction: 'outgoing'
-      // }]);
-      setMsgInputValue("");
+      setMessageInputValue("");
       inputRef.current.focus();
+
     };
+
+    // const handleSend = message => {
+    //   /* Send a post request with the content of the message and save the response*/
+    //   if (speakingUser.id){
+    //     axiosInstance.post(`/chats/user/${speakingUser.id}/`,{content:message}).then((res)=>
+    //       setMessages([...messages, res.data])).catch(e=>{console.log(e)})
+    //   }
+    //   // setMessages([...messages, {
+    //   //   message,
+    //   //   direction: 'outgoing'
+    //   // }]);
+    //   setMsgInputValue("");
+    //   inputRef.current.focus();
+    // };
 
     const handleChangeUser = function (e) {
       document.querySelectorAll('.conversation').forEach((e)=>{e.classList.remove('active')})
@@ -79,6 +111,11 @@ const Chat = () => {
           setFilteredUsers(res.data);
       }).catch((err)=>{console.log(err)})
     }, []);
+
+
+
+
+
 
   return (
     <>

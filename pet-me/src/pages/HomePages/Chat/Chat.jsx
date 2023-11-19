@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { io } from 'socket.io-client';
+
 import { Avatar, ChatContainer, ConversationHeader, InfoButton, Message, MessageInput, MessageList, TypingIndicator, VideoCallButton, VoiceCallButton } from '@chatscope/chat-ui-kit-react';
 import kaiIco from '../../../assets/images/akane.svg'
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
@@ -22,8 +24,6 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faX } from '@fortawesome/free-solid-svg-icons';
 
-import { io } from 'socket.io-client';
-
 
 
 const Chat = () => {
@@ -42,31 +42,60 @@ const Chat = () => {
     const navigate = useNavigate()
 
     // url of socket server
-    const socket = io("http://localhost:3001")
+    // const socket = io("http://localhost:3001")
+    const socket = useRef(null);
+
+  useEffect(() => {
+    socket.current = io('http://localhost:3001');
+
+    socket.current.on('message', (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
+
+    return () => {
+      if (socket.current) {
+        socket.current.disconnect();
+      }
+    };
+  }, []);
+
+  const handleSend = () => {
+    if (messageInputValue.trim() !== '' && speakingUser) {
+      const message = {
+        content: messageInputValue,
+        userId: speakingUser.id,
+      };
+
+      socket.current.emit('message', message);
+      setMessageInputValue('');
+      inputRef.current.focus();
+    }
+  };
+
 
 
     // hna listen for incoming msgs from server, update msgs state when a new msg is received 
-    useEffect(()=> {
-      socket.on("message", (message)=> {
-        // handle incoming messages
-        setMessages([...messages, message]);
-      });
-      return () => {
-        // clean up the event listener when component unmounts
-        socket.off("message");
-      };
-    }, [messages]);
+    // useEffect(()=> {
+    //   socket.on("message", (message)=> {
+    //     // handle incoming messages
+    //     setMessages([...messages, message]);
+    //   });
+    //   return () => {
+    //     // clean up the event listener when component unmounts
+    //     socket.off("message");
+    //   };
+    // }, [messages]);
 
 
-    // modify handlesend to emit msgs to server
-    const handleSend = (message) => {
-      if (speakingUser.id) {
-        socket.emit("message", { content: message, userId: speakingUser.id});
-      }
-      setMessageInputValue("");
-      inputRef.current.focus();
+    // // modify handlesend to emit msgs to server
+    // const handleSend = (message) => {
+    //   if (speakingUser.id) {
+    //     socket.emit("message", { content: message, userId: speakingUser.id});
+    //   }
+    //   setMessageInputValue("");
+    //   inputRef.current.focus();
 
-    };
+    // };
 
     // const handleSend = message => {
     //   /* Send a post request with the content of the message and save the response*/

@@ -19,11 +19,17 @@ import {
 
 import { axiosInstance } from '../../../api/config';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass, faX } from '@fortawesome/free-solid-svg-icons';
 const Chat = () => {
     const [users, setUsers]=useState([]);
+    const [filteredusers, setFilteredUsers]=useState([]);
+
     const inputRef = useRef();
     const [msgInputValue, setMsgInputValue] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
     const [messages, setMessages] = useState([]);
+
     const [messageInputValue, setMessageInputValue] = useState("");
     const [speakingUser,setSpeakingUser] = useState(false)
     const {currentUser, synced} = useSelector(state => state.currentUser)
@@ -61,10 +67,16 @@ const Chat = () => {
 
     }
 
+    const handleSearch = (e) => {
+      setSearchQuery(e.target.value)
+      setFilteredUsers(users.filter(user => {return `${user.username+user.first_name+user.last_name}`.includes(e.target.value)}))
+    }
+
     useEffect(() => {
       axiosInstance.get('/chats/')
        .then(res => {
           setUsers(res.data);
+          setFilteredUsers(res.data);
       }).catch((err)=>{console.log(err)})
     }, []);
 
@@ -73,11 +85,14 @@ const Chat = () => {
 
 <MainContainer responsive className='container mt-5' style={{minHeight:"75vh", minWidth:"800px"}}>
        <Sidebar position="left" scrollable={false}>
-         <Search placeholder="Search..." />
+       <div class="cs-search">
+          <FontAwesomeIcon icon={faMagnifyingGlass} className='me-3 fs-5' />
+          <input type="text" class="cs-search__input flex-grow-1 d-block fs-6" placeholder="Search..." onChange={e=>{handleSearch(e)}} value={searchQuery}></input>
+        </div>
          <ConversationList>
          {
-  users.length ? (
-    users.map(user => (
+  filteredusers.length ? (
+    filteredusers.map(user => (
       <>
       <div class="conversation d-flex" onClick={(e) => {handleChangeUser(e)}} userId={user.id} key={user.id}>
         <div class="cs-avatar cs-avatar--md me-3">

@@ -74,14 +74,6 @@ function Header() {
           <div className="offcanvas-body ms-lg-5">
             <ul className="navbar-nav justify-content-center flex-grow-1 pe-3">
               <li className="nav-item">
-                <Link
-                  className="nav-link mx-lg-2"
-                  aria-current="page"
-                  to="/explore">
-                  Explore
-                </Link>
-              </li>
-              <li className="nav-item">
                 <Link className="nav-link mx-lg-2" to="/blog">
                   Blog
                 </Link>
@@ -102,7 +94,7 @@ function Header() {
                     <Form.Control
                       className="p-0"
                       type="text"
-                      placeholder="Search here ..."
+                      placeholder="Search Offers, Pets, Users, Posts ..."
                       aria-label="Search"
                       id="search"
                       aria-describedby="basic-addon1"

@@ -5,10 +5,7 @@ import React, { useState, useEffect } from 'react';
 import PetCard from '../../../components/explore/PetCard';
 import OfferCard from '../../../components/explore/OfferCard'
 import { axiosInstance } from '../../../api/config';
-
-import objectsImage8 from '../../../assets/images/category4.png';
-import objectsImage9 from '../../../assets/images/category5.png';
-
+import { Link } from 'react-router-dom';
 
 function Home() {
     const [index, setIndex] = useState(0);
@@ -46,19 +43,20 @@ function Home() {
     return (
         
         <Container className='py-5'>
+            
             <section className='Hero'>
                 <Carousel activeIndex={index} onSelect={handleSelect} className='w-100 position-relative' slide={false}>
-                    <Carousel.Item >
-                        <img src={require('../../../assets/images/Hero.png')} alt="Hero" className='img-fluid'/>
+                    <Carousel.Item className='h-100'>
+                        <img src={require('../../../assets/images/Hero.jpg')} alt="Hero" style={{ height:"100%", maxHeight:"384px", width:"100%", borderRadius:"32px"}} />
                     </Carousel.Item>
                     <Carousel.Item>
-                        <img src={require('../../../assets/images/Hero.png')} alt="Hero" />
+                        <img src={require('../../../assets/images/Hero2.jpg')} alt="Hero" style={{ height:"100%", maxHeight:"384px", width:"100%", borderRadius:"32px"}} />
+                    </Carousel.Item>
+                    <Carousel.Item className='h-100'>
+                        <img src={require('../../../assets/images/Hero.jpg')} alt="Hero" style={{ height:"100%", maxHeight:"384px", width:"100%", borderRadius:"32px"}} />
                     </Carousel.Item>
                     <Carousel.Item>
-                        <img src={require('../../../assets/images/Hero.png')} alt="Hero" />
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img src={require('../../../assets/images/Hero.png')} alt="Hero" />
+                        <img src={require('../../../assets/images/Hero2.jpg')} alt="Hero" style={{ height:"100%", maxHeight:"384px", width:"100%", borderRadius:"32px"}} />
                     </Carousel.Item>
                 </Carousel>
             </section>
@@ -81,23 +79,33 @@ function Home() {
 
                 <Row className='row-cols-lg-2 row-cols-sm-1'>
                     <Col className='d-flex justify-content-center mb-3'>
-                        <Image src={require('../../../assets/images/category1.png')} fluid />
+                        <Link to={`/explore?species=cat`}>
+                            <Image src={require('../../../assets/images/category1.png')}  className='w-100 h-100' />
+                        </Link>
                     </Col>
                     <Col className='mb-3'>
                         <Row>
-                            <Col className='d-flex justify-content-center mb-3'>
-                                <Image src={require('../../../assets/images/category2.png')} fluid />
+                        <Col className='d-flex justify-content-center mb-3'>
+                                <Link to={`/explore?species=hamster`}>
+                                    <Image src={require('../../../assets/images/category2.png')} className='w-100 h-100' />
+                                </Link>
                             </Col>
                             <Col className='d-flex justify-content-center mb-3'>
-                                <Image src={require('../../../assets/images/category3.png')} fluid />
+                                <Link to={`/explore?species=dog`}>
+                                    <Image src={require('../../../assets/images/category3.png')} className='w-100 h-100' />
+                                </Link>
                             </Col>
                         </Row>
                         <Row className="mt-3">
                             <Col className='d-flex justify-content-center'>
-                                <Image src={objectsImage8} fluid />
+                                <Link to={`/explore?species=bird`}>
+                                    <Image src={require('../../../assets/images/category4.png')} className='w-100 h-100' />
+                                </Link>
                             </Col>
                             <Col className='d-flex justify-content-center'>
-                                <Image src={objectsImage9} fluid />
+                                <Link to={`/explore?species=turtle`}>
+                                    <Image src={require('../../../assets/images/category5.png')} className='w-100 h-100' />
+                                </Link>
                             </Col>
                         </Row>
                     </Col>

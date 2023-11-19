@@ -35,6 +35,9 @@ const Chat = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [messages, setMessages] = useState([]);
 
+    const [filledForm, setFilledForm] = useState(false);
+    const [room, setRoom] = useState('test');
+    const [name, setName] = useState('');
     const [messageInputValue, setMessageInputValue] = useState("");
     const [speakingUser,setSpeakingUser] = useState(false)
     const {currentUser, synced} = useSelector(state => state.currentUser)
@@ -60,7 +63,7 @@ const Chat = () => {
   }, []);
 
 
-
+// -----------------------------------------------------------------
     // hna listen for incoming msgs from server, update msgs state when a new msg is received 
     // useEffect(()=> {
     //   socket.on("message", (message)=> {
@@ -73,7 +76,7 @@ const Chat = () => {
     //   };
     // }, [messages]);
 
-
+// -------------------------------------------------------------------------------------
     // // modify handlesend to emit msgs to server
     // const handleSend = (message) => {
     //   if (speakingUser.id) {
@@ -83,31 +86,31 @@ const Chat = () => {
     //   inputRef.current.focus();
 
     // };
-
-    const handleSend = async () => {
-      if (messageInputValue.trim() !== '' && speakingUser) {
-        const messageData = {
-          content: messageInputValue,
-          userId: speakingUser.id,
-        };
+// ------------------------------------------------------------------------
+    // const handleSend = async () => {
+    //   if (messageInputValue.trim() !== '' && speakingUser) {
+    //     const messageData = {
+    //       content: messageInputValue,
+    //       userId: speakingUser.id,
+    //     };
     
-        try {
-          // Send the message via Axios to the Django backend
-          const response = await axiosInstance.post(`/chats/user/${speakingUser.id}/`, messageData);
-          setMessages([...messages, response.data]); // Fixed the syntax here
+    //     try {
+    //       // Send the message via Axios to the Django backend
+    //       const response = await axiosInstance.post(`/chats/user/${speakingUser.id}/`, messageData);
+    //       setMessages([...messages, response.data]); // Fixed the syntax here
     
-          // Emit the message via Socket.IO to other clients
-          socket.current.emit('message', messageData);
+    //       // Emit the message via Socket.IO to other clients
+    //       socket.current.emit('message', messageData);
     
-          setMessageInputValue('');
-          inputRef.current.focus();
-        } catch (error) {
-          console.error('Error sending message:', error);
-        }
-      }
-    };
+    //       setMessageInputValue('');
+    //       inputRef.current.focus();
+    //     } catch (error) {
+    //       console.error('Error sending message:', error);
+    //     }
+    //   }
+    // };
     
-
+// ---------------------------------------------------------------
     // const handleSend = message => {
     //   /* Send a post request with the content of the message and save the response*/
     //   if (speakingUser.id){
@@ -121,6 +124,37 @@ const Chat = () => {
     //   setMsgInputValue("");
     //   inputRef.current.focus();
     // };
+    const onButtonClicked = (e) => {
+      socket.current.send(
+        JSON.stringify({
+          type: 'message',
+          text: msgInputValue,
+          sender: name,
+        })
+      );
+      setMsgInputValue('');
+      e.preventDefault();
+    };
+  
+    useEffect(() => {
+      socket.current.onopen = () => {
+        console.log('WebSocket Client Connected');
+      };
+  
+      socket.current.onmessage = (message) => {
+        const dataFromServer = JSON.parse(message.data);
+        if (dataFromServer) {
+          setMessages((state) => [
+            ...state,
+            {
+              msg: dataFromServer.text,
+              name: dataFromServer.sender,
+            },
+          ]);
+        }
+      };
+    }, []);
+
 
     const handleChangeUser = function (e) {
       document.querySelectorAll('.conversation').forEach((e)=>{e.classList.remove('active')})
@@ -210,7 +244,32 @@ const Chat = () => {
               </>)}
             </MessageList>
     
-            <MessageInput placeholder="Type message here" onSend={handleSend} onChange={setMsgInputValue} value={msgInputValue} ref={inputRef} />
+            {/* <MessageInput placeholder="Type message here" onSend={handleSend} onChange={setMsgInputValue} value={msgInputValue} ref={inputRef} /> */}
+      
+            {filledForm ? (
+        // Form for inputting messages
+        <div style={{ marginTop: 50 }}>
+          Room Name: {room}
+          {/* Rest of your UI for displaying messages */}
+          <form onSubmit={onButtonClicked}>
+            {/* Rest of your form for message input */}
+            <MessageInput
+              placeholder="Type message here"
+              onSend={onButtonClicked}
+              onChange={(value) => setMsgInputValue(value)}
+              value={msgInputValue}
+              ref={inputRef}
+            />
+          </form>
+        </div>
+      ) : (
+        // Form for entering room name and sender's name
+        <div>
+          {/* Rest of your UI for entering room name and sender's name */}
+        </div>
+      )}
+      
+      
       </ChatContainer>
 
       {/* <Sidebar position="right">

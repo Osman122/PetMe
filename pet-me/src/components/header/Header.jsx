@@ -7,7 +7,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {clearCurrUser, setCurrUser} from '../../store/Slices/UserSlice';
 
 import "./style.css";
-import {faMagnifyingGlass,faPaw, faComments} from "@fortawesome/free-solid-svg-icons";
+import {faMagnifyingGlass,faPaw, faComments, faGear} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { Form, InputGroup } from "react-bootstrap";
@@ -119,6 +119,13 @@ function Header() {
               <Link to="/chats">
                   <FontAwesomeIcon icon={faEnvelope} className="text-primary fw-bold fs-4"/>
               </Link>
+
+              {currentUser.is_superuser ? 
+                <Link to="/admin-panel">
+                    <FontAwesomeIcon icon={faGear} className="text-primary fw-bold fs-4 ps-4" style={{color:'#bf7245'}}/>
+                </Link> : 
+            ""
+              }
 
               <Link to={`/profile/${currentUser.id}`} className="mx-4">
                 <img class="rounded-circle shadow-1-strong"

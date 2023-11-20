@@ -3,9 +3,12 @@ import { axiosInstance } from '../../../api/config';
 import { useState, useEffect } from "react";
 import PageContext from '../../../Context/PageContext';
 import Paginator from '../../../components/Paginator/Paginator'
+import CreateBlog from '../../../components/Blog/CreateBlog'
+import { useSelector } from "react-redux";
 
 
 const Blog = () => {
+    const {currentUser, synced} = useSelector(state => state.currentUser)
     const [ postsList , setPostsList ] = useState([])
     const [ page , setPage ] = useState(1)
     const [ maxpages, setmaxpages ] = useState(1)
@@ -26,6 +29,9 @@ const Blog = () => {
     return ( 
         <section style={{backgroundColor:'#eee'}}>
             <div class="container posts py-5">
+                <div className="d-flex justify-content-center mb-3">
+                <CreateBlog user={currentUser}/>
+                </div>
                 <div class="row d-flex justify-content-center">
                     <div class="col-md-12 col-lg-10 col-xl-8">
                         {postsList.map((post) => {

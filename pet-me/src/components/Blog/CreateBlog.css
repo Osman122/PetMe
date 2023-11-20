@@ -1,0 +1,34 @@
+.create-blog{
+    width: 65%;
+}
+.create-blog .blog-box {
+    background-color : #FCFCFC;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.06);
+    padding-bottom: 15px;
+}
+
+.create-blog .blog-box textarea{
+    min-height: 80px;
+    outline: none;
+    resize: none;
+    font-size: 16px;
+    border-color: #bfbfbf;
+    max-height: 220px;
+}
+
+.create-blog .blog-box textarea:is(:focus,:valid) {
+    border: 2px solid #bf7245 ;
+}
+
+.create-blog .blog-box textarea::-webkit-scrollbar{
+    width: 0px;
+}
+
+.create-blog .blog-box button{
+    color: #fff;
+    background-color: #bf7245;
+    height: 45px;
+    width: 12vh;
+    margin-top: auto;
+}
+

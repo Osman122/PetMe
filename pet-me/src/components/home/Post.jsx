@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { axiosInstance } from "../../api/config";
 import { useState } from "react";
-import { faFlag, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Post = (props) => {
@@ -80,40 +80,50 @@ const Post = (props) => {
 
             </div>
           {synced? <>
-            {currentUser.id === post.user_id?<>
-              <button class="btn btn-outline-danger float-end">
-              <FontAwesomeIcon icon={faTrash} onClick={(e)=>deletePost(e)}/></button>                                 
-            </>:<>
-              <button class="btn btn-outline-danger float-end" 
-              data-bs-toggle="modal" data-bs-target={`#PostReportModal${post.id}`}>
-                  <FontAwesomeIcon icon={faFlag}/>
-              </button>
-              <div class="modal fade" id={`PostReportModal${post.id}`} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Report this comment</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="POST" onSubmit={e=>reportPost(e)}>
-                        <div class="mb-3">
-                            <label for="message-text" class="col-form-label">Report Cause:</label>
-                            <textarea minLength={15} name="review" class="form-control" id="message-text" required></textarea>
-                        </div>
-                        <div class="modal-footer">
-                            <button id={`closePostModal${post.id}`} type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Send Report</button>
-                        </div>
-                        
-                        </form>
-                    </div>
-                    </div>
-                </div>
-              </div>                 
-            </>}
-          
-
+            <div className="dropstart">
+              <div className="p-2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <FontAwesomeIcon icon={faEllipsisVertical} />
+              </div>
+                  {currentUser.id === post.user_id?<>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <button class="btn text-danger" onClick={(e)=>deletePost(e)}>Delete</button>                                 
+                      </li>
+                    </ul>
+                  </>:<>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <button class="btn w-100 text-start" 
+                        data-bs-toggle="modal" data-bs-target={`#PostReportModal${post.id}`}>
+                            Report
+                        </button>
+                      </li>
+                    </ul>
+                    <div class="modal fade" id={`PostReportModal${post.id}`} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                          <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Report this comment</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                              <form method="POST" onSubmit={e=>reportPost(e)}>
+                              <div class="mb-3">
+                                  <label for="message-text" class="col-form-label">Report Cause:</label>
+                                  <textarea minLength={15} name="review" class="form-control" id="message-text" required></textarea>
+                              </div>
+                              <div class="modal-footer">
+                                  <button id={`closePostModal${post.id}`} type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <button type="submit" class="btn btn-primary">Send Report</button>
+                              </div>
+                              
+                              </form>
+                          </div>
+                          </div>
+                      </div>
+                    </div>                 
+                  </>}
+            </div>
           </>:<></>}
           </div>
 

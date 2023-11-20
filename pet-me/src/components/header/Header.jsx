@@ -19,8 +19,8 @@ function Header() {
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState('');
 
-  const handleSearch = (event) => {
-    event.preventDefault();
+  const handleSearch = (e) => {
+    e.preventDefault();
     navigate(`/search?query=${searchQuery}`);
   };
 
@@ -47,12 +47,6 @@ function Header() {
 
   const logout = () => {
     dispatch(clearCurrUser())
-  }
-
-  const search = (e) => {
-    e.preventDefault()
-    let query = e.target.querySelector('input#search').value
-    navigate(`/search?search=${query}`)
   }
 
   useEffect(() => {

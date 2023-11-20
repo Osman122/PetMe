@@ -6,10 +6,15 @@ import Paginator from '../../../components/Paginator/Paginator';
 import { useEffect, useState } from "react"
 import { axiosInstance } from '../../../api/config';
 import { Card, Row, Col } from 'react-bootstrap';
+import { useSearchParams } from 'react-router-dom';
 
 const Search = () => {
     const [ page, setPage ] = useState(1);
-    const [ filter, setFilter ] = useState('offers');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [ species, setSpecies ] = useState(searchParams.get("species"))
+    const [ query, setQuery ] = useState(searchParams.get("query"))
+    
+    const [ filter, setFilter ] = useState('pets');
     const [ maxpages, setmaxpages ] = useState(1);
     const [ resultList, setResultList ] = useState([]);
     
@@ -19,47 +24,19 @@ const Search = () => {
     const [keyword, setKeyword] = useState('');
 
     const handleKeywordChange = (event) => {
-    setKeyword(event.target.value);
+        setKeyword(event.target.value);
     };
 
-
-
-     // Function to handle button click for Users
-    const handleUsersClick = () => {
-        setFilter('users');
-        fetchData('users');
-    };
-
-    // Function to handle button click for Pets
-    const handlePetsClick = () => {
-        setFilter('pets');
-        fetchData('pets');
-    };
-
-    // Function to handle button click for Posts
-    const handlePostsClick = () => {
-        setFilter('posts');
-        fetchData('posts');
-    };
-
-    // Function to handle button click for Offers
-    const handleOffersClick = () => {
-        setFilter('offers');
-        fetchData('offers');
-    }
-
-    
-
-    const fetchData = (selectedFilter) => {
-        let endpoint = `/${selectedFilter}/?page=${page}&search=${keyword}`;
+    const fetchData = () => {
+        let endpoint = `/${filter}/?page=${page}&search=${keyword}`;
         
-        if (selectedFilter === 'pets') {
+        if (filter === 'pets') {
             endpoint = `/pets/?search=${keyword}`;
-        } else if (selectedFilter === 'offers') {
+        } else if (filter === 'offers') {
             endpoint = `/offers/?search=${keyword}`;
-        } else if (selectedFilter === 'posts') {
+        } else if (filter === 'posts') {
             endpoint = `/posts/?search=${keyword}`;
-        } else if (selectedFilter === 'users') {
+        } else if (filter === 'users') {
             endpoint = `/accounts/users/list/?search=${keyword}`;
         }
     
@@ -73,6 +50,11 @@ const Search = () => {
                 console.log(error);
             });
     };
+
+    useEffect(()=>{
+        console.log(species)
+        fetchData()
+    },[filter])
 
     return <>
         <div className="container py-3 h-100">
@@ -90,23 +72,23 @@ const Search = () => {
                         <ul className="nav nav-pills flex-column mb-auto">
                             <li>
                                 <input type="text" value={keyword} onChange={handleKeywordChange} />
-                                <button className="nav-link link-dark" onClick={handleUsersClick}>
+                                <button className="nav-link link-dark" onClick={()=>{setFilter('accounts/users')}}>
                                     Users
                                 </button>
                             </li>
                             <li>
-                                <button className="nav-link link-dark" onClick={handlePostsClick}>
+                                <button className="nav-link link-dark" onClick={()=>{setFilter('posts')}}>
                                     Posts
                                 </button>
                                 
                             </li>
                             <li>
-                            <button className="nav-link link-dark" onClick={handlePetsClick}>
-                            Pets
-                            </button>
+                                <button className="nav-link link-dark" onClick={()=>{setFilter('pets')}}>
+                                    Pets
+                                </button>
                             </li>
                             <li>
-                                <button className="nav-link link-dark" onClick={handleOffersClick}>
+                                <button className="nav-link link-dark" onClick={()=>{setFilter('offers')}}>
                                     Offers
                                 </button>
                             </li>

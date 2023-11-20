@@ -4,9 +4,12 @@ import Form from 'react-bootstrap/Form';
 import { axiosInstance } from '../../../api/config';
 import PageContext from '../../../Context/PageContext';
 import Paginator from '../../../components/Paginator/Paginator'
+import { useSearchParams } from 'react-router-dom';
 
 const Explore = () => {
-    const [ type , setType ] = useState('')
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [ species, setSpecies ] = useState(searchParams.get("species"))
+
     const [ page , setPage ] = useState(1)
     const [ gender , setGender ] = useState('')
     const [ maxpages, setmaxpages ] = useState(1)
@@ -14,7 +17,7 @@ const Explore = () => {
     const [ offersList , setOffersList ] = useState([])
 
     const getOffersList = () => {
-        axiosInstance.get(`/offers/?page=${page}${type === ''? '':'&species='+ type}${gender === ''? '':'&gender='+ gender}`)
+        axiosInstance.get(`/offers/?page=${page}${species === ''? '':'&species='+ species}${gender === ''? '':'&gender='+ gender}`)
         .then((res) => {
             setOffersList(res.data.results)
             setmaxpages(res.data.total_pages)
@@ -22,8 +25,8 @@ const Explore = () => {
         .catch((err) => console.log(err));
     }
 
-    const handleTypeChange = (e) => {
-        setType(e.target.value)
+    const handleSpeciesChange = (e) => {
+        species(e.target.value)
     }
 
     const handleGenderChange = (e) => {
@@ -32,7 +35,7 @@ const Explore = () => {
 
     useEffect(()=>{
         getOffersList()
-    },[type,gender,page])
+    },[species,gender,page])
 
     return ( 
     <div className="container"> 
@@ -40,7 +43,7 @@ const Explore = () => {
 
         <div className="filters d-flex justify-content-around">
             <div className="mb-3">
-                <Form.Select aria-label="Default select example" style={{width:"100px"}} onChange={(e)=>handleTypeChange(e)}>
+                <Form.Select aria-label="Default select example" style={{width:"100px"}} onChange={(e)=>handleSpeciesChange(e)}>
                     <option value="">All</option>
                     <option value="Cat">Cats</option>
                     <option value="Dog">Dogs</option>

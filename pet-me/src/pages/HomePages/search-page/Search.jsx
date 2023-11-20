@@ -13,6 +13,7 @@ const Search = () => {
     const [ maxpages, setmaxpages ] = useState(1);
     const [ resultList, setResultList ] = useState([]);
     
+    
     let { keyword: key } = useParams();
     // const [keyword, setKeyword] = useState(key);
     const [keyword, setKeyword] = useState('');
@@ -150,13 +151,32 @@ const Search = () => {
                     ) : filter === 'pets' ? (
                         resultList.map((result, index) => (
                             <Link to={`/petinfo/${result.id}`} key={index} className="text-decoration-none">
-                                <Card key={index} className="my-3">
-                                    <Card.Img src={result.thumbnail} style={{ width: '100px', margin: 'auto' }}  />
-                                    <Card.Body>
-                                    <Card.Title>{result.name}</Card.Title>
-                                    <Card.Text>Owner:  {result.owner && result.owner.username ? result.owner.username : 'Unknown'}</Card.Text>
-                                    </Card.Body>
-                                </Card>
+                                <div className="container">
+                                    <div className="row">
+                                        <div className="col-md-12 d-flex justify-content-center">
+                                        <Card className="my-3 " style={{ width: '400px' }}>
+                                            <Row className="align-items-center">
+                                                <Col xs={5}>
+                                                <Card.Img src={result.thumbnail} style={{ width: '150px', margin: 'auto', objectFit: 'cover' }}  />
+                                                </Col>
+                                                <Col xs={7}>
+                                                <Card.Body>
+                                                    <Card.Title>{result.name}</Card.Title>
+                                                    <Card.Text>
+                                                    <strong>Owner:</strong> {result.owner && result.owner.username ? result.owner.username : 'Unknown'}<br/>
+                                                    <strong>Gender:</strong> {result.gender}<br/>
+                                                    <strong>Color:</strong> {result.color}<br/>
+                                                    <strong>Species:</strong> {result.species}<br/>
+                                                    {/* Add other pet data here */}
+                                                    </Card.Text>
+                                                </Card.Body>
+                                                </Col>
+                                            </Row>
+                                            </Card>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                             </Link>
                         ))
                     ): filter === 'offers' ? (

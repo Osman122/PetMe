@@ -1,13 +1,13 @@
 import Cookies from "js-cookie";
-import logo from '../../assets/images/Logo.png'
-import { useEffect } from "react";
+import logo from '../../assets/images/Logo.png';
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../api/config";
-import {useSelector, useDispatch} from 'react-redux'
-import {clearCurrUser, setCurrUser} from '../../store/Slices/UserSlice'
+import {useSelector, useDispatch} from 'react-redux';
+import {clearCurrUser, setCurrUser} from '../../store/Slices/UserSlice';
 
 import "./style.css";
-import {faMagnifyingGlass,faPaw, faComments, faGears, faGear} from "@fortawesome/free-solid-svg-icons";
+import {faMagnifyingGlass,faPaw, faComments} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { Form, InputGroup } from "react-bootstrap";
@@ -17,6 +17,12 @@ function Header() {
   const {currentUser, synced} = useSelector(state => state.currentUser)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    navigate(`/search?query=${searchQuery}`);
+  };
 
   const authenticate = () => {
     let access = Cookies.get('access')
@@ -53,7 +59,6 @@ function Header() {
     authenticate();
   }, []);
 
-  console.log(currentUser.is_superuser);
   return (
     <nav className="navbar navbar-expand-lg fixed-top">
       <div className="container">
@@ -75,6 +80,14 @@ function Header() {
           <div className="offcanvas-body ms-lg-5">
             <ul className="navbar-nav justify-content-center flex-grow-1 pe-3">
               <li className="nav-item">
+                <Link
+                  className="nav-link mx-lg-2"
+                  aria-current="page"
+                  to="/explore">
+                  Explore
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link className="nav-link mx-lg-2" to="/blog">
                   Blog
                 </Link>
@@ -85,7 +98,7 @@ function Header() {
                 </Link>
               </li>
               <li className="nav-item ms-auto me-5 d-flex align-items-center w-50 mb-5 mb-lg-0">
-                <form className="input-group mx-lg-2" onSubmit={e => search(e)}>
+                <form className="input-group mx-lg-2" onSubmit={handleSearch}>
                   <InputGroup className="p-1">
                     <InputGroup.Text id="basic-addon1" className="bg-transparent border-0">
                       <button type="submit" className="border-0 bg-transparent">
@@ -95,7 +108,9 @@ function Header() {
                     <Form.Control
                       className="p-0"
                       type="text"
-                      placeholder="Search Offers, Pets, Users, Posts ..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Search here ..."
                       aria-label="Search"
                       id="search"
                       aria-describedby="basic-addon1"
@@ -110,12 +125,6 @@ function Header() {
               <Link to="/chats">
                   <FontAwesomeIcon icon={faEnvelope} className="text-primary fw-bold fs-4"/>
               </Link>
-              {currentUser.is_superuser ? 
-                <Link to="/admin-panel">
-                    <FontAwesomeIcon icon={faGears} className="text-primary fw-bold fs-4 ps-4"/>
-                </Link> : 
-            ""
-              }
 
               <Link to={`/profile/${currentUser.id}`} className="mx-4">
                 <img class="rounded-circle shadow-1-strong"

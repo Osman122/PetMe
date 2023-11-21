@@ -61,9 +61,10 @@ const Dashboard = (props) => {
                     <div className="p-3 rounded-3 bg-light shadow-sm d-flex justify-content-around align-content-center">
                       <div>
                         <h3 className="fs-2">{pets}</h3>
-                        <p className="fs-5">Categories</p>
+                        <p className="fs-5">Pets</p>
                       </div>
-                      <i className="bi bi-boxes p-3 fs-1"></i>
+                      <FontAwesomeIcon icon={faCat} className="p-3 fs-1" />
+                      {/* <i className="bi bi-boxes p-3 fs-1"></i> */}
                     </div>
                   </div>
 

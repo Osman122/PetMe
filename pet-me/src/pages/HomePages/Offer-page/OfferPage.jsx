@@ -236,7 +236,7 @@ const Offer = ({ offerId }) => {
                                     <form method="POST" onSubmit={e=>sendRequest(e)}>
                                     <div class="mb-3">
                                         <label for="message-text" class="col-form-label">Message:</label>
-                                        <textarea minLength={15} name="review" class="form-control" id="message-text" required></textarea>
+                                        <textarea minLength={15} name="review" class="form-control" id="message-text" required style={{resize:'none',outline:'none'}}></textarea>
                                     </div>
                                     <div class="modal-footer">
                                         <button id="closeModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

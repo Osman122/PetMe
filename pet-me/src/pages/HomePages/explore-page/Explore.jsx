@@ -149,7 +149,7 @@ const Search = () => {
                                                 <th>Author</th>
                                             </tr>
                                         {resultList.map((post, index) => (
-                                            <tr key={index} onClick={e => navigate(`/posts/${post.id}`)}>
+                                            <tr key={index} onClick={e => navigate(`/post/${post.id}`)}>
                                             <td className="number text-center">{index + 1}</td>
                                             <td className="product"><strong>{post.content}</strong><br/></td>
                                             <td className="product"><strong>{post.user ? post.user.username : 'Unknown'}</strong><br/></td>

@@ -133,9 +133,9 @@ const Post = (props) => {
             <img className="img-fluid" alt="post_image" src={`${post.photos[0]['photo']}`}/>
           </div></Link> : <></>
           }
-          
-          <p class="mt-3 mb-4 pb-2"> {post.content}</p>
-
+          <Link to={`/post/${post.id}`} style={{ textDecoration: 'none' }}>
+            <p class="mt-3 mb-4 pb-2"> {post.content}</p>
+          </Link>
           {
             comments.length ? <>
             <hr />

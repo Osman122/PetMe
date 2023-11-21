@@ -20,6 +20,7 @@ const Home =React.lazy(() => import('../pages/HomePages/home-page/Home'));
 const About =React.lazy(() => import('../pages/HomePages/about-page/About'));
 const Explore =React.lazy(() => import('../pages/HomePages/explore-page/Explore'));
 const Blog =React.lazy(() => import('../pages/HomePages/blog-page/Blog'));
+const SinglePost =React.lazy(() => import('../pages/HomePages/blog-page/SinglePost'));
 const PetInfo =React.lazy(() => import('../pages/HomePages/petinfo-page/PetInfo'));
 const EditProfile =React.lazy(() => import('../pages/HomePages/profile-page/EditProfile'));
 const UserProfile =React.lazy(() => import('../pages/HomePages/profile-page/user-profile'));
@@ -54,6 +55,8 @@ const Router = () => {
 
 
                 <Route path="blog" element={<Blog />}/>
+                {/* <Route path="/post/:postId" render={(props) => <SinglePost postId={props.match.params.postId} />} /> */}
+                <Route path="post/:postId" element={<SinglePost />} />
                 <Route path="about" element={<About />}/>
                 <Route path="explore" element={<Explore />}/>
                 <Route path="petinfo/:id" element={<PetInfo />}/>

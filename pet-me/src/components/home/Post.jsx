@@ -133,7 +133,7 @@ const Post = (props) => {
             <img className="img-fluid" alt="post_image" src={`${post.photos[0]['photo']}`}/>
           </div></Link> : <></>
           }
-          <Link to={`/post/${post.id}`} style={{ textDecoration: 'none' }}>
+          <Link to={`/post/${post.id}`} style={{ textDecoration: 'none',color:'black' }}>
             <p class="mt-3 mb-4 pb-2"> {post.content}</p>
           </Link>
           {

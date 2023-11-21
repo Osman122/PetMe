@@ -110,7 +110,7 @@ const Post = (props) => {
                               <form method="POST" onSubmit={e=>reportPost(e)}>
                               <div class="mb-3">
                                   <label for="message-text" class="col-form-label">Report Cause:</label>
-                                  <textarea minLength={15} name="review" class="form-control" id="message-text" required></textarea>
+                                  <textarea minLength={15} name="review" class="form-control" id="message-text" required style={{resize:'none',outline:'none'}}></textarea>
                               </div>
                               <div class="modal-footer">
                                   <button id={`closePostModal${post.id}`} type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -158,7 +158,7 @@ const Post = (props) => {
                 height="40" />
               <div class="form-outline w-100">
                 <textarea class="form-control" id="textAreaExample" rows="2"
-                  style={{backgroundColor:"#fff"}}></textarea>
+                  style={{backgroundColor:"#fff" , outline:'none' , resize:'none'}}></textarea>
               </div>
             </div>
             <div class="float-end mt-2 pt-1">

@@ -15,7 +15,7 @@ export default function Paginator(props) {
     }
   }
   return (<>
-    <Alert id="last-page-alert" variant="info" hidden={true}> 
+    <Alert id="last-page-alert" variant="info" className="p-1 mb-5" hidden={true}> 
                 You've reached the last page!
     </Alert>
     <nav aria-label="Page navigation example" style={{paddingBottom:"10px"}}>

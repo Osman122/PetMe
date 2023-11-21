@@ -44,8 +44,7 @@
 .cs-typing-indicator__indicator,
 .cs-typing-indicator__dot,
 .cs-typing-indicator__text,
-.cs-button.cs-button--send,
-.cs-search svg {
+.cs-button.cs-button--send {
     color: #8c594d !important;
 }
 

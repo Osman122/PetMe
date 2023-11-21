@@ -21,7 +21,7 @@ function Header() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    navigate(`/search?query=${searchQuery}`);
+    navigate(`/explore?query=${searchQuery}`);
   };
 
   const authenticate = () => {

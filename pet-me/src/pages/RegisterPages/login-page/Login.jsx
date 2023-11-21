@@ -40,6 +40,7 @@ const Login = () => {
             window.location.replace(res.data['authorization_url'])
         }).catch(error => console.log(error))   
     }
+    
     const fetchUserInfo = () => {
         axiosInstance.get('/accounts/users/me/').then(res => {
             dispatch(setCurrUser(res.data))
@@ -48,33 +49,23 @@ const Login = () => {
     }
 
     const authenticate = (data) => {
-        let access = Cookies.get('access')
-        let refresh = Cookies.get('refresh')
         
-        if (access) { return fetchUserInfo() } 
-        else if (refresh) {
-            axiosInstance.post('/accounts/jwt/refresh/', {'refresh':refresh}).then((res)=>{
+        axiosInstance.post(`/accounts/jwt/create/`,data).then(res => {
+            Cookies.set('refresh', res.data.refresh, { expires: 7})
             Cookies.set('access', res.data.access, { expires: 1})
+            methods.reset()
+            setFail(false)
             return fetchUserInfo()
-            })} 
-        else {
-            axiosInstance.post(`/accounts/jwt/create/`,data).then(res => {
-                Cookies.set('refresh', res.data.refresh, { expires: 7})
-                Cookies.set('access', res.data.access, { expires: 1})
-                methods.reset()
+
+        }).catch((err)=>{
+            if (err.response.status === 401) {
+                setFail("Credentials are incorrect.")
+            }
+            setTimeout(()=>{
                 setFail(false)
-                return authenticate()
+            },3000)
 
-            }).catch((err)=>{
-                if (err.response.status === 401) {
-                    setFail("Credentials are incorrect.")
-                }
-                setTimeout(()=>{
-                    setFail(false)
-                },3000)
-
-            })
-        }
+        })
         
     };
   

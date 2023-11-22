@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 import { axiosInstance } from "../../../api/config";
 import Dashboard from "../../../components/Admin/Dashboard";
 import "bootstrap-icons/font/bootstrap-icons.css";
-
+import error from "../../../assets/images/error.png";
+import { useSelector } from "react-redux";
 
 const AdminPanel = () => {
+  const { currentUser, synced } = useSelector((state) => state.currentUser);
   const [users, setUsers] = useState(0);
   const [usersList, setUsersList] = useState([]);
   const [reports, setReports] = useState(0);
@@ -63,8 +65,53 @@ const AdminPanel = () => {
   }, []);
 
   return (
-    <div className="bg-dark container">
-        <Dashboard users={users} usersList={usersList} reports={reports} reportsList={reportsList} pets={pets} posts={posts} /> 
+    <div style={{ backgroundColor: "#263238" }}>
+      {currentUser.is_superuser ? (
+        <Dashboard
+          users={users}
+          usersList={usersList}
+          reports={reports}
+          reportsList={reportsList}
+          pets={pets}
+          posts={posts}
+        />
+      ) : (
+        <div className="container text-center">
+          <div
+            style={{
+              height: "80vh",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%,-50%)",
+              position: "absolute",
+            }}
+          >
+            <img
+              className=""
+              src={error}
+              alt="Error 404"
+              style={{
+                width: "50dvw",
+                height: "30dvw",
+                position: "relative",
+                opacity: "80%",
+              }}
+            />
+            <h1
+              style={{
+                color: "#BF7245",
+                position: "absolute",
+                top: "8vw",
+                fontSize: "3dvw",
+                fontWeight: "bold",
+                zIndex: "10000000",
+              }}
+            >
+              unauthorized {" "}
+            </h1>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

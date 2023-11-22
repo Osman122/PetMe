@@ -1,7 +1,6 @@
 import { faFaceSmile, faImage } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { useState } from "react";
 import "./CreateBlog.css";
 import { axiosInstance } from "../../api/config";
 

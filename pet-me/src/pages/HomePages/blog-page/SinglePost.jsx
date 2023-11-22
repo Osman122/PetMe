@@ -10,7 +10,7 @@ const SinglePost = () => {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await axiosInstance.get(`/posts/${id}`);
+                const response = await axiosInstance.get(`/posts/${id}/`);
                 setPost(response.data);
             } catch (error) {
                 console.error('Error fetching post:', error);

@@ -5,12 +5,12 @@ import Post from "../../../components/home/Post";
 
 const SinglePost = () => {
     const [post, setPost] = useState(null);
-    const { postId } = useParams();
+    const { id } = useParams();
 
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await axiosInstance.get(`/posts/${postId}`);
+                const response = await axiosInstance.get(`/posts/${id}`);
                 setPost(response.data);
             } catch (error) {
                 console.error('Error fetching post:', error);
@@ -18,7 +18,7 @@ const SinglePost = () => {
         };
 
         fetchPost();
-    }, [postId]);
+    }, [id]);
 
     if (!post) {
         return <div>Loading...</div>;

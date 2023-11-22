@@ -63,8 +63,8 @@ const AdminPanel = () => {
   }, []);
 
   return (
-    <div className="bg-dark">
-    <Dashboard users={users} usersList={usersList} reports={reports} reportsList={reportsList} pets={pets} posts={posts} /> 
+    <div className="bg-dark container">
+        <Dashboard users={users} usersList={usersList} reports={reports} reportsList={reportsList} pets={pets} posts={posts} /> 
     </div>
   );
 };

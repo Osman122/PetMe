@@ -56,7 +56,7 @@ const Router = () => {
 
                 <Route path="blog" element={<Blog />}/>
                 {/* <Route path="/post/:postId" render={(props) => <SinglePost postId={props.match.params.postId} />} /> */}
-                <Route path="post/:postId" element={<SinglePost />} />
+                <Route path="posts/:id" element={<SinglePost />} />
                 <Route path="about" element={<About />}/>
                 <Route path="explore" element={<Explore />}/>
                 <Route path="petinfo/:id" element={<PetInfo />}/>

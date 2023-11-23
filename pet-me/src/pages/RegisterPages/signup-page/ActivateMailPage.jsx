@@ -1,6 +1,5 @@
 import logo from '../../../assets/images/Logo.png'
 
-import {useSelector} from 'react-redux';
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {Alert, Spinner} from 'react-bootstrap';
@@ -13,11 +12,9 @@ const ActivateMailPage = () => {
     const { uid, token } = useParams();
     const [fail, setFail] = useState(false)
 
-    const {synced} = useSelector(state => state.currentUser)
     const navigate = useNavigate();
 
     useEffect(()=>{
-        if (synced){navigate('/')}
 
         if (uid && token){
             axiosInstance.post(`/accounts/users/activation/`,{'uid':uid,'token':token}).then(res => {

@@ -6,15 +6,22 @@ import { axiosInstance } from "../../api/config";
 import { useState } from "react";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Carousel } from "react-bootstrap";
 
 const Post = (props) => {
-    const {post} = props
+    const {post, single} = props
     const {currentUser, synced} = useSelector(state => state.currentUser)
     const [comments, setComments ] = useState(post.comments)
+    const [index, setIndex] = useState(0);
+
+    const handleSelect = (selectedIndex) => {
+      setIndex(selectedIndex);
+    };
 
     const reportPost = (e) => {
       e.preventDefault()
       let reason = e.target.querySelector('textarea').value
+      e.target.querySelector('textarea').value = ""
       
       axiosInstance.post(`/posts/${post.id}/reports/`, {reason:reason}).then(()=>{
         let alert = document.getElementById('success')
@@ -49,12 +56,14 @@ const Post = (props) => {
       e.preventDefault()
 
       let content = e.target.querySelector('textarea').value
-        axiosInstance.post(`posts/${post.id}/comments/`, {'content':content}).then((res)=>{
-          setComments([...comments, res.data])
-          console.log(res.data)
-        }).catch(err => {
-            console.log(err)
-        })}
+      e.target.reset()
+
+      axiosInstance.post(`posts/${post.id}/comments/`, {'content':content}).then((res)=>{
+        setComments([res.data,...comments])
+        console.log(res.data)
+      }).catch(err => {
+          console.log(err)
+      })}
 
     return post ? (
       <div class="card">
@@ -127,30 +136,25 @@ const Post = (props) => {
           </>:<></>}
           </div>
 
+          {single?<>
+          
           {
-            post.photos.length ? <Link to={`/posts/${post.id}`}>
-            <div className="post-image">
-            <img className="img-fluid" alt="post_image" src={`${post.photos[0]['photo']}`}/>
-          </div></Link> : <></>
+            post.photos.length ? 
+            <div className="post-image p-4 pb-0" style={{ height:"60vh"}}>
+                <Carousel activeIndex={index} onSelect={handleSelect} className='w-100 h-100'  slide={false}>
+                    {post.photos.map((photo) =>{
+                      return <Carousel.Item interval={100000}>
+                          <img src={`${photo['photo']}`} alt="post" className="img-fluid" style={{maxHeight:"50vh"}}/>
+                      </Carousel.Item>
+                    })}
+                </Carousel>
+            </div>
+           : <></>
           }
-          <Link to={`/posts/${post.id}`} style={{ textDecoration: 'none',color:'black' }}>
             <p class="mt-3 mb-4 pb-2"> {post.content}</p>
-          </Link>
-          {
-            comments.length ? <>
-            <hr />
-            <div className="comments">
-              {comments.map((comment) => {
-                  return <CommentCard comment={comment} key={comment.id}/>
-              })}
-            </div> </> : <></>
-          }
 
-
-
-        </div>
-        { synced && (
-          <form class="card-footer py-3 border-0" style={{backgroundColor:"#f8f9fa"}}
+          { synced && (
+          <form class="card-footer py-3 border-0 mb-3"
           onSubmit={e => addComment(e)}>
             <div class="d-flex flex-start w-100">
               <img class="rounded-circle shadow-1-strong me-3"
@@ -161,12 +165,37 @@ const Post = (props) => {
                   style={{backgroundColor:"#fff" , outline:'none' , resize:'none'}}></textarea>
               </div>
             </div>
-            <div class="float-end mt-2 pt-1">
-              <button type="submit" class="btn btn-primary btn-sm me-3">Post comment</button>
-              <button type="reset" class="btn btn-outline-primary btn-sm">Cancel</button>
+            <div class="d-flex flex-row-reverse pt-2">
+              <button type="submit" class="btn btn-outline-primary btn-sm">Comment</button>
             </div>
           </form>
-        )}
+          )}  
+
+          {
+            comments.length ? <>
+            <div className="comments">
+              {comments.map((comment) => {
+                  return <CommentCard comment={comment} key={comment.id}/>
+              })}
+            </div> </> : <></>
+          }
+          </>:<>
+            {
+              post.photos.length ? 
+              <Link to={`/posts/${post.id}`}>
+              <div className="post-image">
+                <img className="img-fluid" alt="post_image" src={`${post.photos[0]['photo']}`}/>
+              </div>
+            </Link> : <></>
+            }
+
+            <Link to={`/posts/${post.id}`} style={{ textDecoration: 'none',color:'black' }}>
+              <p class="mt-3 mb-4 pb-2"> {post.content}</p>
+            </Link>
+          </>}
+
+        </div>
+
       </div>
 
     ): <></>;

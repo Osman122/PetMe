@@ -2,17 +2,8 @@ import logo from '../../../assets/images/Logo.png'
 import emailsent from '../../../assets/images/emailsent.png'
 
 import { Link } from "react-router-dom";
-import {useSelector} from 'react-redux';
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 const SignupSuccess = () => {
-    const {synced} = useSelector(state => state.currentUser)
-    const navigate = useNavigate();
-
-    useEffect(()=>{
-        if (synced){navigate('/')}
-    },[])
 
     return <>
             <section>

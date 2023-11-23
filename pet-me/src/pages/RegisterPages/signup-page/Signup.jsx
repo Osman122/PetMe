@@ -1,13 +1,12 @@
 import logo from '../../../assets/images/Logo.png'
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FormProvider, useForm } from 'react-hook-form'
 import Alert from 'react-bootstrap/Alert';
 
 import { Input } from  '../../../components/form'
 import { axiosInstance } from '../../../api/config';
-import {useSelector} from 'react-redux'
 
 import {
   email_validation,
@@ -19,11 +18,6 @@ const Signup = () => {
     const methods = useForm()
     const [fail, setFail] = useState(false)
     const navigate = useNavigate();
-    const {synced} = useSelector(state => state.currentUser)
-  
-    useEffect(()=>{
-        if (synced){navigate('/')}
-    },[])
 
     const onSubmit = methods.handleSubmit(data => {
         setFail("load")

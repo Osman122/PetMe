@@ -3,28 +3,42 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./CreateBlog.css";
 import { axiosInstance } from "../../api/config";
+import { useContext, useState } from "react";
+import PostContext from '../../Context/PostContext'
+import { Form } from "react-bootstrap";
 
 const CreateBlog = (props) => {
-//   const [post , setPost] = useState('');
   const { user } = props;
+  const { postsList, setPostsList } = useContext(PostContext)
+  const [hideFiles, setHideFiles] = useState(true)
 
   const addPost = (e) =>{
     e.preventDefault();
-    let content = e.target.querySelector('textarea').value;
-    // console.log(post)
+    const formData = new FormData(e.target)
+
+    if (formData.getAll("photos").length > 4){
+        let alert = document.getElementById('fail')
+        alert.lastChild.innerText = "You cannot upload more than 4 photos."
+        alert.hidden = false
+        setTimeout(()=>{
+            document.getElementById('fail').hidden = true
+        })
+        return
+        }
     
-    axiosInstance.post('/posts/',{user,content}).then(()=>{
-        console.log("success")
+    axiosInstance.post('/posts/',formData).then((res)=>{
+        setPostsList([res.data, ...postsList])
       }).catch((e)=>{
         console.log(e)
       })
-      e.target.querySelector('textarea').value = '';
+
+    e.target.reset();
   }
  
   return (
     <div className="create-blog">
-      <div className="text-center rounded-3 w-100 blog-box pb-0">
-        <form method="post" className="p-4" onSubmit={e => addPost(e)}>
+      <div className="text-center rounded-3 w-100 blog-box p-4 pb-2">
+        <form method="post" onSubmit={e => addPost(e)}>
           <div className="d-flex">
             <img
               className="rounded-circle shadow-1-strong"
@@ -36,7 +50,8 @@ const CreateBlog = (props) => {
             <textarea
               type="text"
               id="tx-blog"
-              className="form-control ms-3 me-2"
+              className="form-control ms-2"
+              name = "content"
               placeholder="What's in your mind.."
               onKeyUp={e => {
                   const tx = document.getElementById("tx-blog");
@@ -45,20 +60,22 @@ const CreateBlog = (props) => {
               } }
             />
           </div>
-
+        <Form.Group controlId="formFileMultiple" className="ms-5 pt-3" hidden={hideFiles}>
+          <Form.Control type="file" multiple className="border" name="photos"/>
+        </Form.Group>
         <div className="d-flex justify-content-between mt-3 mb-0">
-          <div className="d-flex">
-            <div className="text-muted ms-5 fs-6">
+          <div className="d-flex" style={{cursor:"pointer"}} onClick={e => setHideFiles(!hideFiles)}>
+            <div className="text-muted ms-5 fs-6 pt-2">
               <FontAwesomeIcon icon={faImage} className="me-2" />
               <span>Photo/Video</span>
             </div>
-            <div className="text-muted ms-5 fs-6">
+            {/* <div className="text-muted ms-5 fs-6 pt-2">
               <FontAwesomeIcon icon={faFaceSmile} className="me-2" />
               <span>Feeling/activity</span>
-            </div>
+            </div> */}
           </div>
 
-          <button type="submit" className="btn">Post</button>
+          <button type="submit" className="btn btn-sm p-1 " style={{width:"90px",height:"35px"}}>Post</button>
 
         </div>
 

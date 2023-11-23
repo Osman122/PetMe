@@ -25,9 +25,8 @@ const SinglePost = () => {
     }
 
     return (
-        <div>
-            <Post post={post} />
-            {/* Add more details of the post here */}
+        <div className='container py-5' style={{maxWidth:"800px"}}>
+            <Post post={post} single={true}/>
         </div>
     );
 };

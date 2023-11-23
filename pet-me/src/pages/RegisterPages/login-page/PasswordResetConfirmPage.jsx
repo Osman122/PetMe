@@ -1,10 +1,9 @@
 import logo from '../../../assets/images/Logo.png'
-import emailsent from '../../../assets/images/emailsent.png'
 import { Link } from 'react-router-dom';
 
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import {useSelector, useDispatch} from 'react-redux'
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch} from 'react-redux'
 import {clearCurrUser} from '../../../store/Slices/UserSlice'
 
 import { FormProvider, useForm } from 'react-hook-form'
@@ -21,12 +20,7 @@ const PasswordResetPage = () => {
 
     const methods = useForm();
     const [fail, setFail] = useState(false)
-    const navigate = useNavigate();
-    const {synced} = useSelector(state => state.currentUser)
 
-    useEffect(()=>{
-        if (synced){navigate('/')}
-    },[synced])
 
     const onSubmit = methods.handleSubmit(data => {
         setFail('load')

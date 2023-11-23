@@ -44,3 +44,8 @@ form.user-form select.form-select
     padding: 10px;
     border-radius: 10px;
 }
+
+.accordion-button:focus {
+    border-color: rgba(191, 114, 69, 0.25) !important;
+    box-shadow: 0 0 0 0.25rem rgba(191, 114, 69, 0.25) !important;
+}

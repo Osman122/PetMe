@@ -1,9 +1,7 @@
 import logo from '../../../assets/images/Logo.png'
-import emailsent from '../../../assets/images/emailsent.png'
 
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import {useSelector} from 'react-redux'
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { FormProvider, useForm } from 'react-hook-form'
 import { axiosInstance } from '../../../api/config';
 import Alert from 'react-bootstrap/Alert';
@@ -16,12 +14,7 @@ import {
 const PasswordResetPage = () => {
     const methods = useForm()
     const [fail, setFail] = useState(false)
-    const navigate = useNavigate();
-    const {synced} = useSelector(state => state.currentUser)
 
-    useEffect(()=>{
-        if (synced){navigate('/')}
-    },[])
 
     const onSubmit = methods.handleSubmit(data => {
         setFail('load')

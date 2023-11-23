@@ -1,7 +1,8 @@
 :root {
     --primary: #BF7245;
     --secondary: #d9c9ba48;
-}
+    --bs-primary-bg-subtle: #bb85636b !important;
+}   
 
 .text-primary {
     color: var(--primary) !important;

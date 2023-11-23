@@ -16,7 +16,8 @@ const CommentCard = (props) => {
     const reportComment = (e) => {
       e.preventDefault()
       let reason = e.target.querySelector('textarea').value
-      
+      e.target.reset()
+
       axiosInstance.post(`/posts/comment/${comment.id}/reports/`, {reason:reason}).then(()=>{
         let alert = document.getElementById('success')
         alert.lastChild.innerText = "Report Sent Successfully."
@@ -52,14 +53,14 @@ const CommentCard = (props) => {
       let content = e.target.querySelector('textarea').value
         axiosInstance.post(`posts/comment/${comment.id}/replies/`, {'content':content}).then((res)=>{
           const newReply = res.data
-          setReplies([...replies, newReply])
+          setReplies([newReply,...replies])
           console.log(replies)
         }).catch(err => {
             console.log(err)
         })}
 
     return (
-        <div class="d-flex flex-start mb-4 ps-2 comment-card">
+        <div class="d-flex flex-start mb-2 ps-2 comment-card">
 
           <Link to={`/profile/${comment.user_id}`}>
             <img class="rounded-circle shadow-1-strong me-3"
@@ -120,13 +121,31 @@ const CommentCard = (props) => {
                 <h4 className="m-0">{comment.username}</h4>
                 <p class="small text-muted">{comment.created_at.toLocaleDateString("en-US", { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' })}</p>
 
-                <p> {comment.content} </p>
+                <p className="m-0"> {comment.content} </p>
               </div>
             </div>
+            {synced && (
+            <form className="add-reply px-3" onSubmit={e=>{addReply(e)}}>
+              <hr />
+              <div class="d-flex flex-start w-100">
+                <hr />
+                <img class="rounded-circle shadow-1-strong me-3"
+                  src={`${currentUser.picture}`} alt="avatar" width="40"
+                  height="40" />
+                <div class="form-outline w-100">
+                  <textarea class="form-control" rows="2" name="content" required placeholder="Add a reply"
+                    style={{backgroundColor:"#fff" , resize:'none' , outline:'none'}}></textarea>
+                </div>
+              </div>
+              <div class="float-end my-2 pt-1">
+                <button type="submit" class="btn btn-outline-primary btn-sm">Reply</button>
+              </div>
+            </form>
+            )}
             { replies.length ? <>
-            <Accordion class="card-footer py-3 border-0" style={{backgroundColor:"#f8f9fa"}}>
-              <Accordion.Item eventKey="0">
-                <Accordion.Header>Replies</Accordion.Header>
+            <Accordion class="card-footer py-3" style={{backgroundColor:"#f8f9fa"}}>
+              <Accordion.Item eventKey="0" className=" border-0">
+                <Accordion.Header>View All Replies</Accordion.Header>
                 <Accordion.Body>
                 <div className="replies" style={{maxHeight:"50vh", overflow:"auto"}}>
                   {replies.map((reply) => {
@@ -134,28 +153,11 @@ const CommentCard = (props) => {
                       return <><ReplyCard reply={reply} key={reply.id}/></>
                   })}
                     </div>
-                    {synced && (
-                    <form className="add-reply border-top pt-3 pb-5" onSubmit={e=>{addReply(e)}}>
-                      <div class="d-flex flex-start w-100">
-                        <hr />
-                        <img class="rounded-circle shadow-1-strong me-3"
-                          src={`${currentUser.picture}`} alt="avatar" width="40"
-                          height="40" />
-                        <div class="form-outline w-100">
-                          <textarea class="form-control" id="textAreaExample" rows="2" name="content" required
-                            style={{backgroundColor:"#fff" , resize:'none' , border:'none' , outline:'none'}}></textarea>
-                        </div>
-                      </div>
-                      <div class="float-end mt-2 pt-1">
-                        <button type="submit" class="btn btn-primary btn-sm me-3">Reply</button>
-                        <button type="reset" class="btn btn-outline-primary btn-sm">Cancel</button>
-                      </div>
-                    </form>
-                    )}
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
             </> : <></>}
+
 
           </div>
           

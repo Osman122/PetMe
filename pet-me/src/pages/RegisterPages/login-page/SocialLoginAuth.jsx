@@ -5,7 +5,7 @@ import logo from '../../../assets/images/Logo.png'
 
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import {useSelector, useDispatch} from 'react-redux'
+import {useSelector} from 'react-redux'
 
 import { axiosInstance } from '../../../api/config';
 import { useSearchParams } from 'react-router-dom';
@@ -22,7 +22,6 @@ const SocialLoginAuth = () => {
     const [fail, setFail] = useState(false)
 
     useEffect(()=>{
-        if (synced){return navigate('/')}
 
         const data = {'code':query.get('code'),'state':query.get('state')};
 

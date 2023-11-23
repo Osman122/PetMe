@@ -3,10 +3,10 @@ import Facebook from '../../../assets/images/Facebook.png'
 import Github from '../../../assets/images/Github.png'
 import Google from '../../../assets/images/Google.png'
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FormProvider, useForm } from 'react-hook-form'
-import {useSelector, useDispatch} from 'react-redux'
+import { useDispatch} from 'react-redux'
 
 import Alert from 'react-bootstrap/Alert';
 
@@ -14,9 +14,6 @@ import { axiosInstance } from '../../../api/config';
 import {setCurrUser} from '../../../store/Slices/UserSlice'
 import { Input } from '../../../components/form'
 import logo from '../../../assets/images/Logo.png'
-
-import { useSearchParams } from 'react-router-dom';
-import qs from 'qs';
 
 import {
   email_validation,
@@ -27,10 +24,8 @@ const Login = () => {
     const methods = useForm()
     const [fail, setFail] = useState(false)
     const navigate = useNavigate();
-    const {synced} = useSelector(state => state.currentUser)
 
     const dispatch = useDispatch()
-    const [query] = useSearchParams()
 
     const socialAuth = (provider) => {
         let redirect = window.location.origin + `/register/social/complete/${provider}/`
@@ -68,10 +63,6 @@ const Login = () => {
         })
         
     };
-  
-    useEffect(()=>{
-        if (synced){navigate('/')}
-    },[])
 
     const onSubmit = methods.handleSubmit(data => {
         setFail("load")

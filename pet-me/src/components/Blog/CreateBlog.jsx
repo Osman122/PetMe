@@ -48,6 +48,8 @@ const CreateBlog = (props) => {
               height="40"
             />
             <textarea
+              minLength={5}
+              required
               type="text"
               id="tx-blog"
               className="form-control ms-2"
@@ -61,13 +63,13 @@ const CreateBlog = (props) => {
             />
           </div>
         <Form.Group controlId="formFileMultiple" className="ms-5 pt-3" hidden={hideFiles}>
-          <Form.Control type="file" multiple className="border" name="photos"/>
+          <Form.Control type="file" multiple className="border" name="photos" accept="image/*"/>
         </Form.Group>
         <div className="d-flex justify-content-between mt-3 mb-0">
           <div className="d-flex" style={{cursor:"pointer"}} onClick={e => setHideFiles(!hideFiles)}>
             <div className="text-muted ms-5 fs-6 pt-2">
               <FontAwesomeIcon icon={faImage} className="me-2" />
-              <span>Photo/Video</span>
+              <span>Photo</span>
             </div>
             {/* <div className="text-muted ms-5 fs-6 pt-2">
               <FontAwesomeIcon icon={faFaceSmile} className="me-2" />

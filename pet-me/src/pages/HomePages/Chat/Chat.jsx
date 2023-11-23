@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Avatar, ChatContainer, ConversationHeader, InfoButton, Message, MessageInput, MessageList, TypingIndicator, VideoCallButton, VoiceCallButton } from '@chatscope/chat-ui-kit-react';
-import kaiIco from '../../../assets/images/akane.svg'
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import './Chat.css'
+import Annon from '../../../assets/images/annon_user.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faX } from '@fortawesome/free-solid-svg-icons';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -12,13 +14,10 @@ import {
       Sidebar,
       Search,
       ConversationList,
-      ExpansionPanel,
-      Conversation,
-      MessageSeparator,
     } from "@chatscope/chat-ui-kit-react";
 
 import { axiosInstance } from '../../../api/config';
-import { Link } from 'react-router-dom';
+
 const Chat = () => {
     const [users, setUsers]=useState([]);
     const inputRef = useRef();
@@ -28,18 +27,20 @@ const Chat = () => {
     const [speakingUser,setSpeakingUser] = useState(false)
     const {currentUser, synced} = useSelector(state => state.currentUser)
 
+    const deleteMessage = (e, id) => {
+      axiosInstance.delete(`/chats/${id}/`).then(()=>{
+        setMessages(messages.filter(m => m.message_id != id))
+      }).catch(e => console.log(e))
+    }
+
     const navigate = useNavigate()
 
     const handleSend = message => {
-      /* Send a post request with the content of the message and save the response*/
       if (speakingUser.id){
         axiosInstance.post(`/chats/user/${speakingUser.id}/`,{content:message}).then((res)=>
           setMessages([...messages, res.data])).catch(e=>{console.log(e)})
       }
-      // setMessages([...messages, {
-      //   message,
-      //   direction: 'outgoing'
-      // }]);
+
       setMsgInputValue("");
       inputRef.current.focus();
     };
@@ -97,21 +98,30 @@ const Chat = () => {
        </Sidebar>
 
         <ChatContainer>
-            <ConversationHeader onClick={e => {navigate(`/profile/${speakingUser.id}`)}}>
+            <ConversationHeader onClick={e => {if (speakingUser) navigate(`/profile/${speakingUser.id}`)}}>
                 <ConversationHeader.Back />
-                <Avatar src={`http://localhost:8000/media/${speakingUser.picture}`} />
-                <ConversationHeader.Content userName={`${speakingUser.first_name}${speakingUser.last_name?" "+speakingUser.last_name:""}` || speakingUser.username} info="Tap to view profile"/>                          
+                  <Avatar src={speakingUser? `http://localhost:8000/media/${speakingUser.picture}` : Annon} />
+                  <ConversationHeader.Content userName={speakingUser?`${speakingUser.first_name}${speakingUser.last_name?" "+speakingUser.last_name:""}` || speakingUser.username:"Choose a user from the list" } info="Tap to view profile"/>                          
             </ConversationHeader>
 
-            <MessageList scrollBehavior="smooth"  style={{minHeight:'60vh'}}>
+            <MessageList scrollBehavior="smooth"  style={{height:'60vh', overflow:"auto"}}>
             
               {messages.map((message) => <>
                 <section class={`cs-message cs-message--${message.sender_id == speakingUser.id?"incoming":"outgoing"}`} data-cs-message="">
-                  <div class="cs-message__content-wrapper">
+                  <div class="cs-message__content-wrapper d-flex flex-row">
+                    
+                    {message.sender_id != speakingUser.id?
+                    <div className='delete-message d-flex align-items-center pe-3 text-danger opacity-25 d-none' 
+                    onClick={e => deleteMessage(e,message.message_id)} title="Delete Message">
+                      <FontAwesomeIcon icon={faX} />
+                    </div>
+                    :<></>}
+
                     <div class="cs-message__content" title={Date(message.created_at)}>
                       <div class="cs-message__html-content">
                         {message.content}
                       </div>
+
                     </div>
                   </div>
                 </section>

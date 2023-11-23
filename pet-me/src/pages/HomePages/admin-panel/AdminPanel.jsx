@@ -5,6 +5,7 @@ import Dashboard from "../../../components/Admin/Dashboard";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import error from "../../../assets/images/error.png";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const AdminPanel = () => {
   const { currentUser, synced } = useSelector((state) => state.currentUser);
@@ -14,6 +15,7 @@ const AdminPanel = () => {
   const [reportsList, setReportsList] = useState([]);
   const [posts, setPosts] = useState(0);
   const [pets, setPets] = useState(0);
+  const navigate = useNavigate()
 
   const getUsers = () => {
     axiosInstance
@@ -58,10 +60,14 @@ const AdminPanel = () => {
   };
 
   useEffect(() => {
-    getUsers();
-    getReports();
-    getPosts();
-    getPets();
+    if (!currentUser.is_superuser){
+      navigate('/forbidden')
+    } else {
+      getUsers();
+      getReports();
+      getPosts();
+      getPets();
+    }
   }, []);
 
   return (

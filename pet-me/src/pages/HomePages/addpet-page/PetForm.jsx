@@ -19,15 +19,11 @@ const PetForm = () => {
     const [ formErrors , setFormErrors ] = useState({})
     const dispatch = useDispatch()
 
-    function Redirect () {
-        setTimeout(()=>{
-            if (!synced){
-                // navigate('/')
-            }
-            },2000)
-        }
 
     useEffect(() => {
+        if (!synced){
+            navigate('/')
+        }
         // Convert date
         var birthdate, pet
 
@@ -44,7 +40,6 @@ const PetForm = () => {
         }
 
         setPetData({...pet,'birthdate': birthdate});
-        Redirect()
     }, [synced, id]);
 
 

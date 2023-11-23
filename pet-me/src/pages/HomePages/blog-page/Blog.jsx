@@ -38,6 +38,7 @@ const Blog = () => {
                 </div>
                 <div class="row d-flex justify-content-center">
                     <div class="col-md-12 col-lg-10 col-xl-8">
+                    <PostContext.Provider value={{ postsList, setPostsList }}>
                         {postsList.map((post) => {
                             return (
                                 <div key={post.id}>
@@ -45,6 +46,7 @@ const Blog = () => {
                                 </div>
                             );
                         })}
+                    </PostContext.Provider>
                     </div>
 
                 </div>

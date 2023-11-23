@@ -16,7 +16,8 @@
 
 .cs-message__content, .cs-search,
 .cs-message-input__content-editor-wrapper,
-.cs-conversation-header
+.cs-conversation-header,
+.ps__thumb-y
 {
     background-color: var(--secondary) !important ;
 }
@@ -57,4 +58,12 @@
     font-weight: bold;
     color: rgba(0,0,0,.87);
     background-color: transparent !important;
+}
+
+.cs-message:hover .delete-message {
+    display: flex !important;
+}
+
+.cs-message:hover .delete-message:hover {
+    opacity: 100% !important;
 }

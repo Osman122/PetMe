@@ -1,18 +1,24 @@
 import "./assets/post.css";
 import CommentCard from '../CommentCard/CommentCard'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { axiosInstance } from "../../api/config";
 import { useState } from "react";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Carousel } from "react-bootstrap";
+import PostContext from '../../Context/PostContext'
+import { useContext } from "react";
 
 const Post = (props) => {
     const {post, single} = props
     const {currentUser, synced} = useSelector(state => state.currentUser)
     const [comments, setComments ] = useState(post.comments)
+
+    const { postsList, setPostsList } = useContext(PostContext)
+
     const [index, setIndex] = useState(0);
+    const navigate = useNavigate()
 
     const handleSelect = (selectedIndex) => {
       setIndex(selectedIndex);
@@ -48,7 +54,8 @@ const Post = (props) => {
 
     const deletePost = (e) => {
       axiosInstance.delete(`/posts/${post.id}/`).then(()=>{
-        e.target.closest('.card').remove()
+        setPostsList(postsList.filter(p => p.id != post.id))
+        if (single) navigate(`/blog`)
       }).catch(e => console.log(e))
     }
 
@@ -93,7 +100,7 @@ const Post = (props) => {
               <div className="p-2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <FontAwesomeIcon icon={faEllipsisVertical} />
               </div>
-                  {currentUser.id === post.user_id?<>
+                  {currentUser.id === post.user.user_id?<>
                     <ul class="dropdown-menu">
                       <li>
                         <button class="btn text-danger" onClick={(e)=>deletePost(e)}>Delete</button>                                 

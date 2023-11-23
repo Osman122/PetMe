@@ -14,7 +14,7 @@ export default function PetCard (props) {
         />}
         
         <Card.Body className='p-0'>
-            <Card.Text className='text-muted float-end my-2'>{age} Old</Card.Text>
+            {age?<Card.Text className='text-muted float-end my-2'>{age} Old</Card.Text>:<></>}
             <Card.Title className='my-2'><b>{name}</b></Card.Title>
             <Card.Text className='p-0'>{owner.username}</Card.Text>
         </Card.Body>

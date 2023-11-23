@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { axiosInstance } from '../../../api/config';
 import { useParams } from 'react-router-dom';
 import Post from "../../../components/home/Post";
+import PostContext from '../../../Context/PostContext'
 
 const SinglePost = () => {
     const [post, setPost] = useState(null);
+    const [postsList, setPostsList] = useState([])
     const { id } = useParams();
 
     useEffect(() => {
@@ -26,7 +28,9 @@ const SinglePost = () => {
 
     return (
         <div className='container py-5' style={{maxWidth:"800px"}}>
-            <Post post={post} single={true}/>
+            <PostContext.Provider value={{ postsList, setPostsList }}>
+                <Post post={post} single={true}/>
+            </PostContext.Provider>
         </div>
     );
 };

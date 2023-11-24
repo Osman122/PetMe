@@ -2,31 +2,68 @@ import { useState,useEffect } from "react";
 import { axiosInstance } from '../../../api/config';
 import { useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-
-const PetInfo = () => {
+import { useNavigate } from 'react-router-dom';
+const PetInfo = ( ) => {
     const { id } = useParams();
     const {synced, currentUser } = useSelector(state => state.currentUser);
+    const navigate = useNavigate();
+    
 
 
-  const [ petData , setPetData ] = useState(null);
+    const [ petData , setPetData ] = useState(null);
+        
+    const getPetData  = () => {
+        axiosInstance.get(`pets/${id}/`)
+        .then((res) => { 
+        setPetData(res.data)
+        
+    })
+        .catch((err) => console.log("osssssss",id,err));
+        
     
-  const getPetData  = () => {
-    axiosInstance.get(`pets/${id}/`)
-    .then((res) => { 
-      setPetData(res.data)
-      
-  })
-    .catch((err) => console.log("osssssss",id,err));
-      
-  
-  }
-  useEffect(()=>{
-    getPetData();
-    console.log(petData)
+    }
+    const handleDeletePet = () => {
+        axiosInstance.delete(`pets/${id}/`)
+        .then((res) => {
+            // Pet deleted successfully, update the UI or take any other action
+            console.log("Pet deleted successfully");
+            // You may want to clear the petData state or update the UI after deletion
+            navigate('/'); // Redirect to the home page
+        })
+        .catch((err) => {
+            // Handle the error, such as displaying an error message to the user
+            console.log("Error deleting pet:", err);
+        });
+    };
+    useEffect(()=>{
+        getPetData();
+        console.log(petData)
+        
+    },[]);
+
+    const [offerDescription, setOfferDescription] = useState('');
+
+    const handleOfferSubmit = (event) => {
+        event.preventDefault();
+        if (id) {
+            // Send a POST request to the /pets/<pet_id>/offer endpoint
+            axiosInstance.post(`/pets/${id}/offer/`, { description: offerDescription })
+              .then((response) => {
+                // Handle successful offer submission
+                console.log('Offer submitted successfully:', response.data);
+                navigate('/'); // Redirect to the home page
+                // You can add further logic here, such as updating the UI
+              })
+              .catch((error) => {
+                // Handle error
+                console.error('Error submitting offer:', error);
+              });
+          } else {
+            console.error('Pet ID is undefined');
+          }
+        };
     
-  },[]);
-  
- 
+    
 
 
   return petData?(
@@ -62,30 +99,61 @@ const PetInfo = () => {
                    
                     <div className=" mx-2" >
 
-                        <p style={{fontSize:"12px", fontWeight:"400px", padding:"0",margin:"0"}}>name</p>
-                        <p>{petData.name}</p>
-                        <p style={{fontSize:"12px", fontWeight:"400px", padding:"0",margin:"0"}}>age</p>
-                        <p>{petData.age}</p>
-                        <p style={{fontSize:"12px", fontWeight:"400px", padding:"0",margin:"0"}}>type</p>
-                        <p>{petData.pet_type}</p>
-                        <p style={{fontSize:"12px", fontWeight:"400px", padding:"0",margin:"0"}}>gender</p>
-                        <p>{petData.gender}</p>
-                        <p style={{fontSize:"12px", fontWeight:"400px", padding:"0",margin:"0"}}>species</p>
-                        <p>{petData.species}</p>
-                        <p style={{fontSize:"12px", fontWeight:"400px", padding:"0",margin:"0"}}>color</p>
-                        <p>{petData.color}</p>
-                        <p style={{fontSize:"12px", fontWeight:"400px", padding:"0",margin:"0"}}>brief</p>
-                       
+                        <p className="text-muted m-0">Name</p>
+                            <p className="fw-semibold fs-5 mb-2">
+                                {petData.name}
+                            </p>
+                        <p className="text-muted m-0">Age</p>
+                            <p className="fw-semibold fs-5 mb-2">
+                                {petData.age}
+                            </p>
+                        <p className="text-muted m-0">Type</p>
+                            <p className="fw-semibold fs-5 mb-2">
+                                {petData.pet_type}
+                            </p>
+                        <p className="text-muted m-0">Gender</p>
+                            <p className="fw-semibold fs-5 mb-2">
+                                {petData.gender}
+                            </p>
+                        <p className="text-muted m-0">Species</p>
+                            <p className="fw-semibold fs-5 mb-2">
+                                {petData.species}
+                            </p>
+                        <p className="text-muted m-0">Color</p>
+                            <p className="fw-semibold fs-5 mb-2">
+                                {petData.color}
+                            </p>
                         
-                    <hr/>
-                         <p className="mb-5">{petData.brief}</p>
-                         {petData.owner.user_id == currentUser.id? 
-                         <Link to={`/editpet/${petData.id}`} className="btn w-100 btn-outline-primary mb-3"> Edit Pet Data </Link>
-                         :<Link to={`/profile/${petData.owner.user_id}`} className="w-100 btn-primary btn my-1" type="button">
+                        <p className="text-muted m-0 border-bottom">Brief</p>
+                            <p className="fw-semibold fs-6 mb-2" style={{textAlign:"justify"}}>
+                            {petData.brief}
+                            </p>
+                    
+                        
+                        {petData.owner.user_id == currentUser.id? 
+                        <Link to={`/editpet/${petData.id}`} className="btn w-100 btn-outline-primary mb-3"> Edit Pet Data </Link>
+                        :<Link to={`/profile/${petData.owner.user_id}`} className="w-100 btn-primary btn my-1" type="button">
                             View Pet Owner Profile</Link>}
+
+                            {petData.owner.user_id === currentUser.id && (
+                                <button onClick={() => handleDeletePet(petData.id)} className="btn w-100 btn-danger mb-3">
+                                Delete Pet
+                                </button>
+                            )}
+                        {currentUser.id === petData.owner.user_id && (
+                            <form onSubmit={handleOfferSubmit}>
+                                    <div>
+                                    <label htmlFor="offerDescription">Offer Description:</label>
+                                    <input
+                                        type="text"
+                                        id="offerDescription"
+                                        value={offerDescription}
+                                        onChange={(e) => setOfferDescription(e.target.value)}
+                                    />
+                                    </div>
+                                    <button type="submit">Make Offer</button>
+                                </form>)}
                         </div>
-    
-                   
                 </div>
     
             </div>

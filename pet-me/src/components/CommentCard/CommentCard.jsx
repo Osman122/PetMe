@@ -57,6 +57,7 @@ const CommentCard = (props) => {
         axiosInstance.post(`posts/comment/${comment.id}/replies/`, {'content':content}).then((res)=>{
           const newReply = res.data
           setReplies([newReply,...replies])
+          e.target.querySelector('textarea').value = '';
           console.log(replies)
         }).catch(err => {
             console.log(err)

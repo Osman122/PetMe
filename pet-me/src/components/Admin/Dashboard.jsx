@@ -1,11 +1,13 @@
 import {
   faCat,
   faCircleXmark,
+  faEyeSlash,
   faFlag,
   faPalette,
   faShapes,
   faTrash,
   faUsers,
+  faXmarkCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faFile } from "@fortawesome/free-solid-svg-icons";
@@ -15,9 +17,8 @@ import { useState } from "react";
 import { axiosInstance } from "../../api/config";
 
 const Dashboard = (props) => {
-  const { users, usersList , reports , reportsList , posts , pets } = props;
+  const { users, usersList , reports, getReports , reportsList , posts , pets } = props;
   const activeUsersList = usersList.filter((user) => user.is_active);
-  const inActiveUsersList = usersList.filter((user) => !user.is_active);
   const [inactive, setInActive] = useState(false)
 
   const deleteUser = (e, id) => {
@@ -26,9 +27,9 @@ const Dashboard = (props) => {
     }).catch(e => console.log(e))
   }
 
-  const deletePost = (e, id) => {
-    axiosInstance.delete(`/posts/${id}/`).then(()=>{
-      e.target.closest('tr').remove()
+  const hidePost = (e, post) => {
+    axiosInstance.post(`/posts/${post.id}/`).then(()=>{
+      getReports()
     }).catch(e => console.log(e))
   }
 
@@ -45,7 +46,7 @@ const Dashboard = (props) => {
   }
 
   return (
-    <Tab.Container defaultActiveKey="#dashboard" id="tab-container">
+    <Tab.Container defaultActiveKey="#dashboard" id="#dashboard">
       <Row>
         <Col sm={3} className="p-4 bg-white min-vh-100">
           <div>
@@ -119,8 +120,8 @@ const Dashboard = (props) => {
                   </div>
                 </div>
               </div>
-              <table className="table caption-top bg-white rounded-3 overflow-hidden" style={{textAlign:"center"}}>
-                <caption className="text-white fs-3 p-2">#Active Users</caption>
+              <table className="table caption-top bg-white rounded-3 overflow-hidden" style={{textAlign:"center", verticalAlign: 'middle'}}>
+                <caption className="text-dark fs-2 p-2">Active Users</caption>
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -156,9 +157,9 @@ const Dashboard = (props) => {
               </table>
             </Tab.Pane>
             <Tab.Pane eventKey="#reports-page">
-              <table className="table caption-top bg-white rounded-3 overflow-hidden text-center">
-                <caption className="text-white fs-3 p-2">
-                  #All Reports: {reports}
+              <table className="table caption-top bg-white rounded-3 overflow-hidden"  style={{textAlign:"center", verticalAlign: 'middle'}}>
+                <caption className="text-dark fs-2 p-2">
+                  All Reports:
                 </caption>
                 <thead>
                   <tr>
@@ -167,7 +168,7 @@ const Dashboard = (props) => {
                     <th scope="col">Reported Content</th>
                     <th scope="col">Report Reason</th>
                     <th scope="col">View Original Post</th>
-                    <th scope="col">Delete Reported Content</th>
+                    <th scope="col">Take Action</th>
                     <th scope="col">Dismiss Report</th>
                   </tr>
                 </thead>
@@ -183,7 +184,14 @@ const Dashboard = (props) => {
                           <FontAwesomeIcon icon={faFile} />
                         </Link></td>
                         <td>
-                          <FontAwesomeIcon icon={faTrash} style={{cursor:"pointer"}} className="text-danger" onClick={e => {report.comment? deleteComment(e, report.comment.id):deletePost(e, report.post.id)}}/>
+                          {report.comment?<>
+                            <FontAwesomeIcon icon={faTrash} style={{cursor:"pointer"}} title="Delete comment" className="text-danger" onClick={e => {deleteComment(e, report.comment.id)}}/>
+                            </>:report.post.visible?<>
+                              <FontAwesomeIcon icon={faEyeSlash} style={{cursor:"pointer"}} title="Hide Post" className="text-muted" onClick={e => {hidePost(e, report.post)}}/>
+                            </>:<>
+                              <p className="text-muted m-0">Post hidden</p>
+                            </>}
+
                         </td>
                         <td>
                           <FontAwesomeIcon icon={faCircleXmark} style={{cursor:"pointer"}} className="text-danger"  onClick={e => {deleteReport(e, report.id)}}/>
@@ -195,9 +203,9 @@ const Dashboard = (props) => {
               </table>
             </Tab.Pane>
             <Tab.Pane eventKey="#users-page">
-              <table className="table caption-top bg-white rounded-3 overflow-hidden" style={{textAlign:"center"}}>
+              <table className="table caption-top bg-white rounded-3 overflow-hidden" style={{textAlign:"center", verticalAlign: 'middle'}}>
 
-                <caption className="text-white fs-3 p-2">
+                <caption className="text-dark fs-2 p-2">
                     #All Users:
                   <div class="form-check form-switch d-inline-block ms-5 fs-5">
                     <input class="form-check-input" type="checkbox" role="switch" id="inactive" checked={inactive} onChange={e => setInActive(e.target.checked)}/>

@@ -29,7 +29,6 @@ const PetForm = () => {
 
         try {
             pet = currentUser.pets.filter(obj => obj.id == id)[0]
-            console.log(currentUser.pets)
             birthdate = new Date(pet.birthdate).toISOString().substr(0, 10)
             
         } catch (e) {

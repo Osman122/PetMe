@@ -29,10 +29,13 @@ const CommentCard = (props) => {
       }).catch((e)=>{
         console.log(e)
         let alert = document.getElementById('fail')
+        try {
         if (e.response.data.includes("unique")){
             alert.lastChild.innerText = "You already sent a report before"
         } else {
             alert.lastChild.innerText = "Something went wrong!."
+        }} catch{
+          alert.lastChild.innerText = "Something went wrong!."
         }
         alert.hidden = false
         setTimeout(()=>{

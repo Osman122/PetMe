@@ -71,12 +71,13 @@ const AdminPanel = () => {
   }, []);
 
   return (
-    <div style={{ backgroundColor: "#263238" }}>
+    <div className="bg-secondary">
       {currentUser.is_superuser ? (
         <Dashboard
           users={users}
           usersList={usersList}
           reports={reports}
+          getReports={getReports}
           reportsList={reportsList}
           pets={pets}
           posts={posts}

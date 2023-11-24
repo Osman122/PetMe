@@ -8,6 +8,10 @@
     color: var(--primary) !important;
 }
 
+.border-primary {
+    border-color: var(--primary) !important;
+}
+
 .btn-primary {
     background-color: var(--primary) !important;
     color: white !important;
@@ -23,6 +27,10 @@
 
 .bg-primary {
     background-color: var(--primary) !important;
+}
+
+.bg-secondary {
+    background-color: var(--secondary) !important;
 }
 
 .btn-outline-primary, .outline-primary {

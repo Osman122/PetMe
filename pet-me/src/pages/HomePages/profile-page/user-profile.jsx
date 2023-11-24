@@ -35,13 +35,20 @@ function UserProfile() {
       
     const getUserData  = () => {
       axiosInstance.get(`/accounts/users/${id}/`)
-      .then((res) => { 
-        setUserData(res.data)
+      .then((res) => {
+        let birthdate
+        if (res.data['birthdate']){
+          birthdate = new Date(res.data['birthdate']).toISOString().substr(0, 10)
+        } else {
+          birthdate = ""
+        }
+        const date_joined = new Date(res.data['date_joined']).toISOString().substr(0, 10)
+        setUserData({...res.data,'birthdate':birthdate, 'date_joined':date_joined })
     })
       .catch((err) => console.log("osssssss",id,err));
     }
     const getPostsList = () => {
-      axiosInstance.get(`/posts/`)
+      axiosInstance.get(`/posts/user/${id}/`)
       .then((res) => {
           setPostsList(res.data.results)
           
@@ -73,12 +80,32 @@ function UserProfile() {
         })
 
         console.log(alert)
-        
-
-
-    
-
     }
+
+    const sendMessage = (e) => {
+      e.preventDefault()
+      let content = e.target.querySelector('textarea').value
+
+      axiosInstance.post(`/chats/user/${usrData.id}/`,{content:content}).then(()=>{
+          let alert = document.getElementById('success')
+          alert.lastChild.innerText = "Message Sent Successfully."
+          document.getElementById('closeModal').click()
+          alert.hidden = false
+          setTimeout(()=>{
+              document.getElementById('success').hidden = true
+          },3000)
+
+      }).catch(e => {
+          console.log(e)
+          let alert = document.getElementById('fail')
+          alert.lastChild.innerText = "Something went wrong!."
+          alert.hidden = false
+          setTimeout(()=>{
+              document.getElementById('fail').hidden = true
+          },3000)
+
+      })}
+    
 
     return usrData?  (
     <section style={{ backgroundColor: '#eee' }}>
@@ -99,12 +126,13 @@ function UserProfile() {
                 </MDBCol>
                 <MDBCol lg="3">
                 
-                    <p className="text-muted mb-1">{usrData.first_name}</p>
-                <p className="text-muted mb-4">{usrData.date_joined}</p>
-                <div className="d-flex justify-content-center mb-2">
-                {synced? currentUser.id == id ? <><Link to="/profile/edit" className="btn outline-primary me-3">Edit Profile</Link>
-                <Button variant='outline-danger' data-bs-toggle="modal" data-bs-target="#exampleModal">Delete Account</Button>
-
+                <p className="text-muted mb-1">{`${usrData.first_name}${usrData.last_name?' '+usrData.last_name:""}` || usrData.username}</p>
+                <p className="text-muted mb-4">Member since: {usrData.date_joined}</p>
+                <div className="d-flex flex-wrap justify-content-center mb-2">
+                {synced? currentUser.id == id ? <><Link to="/profile/edit" className=" flex-grow-1 btn outline-primary me-3">Edit Profile</Link>
+                <Button className='flex-grow-1' variant='outline-danger' data-bs-toggle="modal" data-bs-target="#exampleModal">Delete Account</Button>
+                <Link to="/addpet" className='btn btn-primary mt-3 fw-bold flex-grow-1' style={{flexBasis:"100%"}}>Add New Pet</Link>
+            
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -129,7 +157,33 @@ function UserProfile() {
                 </div>
                 </div></>
 
-                :<button className="btn outline-primary">Message</button>:<></>}
+                :
+                <>
+                <button className="btn outline-primary" data-bs-toggle="modal" data-bs-target="#messageModal">Message</button>
+                <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Send Message to this user</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                          <form method="POST" onSubmit={e=>sendMessage(e)}>
+                          <div class="mb-3">
+                              <label for="message-text" class="col-form-label">Message:</label>
+                              <textarea name="content" class="form-control" id="message-text" required style={{resize:'none',outline:'none'}}></textarea>
+                          </div>
+                          <div class="modal-footer">
+                              <button id="closeModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary">Send Message</button>
+                          </div>
+                          
+                          </form>
+                      </div>
+                      </div>
+                  </div>
+                </div>
+                </>:<></>}
                  
                 </div>
                 </MDBCol>
@@ -199,78 +253,59 @@ function UserProfile() {
                   <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Posts</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#prev" type="button" role="tab" aria-controls="profile" aria-selected="false">Adoption</button>
+                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#prev" type="button" role="tab" aria-controls="profile" aria-selected="false">Pet History</button>
                 </li>
                 
               </ul>  
                  <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <div style={{display:"flex",justifyContent:"center",marginBottom:"20px" }} >
-            <h3 style={{textAlign:"center", fontWeight:"bolder" ,paddingBottom:"10px", display:"inline" ,marginTop:"6px"}}>Current pets</h3>
-            {synced? currentUser.id == id ? <><Link to="/addpet" className='m-2 btn outline-primary me-3'>Add New</Link>
-            </>:<></>:<></>}
-           </div>
-            {usrData.pets.length>0?(<Row className="row-cols-lg-3 row-cols-md-2 row-cols-1">
+                <h3 className='fw-bold p-2 m-0 text-center'>Current pets</h3>
+                {usrData.pets.length?(
+                    <div className="d-flex mx-3 p-3" style={{overflowX:"auto", flexWrap:"nowrap"}}>
                         { usrData.pets.map((pet) => {return <>
-                            <Col className='d-flex justify-content-center mb-3 mb-lg-0 py-2'>
-                                <ProfilePetCard pet={pet} />
-                            </Col>
+                                <PetCard pet={pet}/>
                         </>})}
-                    </Row>):(<> 
+                    </div>):(<> 
                     <h5 style={{textAlign:"center", fontWeight:"bolder" }}> No Current pets you can add now</h5></>)}
                     </div>
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <MDBCard className="mb-4 mb-lg-0">
-                     <h5 style={{textAlign:"center", fontWeight:"bolder", padding:"10px"}}>Posts </h5>
+                      <MDBCard className="mb-4 mb-lg-0" style={{maxHeight:"150vh", overflow:"auto"}}>
+                          <MDBCardBody className="p-0 " > 
+                          {usrData.posts.length>0?(<MDBListGroup flush className="rounded-3">
+                          
+                          <PostContext.Provider value={{ postsList, setPostsList }}>
+                                {postsList.map((post) => {
+                                    return <Post post={post}/> 
+                                })}
+                            </PostContext.Provider>
 
-                 <MDBCardBody className="p-0 " > 
-                 {usrData.posts.length>0?(<MDBListGroup flush className="rounded-3">
-                 
-                 <PostContext.Provider value={{ postsList, setPostsList }}>
-                      {postsList.map((post) => {
-                          return post.user.user_id ===usrData.id?( <Post post={post}/>):(<> </>) 
-                      })}
-                  </PostContext.Provider>
-
-                 
-                </MDBListGroup>):(<>
-                  <h5 style={{textAlign:"center", paddingTop:"15px" }}> No posts currently</h5>
-                
-                </>)}
-              </MDBCardBody>
-            </MDBCard>
-
-
-
-
-
+                          
+                          </MDBListGroup>):(<>
+                            <h5 style={{textAlign:"center", paddingTop:"15px" }}> No posts currently</h5>
+                          
+                          </>)}
+                        </MDBCardBody>
+                      </MDBCard>
                     </div>
                     <div class="tab-pane fade" id="prev" role="tabpanel" aria-labelledby="previous-tab">
                     <MDBCard className="mb-4 mb-lg-0">
-                     <h5 style={{textAlign:"center", fontWeight:"bolder", padding:"10px"}}>Previous Addaptions </h5>
+                     <h5 style={{textAlign:"center", fontWeight:"bolder", padding:"10px"}}>Previous Adoptions </h5>
 
                  <MDBCardBody className="p-0 " > 
                  {usrData.adoptions.length>0?(<MDBListGroup flush className="rounded-3">
                    
-                {usrData.adoptions.map((pet) => {
-                       return pet !=null?( <div class="card  shadow-0 mb-3" style={{maxHeight:"12em"}}>
+                {usrData.adoptions.map((adoption) => {
+                       return adoption.end_at?( <div class="card shadow-0 mb-3" style={{maxHeight:"12em"}}>
                       
                        <div class="card-body">
-                         <h5 class="card-title">{usrData.first_name} Host Pet With Name: {pet.petname}</h5>
-                         <p class="card-text"> From {pet.start_at}</p>
-                         <p class="card-text"> Till {pet.ent_at?(pet.end_at):("now") }</p>
+                         <h5 class="card-title text-center"><strong>{`${usrData.first_name}${usrData.last_name?' '+usrData.last_name:""}` || usrData.username}</strong> had <Link className='text-dark mx-5' to={`/petinfo/${adoption.pet_id}`}>{adoption.petname}</Link> From {adoption.start_at}  Till  {(adoption.end_at)}</h5>
                        </div>
-                       
-
-                     </div>):(<> <h5 style={{textAlign:"center", fontWeight:"bolder" }}> No Previous Addaptions you can add now</h5></>) 
-                    
-                
-                
-               
+         
+                     </div>):(<></>) 
                        })}
                  
                 </MDBListGroup>):(<>
-                  <h5 style={{textAlign:"center", paddingTop:"15px" }}> No Previous Addaptions you can add now</h5>
+                  <h5 style={{textAlign:"center", paddingTop:"15px" }}> No Previous Adoptions for this user</h5>
                 
                 </>)}
               </MDBCardBody>

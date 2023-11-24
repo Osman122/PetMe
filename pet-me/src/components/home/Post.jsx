@@ -151,7 +151,7 @@ const Post = (props) => {
                 <Carousel activeIndex={index} onSelect={handleSelect} className='w-100 h-100'  slide={false}>
                     {post.photos.map((photo) =>{
                       return <Carousel.Item interval={100000}>
-                          <img src={`${photo['photo']}`} alt="post" className="img-fluid" style={{maxHeight:"50vh"}}/>
+                          <img src={`${photo['photo']}`} alt="post" className="img-fluid" style={{maxHeight:"50vh", objectPosition:"top"}}/>
                       </Carousel.Item>
                     })}
                 </Carousel>
@@ -191,7 +191,7 @@ const Post = (props) => {
               post.photos.length ? 
               <Link to={`/posts/${post.id}`}>
               <div className="post-image">
-                <img className="img-fluid" alt="post_image" src={`${post.photos[0]['photo']}`}/>
+                <img className="img-fluid" alt="post_image" src={`${post.photos[0]['photo']}`} style={{objectPosition:"top"}}/>
               </div>
             </Link> : <></>
             }

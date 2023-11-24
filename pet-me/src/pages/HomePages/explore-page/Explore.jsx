@@ -46,7 +46,7 @@ const Search = () => {
                 <div className="grid-body">
                     <div className="row" style={{minHeight:"80vh"}}>
                         <div className="col-lg-3 d-flex justify-content-center" >
-                            <div className="d-flex flex-column flex-shrink-0 bg-light w-75 p-3" style={{minWidth:"250px", borderRadius:"24px"}}>
+                            <div className="d-flex flex-column flex-shrink-0 bg-light w-75 p-3 pt-4" style={{minWidth:"250px", borderRadius:"24px"}}>
                                 <div class="list-group">
                                     <button type="button" onClick={()=>{setFilter('pets')}} class={`  list-group-item list-group-item-action ${filter==='pets'?'btn-primary active':'btn-outline-primary'}`} aria-current="true">Pets</button>
                                     <button type="button" onClick={()=>{setFilter('offers')}} class={`list-group-item list-group-item-action ${filter==='offers'?'btn-primary active':'btn-outline-primary'}`}>Offers</button>
@@ -56,7 +56,7 @@ const Search = () => {
                                 <div>
                                     <hr/>
                                     <h3>Keywords</h3>
-                                    <input type="text" className='w-auto mx-3' value={query} onChange={e => setQuery(e.target.value)} onBlur={fetchData}/>
+                                    <input type="text" className='w-auto mx-2 border-primary form-control' style={{boxShadow:"none"}} value={query} onChange={e => setQuery(e.target.value)} onBlur={fetchData}/>
                                 </div>
                                 {['pets', 'offers'].includes(filter)?<>
                                 <div>

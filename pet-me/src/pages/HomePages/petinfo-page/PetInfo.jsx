@@ -131,12 +131,15 @@ const PetInfo = ( ) => {
                     
                         
                         {petData.owner.user_id == currentUser.id? 
-                        <Link to={`/editpet/${petData.id}`} className="btn w-100 btn-outline-primary mb-3"> Edit Pet Data </Link>
+                        <Link to={`/editpet/${petData.id}`} style={{height: "50px", borderRadius:"12px"}} 
+                        className="btn w-100 btn-outline-primary fw-bold py-2 px-3 w-100" > Edit Pet Data </Link>
                         :<Link to={`/profile/${petData.owner.user_id}`} className="w-100 btn-primary btn my-1" type="button">
                             View Pet Owner Profile</Link>}
 
                             {petData.owner.user_id === currentUser.id && (
-                                <button onClick={() => handleDeletePet(petData.id)} className="btn w-100 btn-danger mb-3">
+                                <button style={{height: "50px", borderRadius:"12px"}}
+                                className="btn mt-2 btn-danger text-light fw-bold py-2 px-3 w-100" 
+                                onClick={() => handleDeletePet(petData.id)} >
                                 Delete Pet
                                 </button>
                             )}
@@ -145,15 +148,25 @@ const PetInfo = ( ) => {
                                     <div>
                                     <label htmlFor="offerDescription">Offer Description:</label>
                                     <input
+                                        style={{
+                                            height: "50px", 
+                                            borderRadius: "12px", 
+                                            backgroundColor: "#d19f47"
+                                        }}
+                                        className=" mt-2 fw-bold py-2 px-3 w-100 text-light"
+                                        placeholder="Enter Description"
                                         type="text"
                                         id="offerDescription"
                                         value={offerDescription}
                                         onChange={(e) => setOfferDescription(e.target.value)}
                                     />
                                     </div>
-                                    <button type="submit">Make Offer</button>
+                                    <button type="submit" style={{height: "50px", borderRadius:"12px"}} 
+                                    className="btn mt-2 mb-2 btn-primary text-light fw-bold py-2 px-3 w-100" 
+                                    >Make Offer</button>
                                 </form>)}
                         </div>
+                        
                 </div>
     
             </div>

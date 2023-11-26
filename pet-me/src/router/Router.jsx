@@ -29,6 +29,7 @@ const Forbidden =React.lazy(() => import('../pages/HomePages/error-pages/Forbidd
 const Offer =React.lazy(() => import('../pages/HomePages/Offer-page/OfferPage'));
 const PetForm =React.lazy(() => import('../pages/HomePages/addpet-page/PetForm'));
 const AdminPanel =React.lazy(() => import('../pages/HomePages/admin-panel/AdminPanel.jsx'));
+const Forbidden =React.lazy(() => import('../pages/HomePages/admin-panel/Forbidden.jsx'));
 
 const Router = () => {
     return ( 

@@ -11,8 +11,6 @@ const Offer = ({ offerId }) => {
     const [showCanvas, setShowCanvas] = useState(false);
     const [requestsList, setRequestsList] = useState([]);
 
-
-
     const { id } = useParams();
     const {currentUser, synced} = useSelector(state => state.currentUser)
     const navigate = useNavigate()
@@ -73,7 +71,6 @@ const Offer = ({ offerId }) => {
         if (!(requestsList.length)) {
             axiosInstance.get(`/offers/${id}/requests/`).then((res)=>{
                 setRequestsList(res.data.results)
-                console.log(res.data.results)
             }).catch(e => {console.log(e)})
         }
     }

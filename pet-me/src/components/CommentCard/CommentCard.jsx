@@ -54,14 +54,13 @@ const CommentCard = (props) => {
       e.preventDefault()
 
       let content = e.target.querySelector('textarea').value
-        axiosInstance.post(`posts/comment/${comment.id}/replies/`, {'content':content}).then((res)=>{
-          const newReply = res.data
-          setReplies([newReply,...replies])
-          e.target.querySelector('textarea').value = '';
-          console.log(replies)
-        }).catch(err => {
-            console.log(err)
-        })}
+      e.target.reset()
+      axiosInstance.post(`posts/comment/${comment.id}/replies/`, {'content':content}).then((res)=>{
+        const newReply = res.data
+        setReplies([newReply,...replies])
+      }).catch(err => {
+          console.log(err)
+      })}
 
     return (
         <div class="d-flex flex-start mb-2 ps-2 comment-card">

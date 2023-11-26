@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useContext } from 'react'
 import { Avatar, ChatContainer, ConversationHeader, InfoButton, Message, MessageInput, MessageList, TypingIndicator, VideoCallButton, VoiceCallButton } from '@chatscope/chat-ui-kit-react';
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import './Chat.css'
 import Annon from '../../../assets/images/annon_user.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
+import NotificationContext from '../../../Context/NotificationContext';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -23,9 +24,15 @@ const Chat = () => {
     const inputRef = useRef();
     const [msgInputValue, setMsgInputValue] = useState("");
     const [messages, setMessages] = useState([]);
-    const [messageInputValue, setMessageInputValue] = useState("");
     const [speakingUser,setSpeakingUser] = useState(false)
     const {currentUser, synced} = useSelector(state => state.currentUser)
+    const {notifications, setNotifications} = useContext(NotificationContext)
+    const [messagesInterval, setMessagesInterval] = useState()
+    const msgListRef = useRef();
+
+    const scrollToBottom = () => {
+      msgListRef.current.scrollToBottom("auto")
+    }
 
     const deleteMessage = (e, id) => {
       axiosInstance.delete(`/chats/${id}/`).then(()=>{
@@ -45,29 +52,39 @@ const Chat = () => {
       inputRef.current.focus();
     };
 
-    const handleChangeUser = function (e) {
-      document.querySelectorAll('.conversation').forEach((e)=>{e.classList.remove('active')})
-      e.target.closest('.conversation').classList.add('active')
-
-      const currUserId = e.target.closest('.conversation').getAttribute('userId')
-
-      if (currUserId != speakingUser.id){
-        setSpeakingUser(users.find(ele=> ele.id == currUserId ))
-        axiosInstance.get(`/chats/user/${currUserId}/`).then((res)=>{
+    const fetchUserMessages = (user=speakingUser) => {
+      if (user) {
+        axiosInstance.get(`/chats/user/${user.id}/`).then((res)=>{
           setMessages(res.data.results)
+          setNotifications(false)
+          setTimeout(scrollToBottom,500)
         }).catch(e=>{
           console.log(e)
         })
       }
-
     }
 
-    useEffect(() => {
+    const handleChangeUser = function (e, user) {
+      document.querySelectorAll('.conversation').forEach((e)=>{e.classList.remove('active')})
+      e.target.closest('.conversation').classList.add('active')
+
+      if (user.id != speakingUser.id){
+        setSpeakingUser(user)
+        fetchUserMessages(user)
+      }
+    }
+
+    const fetchMessages = () => {
       axiosInstance.get('/chats/')
-       .then(res => {
-          setUsers(res.data);
-      }).catch((err)=>{console.log(err)})
-    }, []);
+        .then(res => {setUsers(res.data)})
+        .catch((err)=>{console.log(err)})
+    };
+
+    useEffect(() => {
+      fetchMessages()
+      fetchUserMessages()
+
+    }, [notifications]);
 
   return (
     <>
@@ -80,7 +97,7 @@ const Chat = () => {
   users.length ? (
     users.map(user => (
       <>
-      <div class="conversation d-flex" onClick={(e) => {handleChangeUser(e)}} userId={user.id} key={user.id}>
+      <div class="conversation d-flex" onClick={(e) => {handleChangeUser(e, user)}} key={user.id}>
         <div class="cs-avatar cs-avatar--md me-3">
             <img src={`http://localhost:8000/media/${user.picture}`} alt="Avatar"/>
           </div>
@@ -104,9 +121,17 @@ const Chat = () => {
                   <ConversationHeader.Content userName={speakingUser?`${speakingUser.first_name}${speakingUser.last_name?" "+speakingUser.last_name:""}` || speakingUser.username:"Choose a user from the list" } info="Tap to view profile"/>                          
             </ConversationHeader>
 
-            <MessageList scrollBehavior="smooth"  style={{height:'60vh', overflow:"auto"}}>
+            <MessageList ref={msgListRef} scrollBehavior="smooth"  style={{height:'60vh', overflow:"auto"}}>
             
-              {messages.map((message) => <>
+              {messages && speakingUser ?(messages.map((message) => <>
+
+                {/* <Message model={{
+                  message: message.content,
+                  sentTime: Date(message.created_at),
+                  sender: speakingUser.username,
+                  direction: message.sender_id == speakingUser.id?"incoming":"outgoing"
+                }} /> */}
+                
                 <section class={`cs-message cs-message--${message.sender_id == speakingUser.id?"incoming":"outgoing"}`} data-cs-message="">
                   <div class="cs-message__content-wrapper d-flex flex-row">
                     
@@ -125,7 +150,7 @@ const Chat = () => {
                     </div>
                   </div>
                 </section>
-              </>)}
+              </>)):<></>}
             </MessageList>
     
             <MessageInput placeholder="Type message here" onSend={handleSend} onChange={setMsgInputValue} value={msgInputValue} ref={inputRef} />

@@ -1,21 +1,43 @@
-import logo from '../../assets/images/Logo.png';
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {clearCurrUser} from '../../store/Slices/UserSlice';
-
-import "./style.css";
-import {faMagnifyingGlass, faGear} from "@fortawesome/free-solid-svg-icons";
+import { Form, InputGroup } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import {faMagnifyingGlass, faGear, faCircle} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
-import { Form, InputGroup } from "react-bootstrap";
+
+import "./style.css";
+import logo from '../../assets/images/Logo.png';
+import {clearCurrUser} from '../../store/Slices/UserSlice';
+import NotificationContext from '../../Context/NotificationContext'
+import { axiosInstance } from '../../api/config';
 
 function Header() {
-
+  const {notifications, setNotifications} = useContext(NotificationContext)
   const {currentUser, synced} = useSelector(state => state.currentUser)
+  const [searchQuery, setSearchQuery] = useState('');
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [searchQuery, setSearchQuery] = useState('');
+ 
+  function useInterval(callback, delay) {
+    const savedCallback = useRef();
+  
+    // Remember the latest callback.
+    useEffect(() => {
+      savedCallback.current = callback;
+    }, [callback]);
+  
+    // Set up the interval.
+    useEffect(() => {
+      function tick() {
+        savedCallback.current();
+      }
+      if (delay !== null) {
+        let id = setInterval(tick, delay);
+        return () => clearInterval(id);
+      }
+    }, [delay]);
+  }
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -25,6 +47,20 @@ function Header() {
   const logout = () => {
     dispatch(clearCurrUser())
   }
+
+  const checkNotifications = () => {
+    axiosInstance.get('/chats/check/').then(res => {
+      setNotifications(res.data.new);
+    }).catch((err)=>{console.log(err)})
+  }
+
+  useInterval(()=>{
+    checkNotifications()
+  }, (synced && !notifications) ? 10000:null)
+
+  useEffect(()=>{
+    checkNotifications()
+  },[])
 
   return (
     <nav className="navbar navbar-expand-lg fixed-top">
@@ -89,8 +125,10 @@ function Header() {
 
             <div className="d-flex align-items-center justify-content-between">
               {synced? <> 
-              <Link to="/chats">
+              <Link to="/chats" className='position-relative'>
                   <FontAwesomeIcon icon={faEnvelope} className="text-primary fw-bold fs-4"/>
+                  {notifications && <FontAwesomeIcon icon={faCircle} className='text-danger position-absolute' 
+                  style={{fontSize:"15px", right:"-5px", top:"-4px"}}/>}
               </Link>
 
               {currentUser.is_superuser ? 

@@ -66,7 +66,7 @@ function Home() {
                     <h2 className='fw-bold mb-4' style={{marginTop: '80px'}}>Last Arrived</h2>
                     <Row className="row-cols-lg-4 row-cols-md-2 row-cols-1">
                         {petsList.slice(0,4).map((pet) => {return <>
-                            <Col className='d-flex justify-content-center mb-3 mb-lg-0'>
+                            <Col className='d-flex justify-content-center mb-3 mb-lg-0' key={pet.id}>
                                 <PetCard pet={pet} />
                             </Col>
                         </>})}
@@ -118,7 +118,7 @@ function Home() {
                     <h2 className='fw-bold mb-4' style={{marginTop: '80px'}}>Latest Adoption Offers</h2>
                     <Row className="row-cols-lg-4 row-cols-md-2 row-cols-1">
                         {offersList.slice(0,4).map((offer)=>{return <>
-                            <Col className='d-flex justify-content-center mb-3 mb-lg-0'>
+                            <Col className='d-flex justify-content-center mb-3 mb-lg-0' key={offer.id}>
                                 <OfferCard offer={offer} />
                             </Col>
                         </>})}

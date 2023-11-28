@@ -24,7 +24,7 @@ const SocialLoginAuth = () => {
 
         const data = {'code':query.get('code'),'state':query.get('state')};
 
-        axiosInstance.post(`/accounts/o/${provider}`, qs.stringify(data), { headers: { 'content-type': 'application/x-www-form-urlencoded' } }).then(res => {
+        axiosInstance.post(`/accounts/o/${provider}/`, qs.stringify(data), { headers: { 'content-type': 'application/x-www-form-urlencoded' } }).then(res => {
             Cookies.set('access', res.data.access, { expires: 1})
             Cookies.set('refresh', res.data.refresh, { expires: 7})
             axiosInstance.get('/accounts/users/me/').then(res => {

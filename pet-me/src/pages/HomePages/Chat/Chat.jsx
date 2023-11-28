@@ -99,7 +99,7 @@ const Chat = () => {
       <>
       <div class="conversation d-flex" onClick={(e) => {handleChangeUser(e, user)}} key={user.id}>
         <div class="cs-avatar cs-avatar--md me-3">
-            <img src={`http://localhost:8000/media/${user.picture}`} alt="Avatar"/>
+            <img src={`${user.picture}`} alt="Avatar"/>
           </div>
           <div class="cs-conversation__content justify-content-center">
             <h5 class="fw-bold m-0">{`${user.first_name}${user.last_name?" "+user.last_name:""}` || user.username}
@@ -117,7 +117,7 @@ const Chat = () => {
         <ChatContainer>
             <ConversationHeader onClick={e => {if (speakingUser) navigate(`/profile/${speakingUser.id}`)}}>
                 <ConversationHeader.Back />
-                  <Avatar src={speakingUser? `http://localhost:8000/media/${speakingUser.picture}` : Annon} />
+                  <Avatar src={`${speakingUser? speakingUser.picture : Annon}`} />
                   <ConversationHeader.Content userName={speakingUser?`${speakingUser.first_name}${speakingUser.last_name?" "+speakingUser.last_name:""}` || speakingUser.username:"Choose a user from the list" } info="Tap to view profile"/>                          
             </ConversationHeader>
 

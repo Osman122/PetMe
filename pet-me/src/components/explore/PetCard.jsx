@@ -1,12 +1,14 @@
-import {Card} from 'react-bootstrap';
+import {Card, Badge} from 'react-bootstrap';
 import './CardStyles.css'
 import { Link } from 'react-router-dom';
 
 export default function PetCard (props) {
-    const {id, name, age, owner, thumbnail} = props.pet
+    const {id, name, age, owner, thumbnail, offer} = props.pet
     return <>
     
-    <Card className='pet-card mx-3'>
+    <Card className='pet-card mx-3 position-relative' style={{overflow:"hidden"}}>
+        {offer > 0 ?<Badge className='position-absolute px-4' variant="primary"
+        style={{transform:"rotate(45deg)",right:"-35px", top:"35px",}}>Offered for Adoption</Badge>:<></>}
         {id? <><Link to={`/petinfo/${id}`}>
             <Card.Img variant="top" src={thumbnail  || require('../../assets/images/Cat_annon.png')} />
             </Link></>:

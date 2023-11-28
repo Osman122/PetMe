@@ -94,7 +94,7 @@ const Search = () => {
                                         <Card className="px-3">
                                         <Row className="align-items-center">
                                             <Col xs={3}>
-                                            <Card.Img src={user.picture} style={{ width: '80px', margin: 'auto' }} />
+                                            <Card.Img className='rounded-circle' src={user.picture} style={{ width: '80px', height:"80px", objectFit:"cover", margin: 'auto' }} />
                                             </Col>
                                             <Col xs={9}>
                                             <Card.Body>

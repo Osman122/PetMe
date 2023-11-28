@@ -2,20 +2,19 @@ import qs from 'qs';
 import Cookies from 'js-cookie';
 
 import logo from '../../../assets/images/Logo.png'
+import { axiosInstance } from '../../../api/config';
+import {setCurrUser} from '../../../store/Slices/UserSlice'
 
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
-import {useSelector} from 'react-redux'
-
-import { axiosInstance } from '../../../api/config';
-import { useSearchParams } from 'react-router-dom';
-
+import { useNavigate, useParams, Link, useSearchParams } from "react-router-dom";
+import {useSelector, useDispatch} from 'react-redux'
 import { Alert, Spinner } from 'react-bootstrap';
 
 const SocialLoginAuth = () => {
     const { provider } = useParams();
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const {synced} = useSelector(state => state.currentUser)
 
     const [query] = useSearchParams()
@@ -25,10 +24,14 @@ const SocialLoginAuth = () => {
 
         const data = {'code':query.get('code'),'state':query.get('state')};
 
-        axiosInstance.post(`/accounts/o/${provider}/`, qs.stringify(data), { headers: { 'content-type': 'application/x-www-form-urlencoded' } }).then(res => {
+        axiosInstance.post(`/accounts/o/${provider}`, qs.stringify(data), { headers: { 'content-type': 'application/x-www-form-urlencoded' } }).then(res => {
             Cookies.set('access', res.data.access, { expires: 1})
             Cookies.set('refresh', res.data.refresh, { expires: 7})
-            navigate('/')
+            axiosInstance.get('/accounts/users/me/').then(res => {
+                dispatch(setCurrUser(res.data))
+                navigate('/')
+            }).catch(e=>console.log(e))
+
             
         }).catch((err)=>{
             console.log(err)

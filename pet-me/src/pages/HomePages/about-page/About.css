@@ -1,19 +1,26 @@
 /* Styling for the slider container and slides */
 .slider-container {
-    width: 100%;
-    overflow-x: hidden;
-    position: relative;
-  }
-  
-  .slider {
-    display: flex;
-    flex-wrap: nowrap;
-    scroll-behavior: smooth;
-  }
-  
-  .slide {
-    width: 100vw; /* Width of each slide */
-    flex-shrink: 0;
-    scroll-snap-align: start; /* Ensures the slides snap into place */
-  }
-  
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.slider {
+  display: flex;
+  flex-wrap: nowrap;
+  scroll-behavior: smooth;
+}
+
+.slide {
+  width: 100vw; /* Width of each slide */
+  flex-shrink: 0;
+  scroll-snap-align: start; /* Ensures the slides snap into place */
+}
+
+.board .imgs > * {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+}

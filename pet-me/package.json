@@ -12,7 +12,6 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@fullpage/react-fullpage": "^0.1.40",
-    "@material-ui/core": "^4.12.4",
     "@minchat/react-chat-ui": "^0.10.3",
     "@reacticons/ionicons": "^7.1.0",
     "@reduxjs/toolkit": "^1.9.7",

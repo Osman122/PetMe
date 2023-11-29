@@ -65,19 +65,19 @@ const Search = () => {
                                     <p>Species</p>
                                     <select class="form-select" aria-label="Default select example" onChange={e => setSpecies(e.target.value)}>
                                         <option value="" selected={species?false:true}>All Species</option>
-                                        <option value="Dog">Dog</option>
-                                        <option value="Cat">Cat</option>
-                                        <option value="Bird">Bird</option>
-                                        <option value="Turtle">Turtle</option>
-                                        <option value="Hamster">Hamster</option>
+                                        <option value="Dog" selected={species==="dog"}>Dog</option>
+                                        <option value="Cat" selected={species==="cat"}>Cat</option>
+                                        <option value="Bird" selected={species==="bird"}>Bird</option>
+                                        <option value="Turtle" selected={species==="turtle"}>Turtle</option>
+                                        <option value="Hamster" selected={species==="hamster"}>Hamster</option>
                                         <option value="Other">Other</option>
                                     </select>
 
                                     <p className='mt-3'>Gender</p>
                                     <select class="form-select" aria-label="Default select example" onChange={e => setGender(e.target.value)}>
                                         <option value="" selected={gender?false:true}>All Gender</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
+                                        <option value="Male" selected={gender==="male"}>Male</option>
+                                        <option value="Female" selected={gender==="female"}>Female</option>
                                     </select>
                                 </div>                            
                                 </>:<></>}
@@ -86,7 +86,7 @@ const Search = () => {
                         </div>
 
                         <div className="col-lg-9 pt-3 position-relative ">
-                            <div id="results" className='d-flex flex-wrap justify-content-around align-content-start' style={{overflow:"auto",maxHeight:"70vh"}}>
+                            <div id="results" className='d-flex flex-wrap align-content-start' style={{overflow:"auto",maxHeight:"70vh"}}>
 
                                 {filter === 'accounts/users/list' ? (
                                     resultList.map((user, index) => (
@@ -111,7 +111,7 @@ const Search = () => {
                                     ))
                                 ) : filter === 'pets' ? (
                                     resultList.map((pet, index) => (
-                                        <div className='m-3'><PetCard pet={pet} key={index} /></div>
+                                        <div className='m-3 mx-lg-5'><PetCard pet={pet} key={index} /></div>
                                     ))
                                 ): filter === 'offers' ? (
                                 <div className="table-responsive">

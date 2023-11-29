@@ -60,7 +60,6 @@ const Blog = () => {
                 </PageContext.Provider>
             </div> : <></> }
         </section>
-
     );
 }
  

@@ -209,45 +209,38 @@ const Offer = ({ offerId }) => {
                                         
                                         </Offcanvas.Body>
                                     </Offcanvas>
-                                </>:<>
+                                </>:synced?<>
                                     <button style={{height: "50px", borderRadius:"12px"}} 
                                     type="button" className="btn mt-2 btn-primary text-light fw-bold py-2 px-3 w-100"
                                     data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     Send Adoption Request
-                                    </button>                                
-                                </>}
-
-
-
-
+                                    </button>
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Send adoption request</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="POST" onSubmit={e=>sendRequest(e)}>
+                                                <div class="mb-3">
+                                                    <label for="message-text" class="col-form-label">Message:</label>
+                                                    <textarea minLength={15} name="review" class="form-control" id="message-text" required style={{resize:'none',outline:'none'}}></textarea>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button id="closeModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Send Review</button>
+                                                </div>
+                                                
+                                                </form>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>                               
+                                </>:<></>}
                             </div>
                             
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Send adoption request</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" onSubmit={e=>sendRequest(e)}>
-                                    <div class="mb-3">
-                                        <label for="message-text" class="col-form-label">Message:</label>
-                                        <textarea minLength={15} name="review" class="form-control" id="message-text" required style={{resize:'none',outline:'none'}}></textarea>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button id="closeModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Send Review</button>
-                                    </div>
-                                    
-                                    </form>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-
-
-
                         </div>
                     </div>
                 </div>

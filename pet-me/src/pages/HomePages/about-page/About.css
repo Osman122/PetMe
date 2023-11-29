@@ -1,4 +1,31 @@
 /* Styling for the slider container and slides */
+.about .card {
+  width: 392px;
+  height: 460px;
+  background-color: #B8A498;
+  border-radius: 24px;
+  margin: 10px;
+}
+
+.about .card img {
+  height: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%,30%);
+}
+
+.about .card .card-footer {
+  border-radius: 0 0 24px 24px;
+  width: 100%;
+  min-height: 27%;
+  padding: 10px;
+  z-index: 5;
+}
+
+.about .card:hover .info {
+  display: inline !important;
+}
+
 .slider-container {
   width: 100%;
   overflow-x: hidden;

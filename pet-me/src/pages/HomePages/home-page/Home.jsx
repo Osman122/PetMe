@@ -46,14 +46,11 @@ function Home() {
             
             <section className='Hero'>
                 <Carousel activeIndex={index} onSelect={handleSelect} className='w-100 position-relative' slide={false}>
-                    <Carousel.Item className='h-100'>
+                    <Carousel.Item>
                         <img src={require('../../../assets/images/Hero.jpg')} alt="Hero" style={{ height:"100%", maxHeight:"384px", width:"100%", borderRadius:"32px"}} />
                     </Carousel.Item>
                     <Carousel.Item>
-                        <img src={require('../../../assets/images/Hero2.jpg')} alt="Hero" style={{ height:"100%", maxHeight:"384px", width:"100%", borderRadius:"32px"}} />
-                    </Carousel.Item>
-                    <Carousel.Item className='h-100'>
-                        <img src={require('../../../assets/images/Hero.jpg')} alt="Hero" style={{ height:"100%", maxHeight:"384px", width:"100%", borderRadius:"32px"}} />
+                        <img src={require('../../../assets/images/Hero1.jpg')} alt="Hero" style={{ height:"100%", maxHeight:"384px", width:"100%", borderRadius:"32px"}} />
                     </Carousel.Item>
                     <Carousel.Item>
                         <img src={require('../../../assets/images/Hero2.jpg')} alt="Hero" style={{ height:"100%", maxHeight:"384px", width:"100%", borderRadius:"32px"}} />

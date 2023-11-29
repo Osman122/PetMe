@@ -59,7 +59,9 @@ function Header() {
   }, (synced && !notifications) ? 10000:null)
 
   useEffect(()=>{
-    checkNotifications()
+    if (synced){
+      checkNotifications()
+    }
   },[])
 
   return (

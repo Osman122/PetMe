@@ -29,7 +29,6 @@ const Login = () => {
 
     const socialAuth = (provider) => {
         let redirect = window.location.origin + `/register/social/complete/${provider}/`
-        console.log(redirect)
 
         axiosInstance.get(`/accounts/o/${provider}/`,{ params: { redirect_uri: redirect } }).then((res)=>{
             window.location.replace(res.data['authorization_url'])

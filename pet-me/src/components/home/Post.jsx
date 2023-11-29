@@ -158,7 +158,7 @@ const Post = (props) => {
             </div>
            : <></>
           }
-            <p class="mt-3 mb-4 pb-2"> {post.content}</p>
+            <h6 class="mx-4 p-3"> {post.content}</h6>
 
           { synced && (
           <form class="card-footer py-3 border-0 mb-3"

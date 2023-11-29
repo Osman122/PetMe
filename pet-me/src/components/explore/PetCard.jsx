@@ -8,7 +8,10 @@ export default function PetCard (props) {
     
     <Card className='pet-card mx-3 position-relative' style={{overflow:"hidden"}}>
         {offer > 0 ?<Badge className='position-absolute px-4' variant="primary"
-        style={{transform:"rotate(45deg)",right:"-35px", top:"35px",}}>Offered for Adoption</Badge>:<></>}
+        style={{transform:"rotate(45deg)",right:"-35px", top:"35px",}}>Offered for Adoption</Badge>:name==="Ash"?<>
+        <Badge className='position-absolute px-5' variant="dark"
+        style={{transform:"rotate(45deg)",right:"-35px", top:"35px",}}>Remembering</Badge>
+        </>:<></>}
         {id? <><Link to={`/petinfo/${id}`}>
             <Card.Img variant="top" src={thumbnail  || require('../../assets/images/Cat_annon.png')} />
             </Link></>:

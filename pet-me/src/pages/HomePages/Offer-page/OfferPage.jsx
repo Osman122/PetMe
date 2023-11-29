@@ -167,7 +167,7 @@ const Offer = ({ offerId }) => {
                                 </div>:<></>}
                                 <div>
                                     <p className="text-muted m-0 border-bottom">Details</p>
-                                    <p className="fw-semibold fs-6 mb-2" style={{textAlign:"justify"}}>
+                                    <p className="fw-semibold fs-6 mb-2" style={{textAlign:"justify", overflow:"hidden", maxHeight:"200px"}}>
                                         {offerData.description}
                                     </p>
                                 </div>

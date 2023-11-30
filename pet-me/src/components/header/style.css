@@ -9,6 +9,11 @@
     background: #FAFAFA;
 }
 
+.navbar img#profile_picture {
+    object-fit: cover;
+    object-position: top;
+}
+
 .navbar-brand {
     font-weight: 500;
     color: #D9C9BA;

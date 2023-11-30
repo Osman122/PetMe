@@ -131,7 +131,7 @@ const PetInfo = ( ) => {
                         </div>:<></>}
                         <div>
                             <p className="text-muted m-0 border-bottom">Details</p>
-                            <p className="fw-semibold fs-6 mb-2" style={{textAlign:"justify", overflow:"hidden", maxHeight:"200px"}}>
+                            <p className="fw-semibold fs-6 mb-2" style={{textAlign:"justify", overflow:"auto", maxHeight:"200px"}}>
                                 {petData.brief}
                             </p>
                         </div>

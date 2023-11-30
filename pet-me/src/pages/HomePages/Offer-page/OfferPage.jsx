@@ -167,7 +167,7 @@ const Offer = ({ offerId }) => {
                                 </div>:<></>}
                                 <div>
                                     <p className="text-muted m-0 border-bottom">Details</p>
-                                    <p className="fw-semibold fs-6 mb-2" style={{textAlign:"justify"}}>
+                                    <p className="fw-semibold fs-6 mb-2" style={{textAlign:"justify", overflow:"auto", maxHeight:"200px"}}>
                                         {offerData.description}
                                     </p>
                                 </div>
@@ -226,11 +226,11 @@ const Offer = ({ offerId }) => {
                                                 <form method="POST" onSubmit={e=>sendRequest(e)}>
                                                 <div class="mb-3">
                                                     <label for="message-text" class="col-form-label">Message:</label>
-                                                    <textarea minLength={15} name="review" class="form-control" id="message-text" required style={{resize:'none',outline:'none'}}></textarea>
+                                                    <textarea minLength={15} name="content" class="form-control" id="message-text" required style={{resize:'none',outline:'none'}}></textarea>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button id="closeModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Send Review</button>
+                                                    <button type="submit" class="btn btn-primary">Send Request</button>
                                                 </div>
                                                 
                                                 </form>

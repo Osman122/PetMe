@@ -141,7 +141,7 @@ function Header() {
               }
 
               <Link to={`/profile/${currentUser.id}`} className="mx-4">
-                <img class="rounded-circle shadow-1-strong"
+                <img class="rounded-circle shadow-1-strong" id="profile_picture"
                     src={`${currentUser.picture}`} alt="avatar" width="40"
                     height="40"/>  
               </Link>

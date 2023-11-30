@@ -131,7 +131,7 @@ const PetInfo = ( ) => {
                         </div>:<></>}
                         <div>
                             <p className="text-muted m-0 border-bottom">Details</p>
-                            <p className="fw-semibold fs-6 mb-2" style={{textAlign:"justify"}}>
+                            <p className="fw-semibold fs-6 mb-2" style={{textAlign:"justify", overflow:"auto", maxHeight:"200px"}}>
                                 {petData.brief}
                             </p>
                         </div>
@@ -192,9 +192,9 @@ const PetInfo = ( ) => {
                     <div className="d-flex justify-content-between">  
                     <div className="d-flex">
                         <div className="d-inline" >
-                        <img className=" rounded-circle shadow-1-strong me-3"
-                            src={`${owner.user_picture}`} alt="avatar" width="60"
-                            height="60" />  
+                            <img className=" rounded-circle shadow-1-strong me-3"
+                                src={`${owner.user_picture}`} alt="avatar" width="60"
+                                height="60" />  
                         </div>
                             <div  className="p-2">
                             <h5 className=" ">{owner.username} {" "} Owned {" "} {petData.name} {" for A while "} </h5>

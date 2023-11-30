@@ -158,7 +158,7 @@ const Post = (props) => {
             </div>
            : <></>
           }
-            <p class="mt-3 mb-4 pb-2"> {post.content}</p>
+            <h6 class="mx-4 p-3"> {post.content}</h6>
 
           { synced && (
           <form class="card-footer py-3 border-0 mb-3"
@@ -197,8 +197,9 @@ const Post = (props) => {
             }
 
             <Link to={`/posts/${post.id}`} style={{ textDecoration: 'none',color:'black' }}>
-              <p class="mt-3 mb-4 pb-2"> {post.content}</p>
+              <p class="mt-3"> {post.content}</p>
             </Link>
+            <p className="text-muted m-0">{post.comments?.length} Comment{post.comments?.length == 1 ? '': 's'}</p>
           </>}
 
         </div>

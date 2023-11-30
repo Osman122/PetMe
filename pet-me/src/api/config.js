@@ -3,8 +3,8 @@ import Cookies from 'js-cookie';
 axios.defaults.withCredentials = true;
 
 export const axiosInstance = axios.create({
-    // baseURL: 'https://petme.pythonanywhere.com/'
-    baseURL: 'http://localhost:8000/'
+    baseURL: 'https://petme.pythonanywhere.com/'
+    // baseURL: 'http://localhost:8000/'
     
 })
 

@@ -23,13 +23,12 @@ const Search = () => {
     const navigate = useNavigate();
 
     const fetchData = () => {   
-        const endpoint = `/${filter}/?search=${query}${['pets','offers'].includes(filter) && species?'&species='+species:''}${['pets','offers'].includes(filter) && gender?'&gender='+gender:''}`
+        const endpoint = `/${filter}/?page=${page}&search=${query}${['pets','offers'].includes(filter) && species?'&species='+species:''}${['pets','offers'].includes(filter) && gender?'&gender='+gender:''}`
 
         axiosInstance.get(endpoint)
             .then((res) => {
                 setResultList(res.data.results);
                 setmaxpages(res.data.total_pages);
-                console.log(res.data.results)
             })
             .catch((error) => {
                 console.log(error);
@@ -38,7 +37,7 @@ const Search = () => {
 
     useEffect(()=>{
         fetchData()
-    },[filter, species, gender])
+    },[filter, species, gender, page])
 
     return <>
         <div className="container py-3 h-100">
